@@ -21,6 +21,7 @@ function PageSignin() {
 	const [showInputOtp, setShowInputOtp] = useState(false);
 	const [showButtonOtp, setShowButtonOtp] = useState(true);
 	const [showLoginButton, setShowLoginButton] = useState(false);
+	const [login, setLogin] = useState(true);
 
 	const [{ loading }, executePost] = useRequest(
 		{
@@ -71,16 +72,31 @@ function PageSignin() {
 						</div>
 						<p>Login to explore delicious delicacy</p>
 					</NameContent>
-					<Form>
-						<input type="number" placeholder="Phone Number" required />
-						{showInputOtp && <input type="number" placeholder="Enter OTP" required />}
-						{showButtonOtp && (
-							<LoginButton onClick={() => onSendOtpClick()}>Send OTP</LoginButton>
-						)}
-						{showLoginButton && <LoginButton>Login</LoginButton>}
-						<hr />
-						<CreateAccountButton type="submit">Create New Account</CreateAccountButton>
-					</Form>
+					{login ? (
+						<Form>
+							<input type="number" placeholder="Phone Number" required />
+							<input type="text" placeholder="Password" required />
+
+							<LoginButton>Login</LoginButton>
+							<hr />
+							<CreateAccountButton type="submit" onClick={() => setLogin(false)}>
+								Create New Account
+							</CreateAccountButton>
+						</Form>
+					) : (
+						<Form>
+							<input type="number" placeholder="Phone Number" required />
+							{showInputOtp && <input type="number" placeholder="Enter OTP" required />}
+							{showButtonOtp && (
+								<LoginButton onClick={() => onSendOtpClick()}>Send OTP</LoginButton>
+							)}
+							{showLoginButton && <LoginButton>Login</LoginButton>}
+							<hr />
+							<CreateAccountButton type="submit" onClick={() => setLogin(false)}>
+								Create New Account
+							</CreateAccountButton>
+						</Form>
+					)}
 				</Flex>
 			</Content>
 		</Container>
