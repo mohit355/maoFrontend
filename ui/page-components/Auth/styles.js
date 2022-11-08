@@ -104,6 +104,9 @@ export const Form = styled.form`
 		margin-bottom: 0.8rem;
 		font-size: 1.1rem;
 		border-radius: 10px;
+		background: #ffffff;
+		color: #333333;
+		border: 1px solid #a87d43;
 	}
 
 	input:focus {
