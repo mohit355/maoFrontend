@@ -12,7 +12,8 @@ import {
 	NameContent,
 	Form,
 	LoginButton,
-	CreateAccountButton,
+	AccountButton,
+	AccountFlex,
 } from './styles';
 
 function PageSignin() {
@@ -76,12 +77,14 @@ function PageSignin() {
 						<Form>
 							<input type="number" placeholder="Phone Number" required />
 							<input type="text" placeholder="Password" required />
-
 							<LoginButton>Login</LoginButton>
 							<hr />
-							<CreateAccountButton type="submit" onClick={() => setLogin(false)}>
-								Create New Account
-							</CreateAccountButton>
+							<AccountFlex>
+								New to Mao
+								<AccountButton onClick={() => setLogin(false)}>
+									Create New Account
+								</AccountButton>
+							</AccountFlex>
 						</Form>
 					) : (
 						<Form>
@@ -92,9 +95,10 @@ function PageSignin() {
 							)}
 							{showLoginButton && <LoginButton>Login</LoginButton>}
 							<hr />
-							<CreateAccountButton type="submit" onClick={() => setLogin(false)}>
-								Create New Account
-							</CreateAccountButton>
+							<AccountFlex>
+								Already have an account
+								<AccountButton onClick={() => setLogin(true)}>Login</AccountButton>
+							</AccountFlex>
 						</Form>
 					)}
 				</Flex>

@@ -195,21 +195,13 @@ export const LoginButton = styled.button`
 	}
 `;
 
-export const CreateAccountButton = styled.button`
-	outline: none;
+export const AccountButton = styled.button`
+	font-size: 1rem;
+	color: #5936f0;
+	text-decoration: underline;
+	background: transparent;
 	border: none;
-	background: #f5e7d3;
-	padding: 0.8rem 1rem;
-	border-radius: 0.4rem;
-	font-size: 1.1rem;
-	color: #fff;
-	width: 75%;
-	margin: 0 auto;
-
-	:hover {
-		background: #a87d43;
-		cursor: pointer;
-	}
+	cursor: pointer;
 
 	@media (max-width: 500px) {
 		font-size: 1.5rem;
@@ -222,4 +214,10 @@ export const CreateAccountButton = styled.button`
 	@media (min-width: 769px) and (max-width: 1200px) {
 		font-size: 1.5rem;
 	}
+`;
+
+export const AccountFlex = styled.div`
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
 `;
