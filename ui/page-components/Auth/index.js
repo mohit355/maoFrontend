@@ -75,8 +75,8 @@ function PageSignin() {
 					</NameContent>
 					{login ? (
 						<Form>
-							<input type="number" placeholder="Phone Number" required />
-							<input type="text" placeholder="Password" required />
+							<input type="tel" name="phoneNumber" placeholder="Phone Number" required />
+							<input type="password" name="password" placeholder="Password" required />
 							<LoginButton>Login</LoginButton>
 							<hr />
 							<AccountFlex>
@@ -88,12 +88,12 @@ function PageSignin() {
 						</Form>
 					) : (
 						<Form>
-							<input type="number" placeholder="Phone Number" required />
+							<input type="tel" name="phoneNumber" placeholder="Phone Number" required />
 							{showInputOtp && <input type="number" placeholder="Enter OTP" required />}
 							{showButtonOtp && (
 								<LoginButton onClick={() => onSendOtpClick()}>Send OTP</LoginButton>
 							)}
-							{showLoginButton && <LoginButton>Login</LoginButton>}
+							{showLoginButton && <LoginButton>Signup</LoginButton>}
 							<hr />
 							<AccountFlex>
 								Already have an account
