@@ -12,7 +12,8 @@ import {
 	NameContent,
 	Form,
 	LoginButton,
-	CreateAccountButton,
+	AccountButton,
+	AccountFlex,
 } from './styles';
 
 function PageSignin() {
@@ -21,6 +22,7 @@ function PageSignin() {
 	const [showInputOtp, setShowInputOtp] = useState(false);
 	const [showButtonOtp, setShowButtonOtp] = useState(true);
 	const [showLoginButton, setShowLoginButton] = useState(false);
+	const [login, setLogin] = useState(true);
 
 	const [{ loading }, executePost] = useRequest(
 		{
@@ -71,16 +73,34 @@ function PageSignin() {
 						</div>
 						<p>Login to explore delicious delicacy</p>
 					</NameContent>
-					<Form>
-						<input type="number" placeholder="Phone Number" required />
-						{showInputOtp && <input type="number" placeholder="Enter OTP" required />}
-						{showButtonOtp && (
-							<LoginButton onClick={() => onSendOtpClick()}>Send OTP</LoginButton>
-						)}
-						{showLoginButton && <LoginButton>Login</LoginButton>}
-						<hr />
-						<CreateAccountButton type="submit">Create New Account</CreateAccountButton>
-					</Form>
+					{login ? (
+						<Form>
+							<input type="number" placeholder="Phone Number" required />
+							<input type="text" placeholder="Password" required />
+							<LoginButton>Login</LoginButton>
+							<hr />
+							<AccountFlex>
+								New to Mao
+								<AccountButton onClick={() => setLogin(false)}>
+									Create New Account
+								</AccountButton>
+							</AccountFlex>
+						</Form>
+					) : (
+						<Form>
+							<input type="number" placeholder="Phone Number" required />
+							{showInputOtp && <input type="number" placeholder="Enter OTP" required />}
+							{showButtonOtp && (
+								<LoginButton onClick={() => onSendOtpClick()}>Send OTP</LoginButton>
+							)}
+							{showLoginButton && <LoginButton>Login</LoginButton>}
+							<hr />
+							<AccountFlex>
+								Already have an account
+								<AccountButton onClick={() => setLogin(true)}>Login</AccountButton>
+							</AccountFlex>
+						</Form>
+					)}
 				</Flex>
 			</Content>
 		</Container>

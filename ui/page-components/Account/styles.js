@@ -37,3 +37,24 @@ export const Image = styled.img`
 export const ProfileName = styled.h4`
 	text-align: center;
 `;
+
+export const Nav = styled.div`
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	border-radius: 0.25rem;
+`;
+
+export const NavLink = styled.a`
+	display: block;
+	padding: 0.5rem 1rem;
+	color: #495057;
+	background-color: #fff;
+	border-color: #dee2e6 #dee2e6 #fff;
+`;
