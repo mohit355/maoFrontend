@@ -1,15 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import CardContainer from './CardContainer';
+import CartContainer from './CartContainer';
 
-import { Container } from './styles';
+import { useRequest } from '../../helpers/request-helper';
+
+import { Container, FlexRow } from './styles';
 
 const Menu = () => {
-	const [itemCount, setItemCount] = useState(1);
+	const [selectedFoodItem, setSelectedFoodItem] = useState({});
+	const [allFood, setAllFood] = useState([]);
+	const [{ loading: foodLoading }, getFood] = useRequest(
+		{
+			url: '/product/all',
+			method: 'GET',
+		},
+		{ manual: true },
+	);
+
+	const listAllFoods = () => {
+		getFood()
+			.then((response) => {
+				console.log('response', response);
+				setAllFood(response.data.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	useEffect(() => {
+		listAllFoods();
+	}, []);
+
 	return (
 		<Container>
-			<Header itemCount={itemCount} />
-			<CardContainer itemCount={itemCount} setItemCount={setItemCount} />
+			<Header selectedFoodItem={selectedFoodItem} />
+			<FlexRow>
+				<CardContainer
+					selectedFoodItem={selectedFoodItem}
+					setSelectedFoodItem={setSelectedFoodItem}
+					allFood={allFood}
+				/>
+				<CartContainer selectedFoodItem={selectedFoodItem} />
+			</FlexRow>
 		</Container>
 	);
 };

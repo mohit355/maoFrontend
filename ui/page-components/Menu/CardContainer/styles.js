@@ -4,25 +4,43 @@ export const Container = styled.div`
 	background: #ffffff;
 	border-radius: 4px;
 	padding: 16px;
-	margin: 16px;
+	margin: 20px;
+	width: 70%;
 `;
 
 export const CardCont = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 `;
 
 export const Card = styled.div`
 	padding: 12px;
 	box-shadow: 5px 5px 20px rgba(0 0 0/0.15);
-	width: 25%;
-	margin: 20px;
+	width: 30%;
+	margin: 16px;
 	border-top: 5px solid #dbc3a4;
 	transition: transform 200ms ease-in;
 	border-radius: 0.75em;
 
 	&:hover {
 		transform: scale(1.03);
+	}
+
+	@media (max-width: 500px) {
+		width: 92%;
+	}
+
+	@media (min-width: 501px) and (max-width: 768px) {
+		width: 90%;
+	}
+
+	@media (min-width: 769px) and (max-width: 1200px) {
+		width: 60%;
+	}
+
+	@media (min-width: 1200px) and (max-width: 1400px) {
+		width: 40%;
 	}
 `;
 
@@ -31,24 +49,22 @@ export const Title = styled.div`
 	font-family: 'Dancing Script', cursive;
 	font-size: 40px;
 	letter-spacing: 2px;
-	line-height: 0.8;
-	margin: 0px;
-	position: relative;
 	text-transform: capitalize;
 	text-align: center;
 `;
 
 export const Image = styled.img`
-	width: 108px;
-	height: 108px;
+	width: 92px;
+	height: 92px;
 	box-shadow: rgba(128, 96, 51, 0.4) 0px 2px 4px, rgba(128, 96, 51, 0.3) 0px 7px 13px -3px,
 		rgba(128, 96, 51, 0.2) 0px -3px 0px inset;
 
 	border-radius: 8px;
 `;
 
-export const FlexRow = styled.div`
+export const Row = styled.div`
 	display: flex;
+	max-width: 22%;
 `;
 
 export const TypeIcon = styled.div`
@@ -65,47 +81,75 @@ export const ItemName = styled.div`
 	font-size: 16px;
 	line-height: 14px;
 	color: #4a4d4f;
+`;
 
-	.MuiSvgIcon-root {
-		width: 16px;
-		height: 16px;
-		color: #c7ad85;
-	}
+export const ItemDescription = styled.p`
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 12px;
+	color: #7c8083;
+	margin: 8px 0;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 60%;
+	max-width: 100%;
 `;
 
 export const Price = styled.div`
 	font-style: normal;
 	font-weight: 500;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 14px;
-	margin: 12px;
+	margin: 8px;
+	margin-top: 0px;
 	color: #4a4d4f;
 	font-style: italic;
 `;
 
-export const FlexColumn = styled.div`
+export const Column = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin-left: 20px;
-	margin-top: 12px;
+	width: 172px;
+	margin-left: 12px;
 
 	.MuiButtonGroup-root {
-		width: 92px;
-		height: 28px;
+		width: 78px;
+		height: 24px;
 		box-shadow: 0 2px 4px rgba(233, 219, 200, 0.9);
 
 		.MuiButton-outlined {
 			border: 1px solid #e9dbc8;
 		}
 	}
+
+	.count {
+		font-size: 14px;
+		font-weight: 500;
+		min-width: 20px !important;
+		text-align: center;
+		aligh-items: center;
+		border-top: 1px solid #e9dbc8;
+		border-bottom: 1px solid #e9dbc8;
+	}
+
+	.minusButton {
+		border-right: none !important;
+	}
+
+	.plusButton {
+		border-left: none !important;
+	}
 `;
 
+export const Count = styled.div``;
+
 export const OrderButton = styled.button`
-	width: 92px;
-	height: 28px;
+	width: 78px;
+	height: 24px;
 	cursor: pointer;
-	padding: 7px 25px;
-	font-size: 1rem;
+	font-size: 14px;
 	border: none;
 	outline: none;
 	color: #fff;

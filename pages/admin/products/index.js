@@ -1,3 +1,3 @@
-import Products from "../../../ui/page-components/admin/Products"
+import Products from '../../../ui/page-components/admin/Products';
 
-export default Products
+export default Products;

@@ -12,7 +12,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Modal from '@material-ui/core/Modal';
 import { Container, Title, EndFlex, ModalContainer } from './styles';
 
-const Header = ({ itemCount }) => {
+const Header = ({ selectedFoodItem }) => {
+	let foodCount = 0;
+	Object.values(selectedFoodItem).forEach((values) => {
+		foodCount += values?.quantity;
+	});
+
 	const [showUserPop, setShowUserPop] = useState(null);
 	const [openOfferModal, setOpenOfferModal] = useState(false);
 
@@ -48,7 +53,7 @@ const Header = ({ itemCount }) => {
 			<EndFlex>
 				<Tooltip title="Offers and Discounts" arrow>
 					<Button onClick={handleModalOpen}>
-						<LocalOfferIcon />
+						<LocalOfferIcon style={{ color: '#ffffff' }} />
 					</Button>
 				</Tooltip>
 				<Modal
@@ -61,7 +66,7 @@ const Header = ({ itemCount }) => {
 				</Modal>
 				<Tooltip title="My Account" arrow>
 					<Button onClick={handlePopClick}>
-						<AccountCircleIcon />
+						<AccountCircleIcon style={{ color: '#ffffff' }} />
 					</Button>
 				</Tooltip>
 				<Popover
@@ -89,8 +94,8 @@ const Header = ({ itemCount }) => {
 				</Popover>
 				<Tooltip title="Cart" arrow>
 					<Button>
-						<Badge color="secondary" badgeContent={itemCount}>
-							<ShoppingCartIcon />{' '}
+						<Badge color="secondary" badgeContent={foodCount}>
+							<ShoppingCartIcon style={{ color: '#ffffff' }} />{' '}
 						</Badge>
 					</Button>
 				</Tooltip>

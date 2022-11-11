@@ -22,6 +22,7 @@ export const ProfileTabNav = styled.div`
 
 export const ProfileDetail = styled.div`
 	padding: 1.5rem;
+	text-align: center;
 `;
 
 export const Image = styled.img`
@@ -57,4 +58,27 @@ export const NavLink = styled.a`
 	color: #495057;
 	background-color: #fff;
 	border-color: #dee2e6 #dee2e6 #fff;
+`;
+
+export const DetailsView = styled.div`
+	padding: 20px;
+`;
+
+export const FlexRow = styled.div`
+	display: flex;
+	align-items: center;
+`;
+
+export const Icon = styled.div`
+	height: 28px;
+	width: 28px;
+	background: #595959;
+	padding: 4px;
+	border-radius: 50%;
+
+	svg {
+		height: 16px;
+		width: 16px;
+		color: #ffffff;
+	}
 `;

@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-	background: #ffffff;
-	padding: 20px;
+	background: #805e33;
+	padding: 8px;
 	display: flex;
 	justify-content: space-between;
+	box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+	overflow: hidden;
 	// position: fixed;
 	// top: 0;
 	// width: 100%;
@@ -13,18 +15,12 @@ export const Container = styled.div`
 
 export const Title = styled.h3`
 	font-weight: 500;
-	font-size: 40px;
-	color: #a87d43;
+	font-size: 30px;
+	color: #ffffff;
 	margin: 0;
 	margin-left: 40px;
 	font-family: 'Sketsa Ramadhan', sans-serif;
-	&::after {
-		display: block;
-		content: '';
-		width: 30%;
-		height: 4px;
-		background: #a87d43;
-	}
+	text-shadow: 0px 0px 8px #dbc3a4;
 `;
 
 export const EndFlex = styled.div`
