@@ -17,7 +17,11 @@ const CartContainer = ({ selectedFoodItem }) => {
 					<FlexRow style={{ marginTop: '20px' }}>
 						<FlexColumn style={{ width: '70%' }}>
 							<FlexRow>
-								<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+								{values?.productType === 'Veg' ? (
+									<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+								) : (
+									<NonVegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+								)}
 								{values?.foodName}
 							</FlexRow>
 						</FlexColumn>

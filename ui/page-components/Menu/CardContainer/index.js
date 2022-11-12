@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import React, { useState } from 'react';
+import Popover from '@material-ui/core/Popover';
 
 import {
 	Container,
@@ -85,6 +86,19 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 		});
 	};
 
+	const [showAddPop, setShowAddPop] = useState(null);
+
+	const handleOpenPopover = (event) => {
+		setShowAddPop(event.currentTarget);
+	};
+
+	const handleClosePopover = () => {
+		setShowAddPop(null);
+	};
+
+	const open = Boolean(showAddPop);
+	const id = open ? 'simple-popover' : undefined;
+
 	return (
 		<Container>
 			<Title>Paneer</Title>
@@ -99,13 +113,19 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 								<Price>₹ {item?.productHalfPrice}</Price>
 								<FlexRow>
 									{!selectedFoodItem[item.id] ? (
-										<OrderButton
-											onClick={() => {
-												handlePlus(item, 'F');
-											}}
-										>
-											Add
-										</OrderButton>
+										<>
+											{item?.productFullPrice && item?.productFullPrice ? (
+												<OrderButton onClick={handleOpenPopover}>Add</OrderButton>
+											) : (
+												<OrderButton
+													onClick={() => {
+														handlePlus(item, 'F');
+													}}
+												>
+													Add
+												</OrderButton>
+											)}
+										</>
 									) : (
 										<ButtonGroup>
 											<Button
@@ -131,6 +151,22 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 											</Button>
 										</ButtonGroup>
 									)}
+									<Popover
+										id={id}
+										open={open}
+										anchorEl={showAddPop}
+										onClose={handleClosePopover}
+										anchorOrigin={{
+											vertical: 'bottom',
+											horizontal: 'center',
+										}}
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'center',
+										}}
+									>
+										Hello
+									</Popover>
 									<TypeIcon>
 										{item?.productType === 'Veg' ? <VegIcon /> : <NonVegIcon />}
 									</TypeIcon>
