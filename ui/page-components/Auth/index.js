@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 
 import { useRequest } from '../../helpers/request-helper';
 
-
 import {
 	Container,
 	HelpSection,
@@ -23,17 +22,17 @@ function PageSignin() {
 	const [showInputOtp, setShowInputOtp] = useState(false);
 	const [showButtonOtp, setShowButtonOtp] = useState(true);
 	const [showLoginButton, setShowLoginButton] = useState(false);
-	const [showSignupButton, setShowSignupButton] = useState(false)
+	const [showSignupButton, setShowSignupButton] = useState(false);
 	const [login, setLogin] = useState(true);
-	const [mobileNumberError, setMobileNumberError] = useState(null)
-	const [otpError, setOtpError] = useState(null)
-	const [otpSessionId, setOtpSessionId] = useState('')
+	const [mobileNumberError, setMobileNumberError] = useState(null);
+	const [otpError, setOtpError] = useState(null);
+	const [otpSessionId, setOtpSessionId] = useState('');
 	const [signupDetails, setSignupDetails] = useState({
-		name:'',
-		phoneNumber:'',
-		otp_entered_by_user:'',
-		password:''
-	})
+		name: '',
+		phoneNumber: '',
+		otp_entered_by_user: '',
+		password: '',
+	});
 	const [signInDetails, setSignInDetails] = useState({
 		phoneNumber:'',
 		password:''
@@ -45,21 +44,21 @@ function PageSignin() {
 		},
 		{ manual: true },
 	);
-	const [{ loading:sendOTPLoading }, sendOTPApi] = useRequest(
+	const [{ loading: sendOTPLoading }, sendOTPApi] = useRequest(
 		{
 			url: '/sendOTP/reisterOTP',
 			method: 'POST',
 		},
 		{ manual: true },
 	);
-	const [{ loading:verifyOTPLoading }, verifyOTPApi] = useRequest(
+	const [{ loading: verifyOTPLoading }, verifyOTPApi] = useRequest(
 		{
 			url: '/sendOTP/verifyOTP',
 			method: 'POST',
 		},
 		{ manual: true },
 	);
-	const [{ loading:signUpLoading }, signUpApi] = useRequest(
+	const [{ loading: signUpLoading }, signUpApi] = useRequest(
 		{
 			url: '/signup',
 			method: 'POST',
@@ -67,48 +66,46 @@ function PageSignin() {
 		{ manual: true },
 	);
 	const onSendOtpClick = async (event) => {
-
 		event.preventDefault();
-		if(signupDetails.phoneNumber){
-			setMobileNumberError("")
+		if (signupDetails.phoneNumber) {
+			setMobileNumberError('');
 			await sendOTPApi({
-			data:{
-				phoneNumber:signupDetails.phoneNumber
-			}
-			}).then((result) => {
-				console.log("RESULT OTP ", result);
-				setOtpSessionId(result.data.Details)
-				
-			}).catch((err) => {
-				console.log("error ",err);
-			});
-		}
-		else{
-			if(signupDetails.phoneNumber.length<10){
-				setMobileNumberError("Invalid phone number")
-			}
+				data: {
+					phoneNumber: signupDetails.phoneNumber,
+				},
+			})
+				.then((result) => {
+					console.log('RESULT OTP ', result);
+					setOtpSessionId(result.data.Details);
+				})
+				.catch((err) => {
+					console.log('error ', err);
+				});
+		} else if (signupDetails.phoneNumber.length < 10) {
+			setMobileNumberError('Invalid phone number');
 		}
 	};
 	const onVerifyOTPClick= async (event)=>{
 		event.preventDefault();
-		if(signupDetails.otp_entered_by_user){
+		if (signupDetails.otp_entered_by_user) {
 			await verifyOTPApi({
-			data:{
-				session_id:otpSessionId,
-				otp_entered_by_user:signupDetails.otp_entered_by_user
-			}
-			}).then((result) => {
-				console.log("RESULT OTP ", result);
-				// setOtpSessionId(result.Details)
-				setShowSignupButton(true)
-				
-			}).catch((err) => {
-				console.log("error ",err);
-			});
+				data: {
+					session_id: otpSessionId,
+					otp_entered_by_user: signupDetails.otp_entered_by_user,
+				},
+			})
+				.then((result) => {
+					console.log('RESULT OTP ', result);
+					// setOtpSessionId(result.Details)
+					setShowSignupButton(true);
+				})
+				.catch((err) => {
+					console.log('error ', err);
+				});
+		} else {
+			setOtpError('otp required');
 		}
-		else{
-			setOtpError("otp required")
-		}
+		
 
 		
 	}
@@ -123,21 +120,21 @@ function PageSignin() {
 	const handleSignUp=async (event)=>{
 		event.preventDefault();
 		console.log(signupDetails);
-		if(signupDetails.password){
+		if (signupDetails.password) {
 			await signUpApi({
-				data:signupDetails
-			}).then((result) => {
-				console.log("RESULT signup ", result);
-				localStorage.setItem("afjalMao-x-access-token",result.data.token)
-				router.push("/")
-				
-			}).catch((err) => {
-				console.log("error ",err);
-			});
+				data: signupDetails,
+			})
+				.then((result) => {
+					console.log('RESULT signup ', result);
+					localStorage.setItem('afjalMao-x-access-token', result.data.token);
+					router.push('/');
+				})
+				.catch((err) => {
+					console.log('error ', err);
+				});
+		} else {
 		}
-		else{
-
-		}
+		
 	}
 	const handleSignInChange= async (event)=>{
 		const value=event.target.value;

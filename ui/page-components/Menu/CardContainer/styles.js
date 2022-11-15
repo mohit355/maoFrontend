@@ -129,9 +129,16 @@ export const Column = styled.div`
 		font-weight: 500;
 		min-width: 20px !important;
 		text-align: center;
-		aligh-items: center;
+		align-items: center;
 		border-top: 1px solid #e9dbc8;
 		border-bottom: 1px solid #e9dbc8;
+	}
+
+	.modal_count {
+		font-size: 14px;
+		font-weight: 600;
+		text-align: center;
+		margin-left: 20px;
 	}
 
 	.minusButton {
@@ -140,6 +147,11 @@ export const Column = styled.div`
 
 	.plusButton {
 		border-left: none !important;
+	}
+	.MuiPopover-root {
+		.MuiPopover-paper {
+			background: red;
+		}
 	}
 `;
 
@@ -156,4 +168,35 @@ export const OrderButton = styled.button`
 	background: #b68949;
 	box-shadow: 0 2px 4px rgba(128, 96, 51, 0.7);
 	border-radius: 4px;
+`;
+
+export const PopContainer = styled.div`
+	background-color: #ffffff;
+	width: 20%;
+	height: auto;
+	padding: 16px;
+	margin: auto;
+	margin-top: 10%;
+`;
+
+export const AddButtonTitle = styled.div`
+	font-style: normal;
+	font-weight: 600;
+	font-size: 18px;
+	color: #4a4d4f;
+`;
+
+export const Line = styled.div`
+	border-bottom: 1px dotted #caccce;
+	margin-top: 20px;
+	margin-bottom: 20px;
+`;
+
+export const Customize = styled.div`
+	font-style: normal;
+	font-weight: 500;
+	font-size: 8px;
+	color: #7c8083;
+	margin: 4px;
+	text-align: center;
 `;

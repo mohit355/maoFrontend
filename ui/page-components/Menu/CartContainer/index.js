@@ -1,4 +1,5 @@
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { useRouter } from 'next/router';
 import { FlexColumn, FlexRow } from '../../../common/styles';
 import { Container, Title, Description, Line, SubTotal, Checkout } from './styles';
 
@@ -17,7 +18,11 @@ const CartContainer = ({ selectedFoodItem }) => {
 					<FlexRow style={{ marginTop: '20px' }}>
 						<FlexColumn style={{ width: '70%' }}>
 							<FlexRow>
-								<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+								{values?.productType === 'veg' ? (
+									<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+								) : (
+									<NonVegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+								)}
 								{values?.foodName}
 							</FlexRow>
 						</FlexColumn>
@@ -31,7 +36,7 @@ const CartContainer = ({ selectedFoodItem }) => {
 					<FlexRow style={{ marginTop: '20px' }}>
 						<FlexColumn style={{ width: '70%' }}>
 							<FlexRow>
-								{values?.productType === 'Veg' ? (
+								{values?.productType === 'veg' ? (
 									<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
 								) : (
 									<NonVegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
@@ -60,6 +65,12 @@ const CartContainer = ({ selectedFoodItem }) => {
 		}
 	});
 
+	const router = useRouter();
+
+	const handleCheckout = () => {
+		router.push('/checkout');
+	};
+
 	return (
 		<Container>
 			{Object.keys(selectedFoodItem).length ? (
@@ -80,7 +91,7 @@ const CartContainer = ({ selectedFoodItem }) => {
 						</FlexColumn>
 					</FlexRow>
 					<FlexRow style={{ justifyContent: 'center', marginTop: '15%' }}>
-						<Checkout>
+						<Checkout onClick={handleCheckout}>
 							CHECKOUT <ArrowForwardIcon style={{ fontSize: 18 }} />
 						</Checkout>
 					</FlexRow>
