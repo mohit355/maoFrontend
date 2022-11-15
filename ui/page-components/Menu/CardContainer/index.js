@@ -3,8 +3,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import React, { useState } from 'react';
-import Popover from '@material-ui/core/Popover';
+import React, { useState, useEffect } from 'react';
+import Modal from '@material-ui/core/Modal';
 
 import {
 	Container,
@@ -20,11 +20,15 @@ import {
 	Count,
 	TypeIcon,
 	OrderButton,
+	PopContainer,
+	AddButtonTitle,
+	Line,
+	Customize,
 } from './styles';
 import VegIcon from '../../../assets/veg-icon.svg';
 import NonVegIcon from '../../../assets/non-veg-icon.svg';
 
-import { FlexRow } from '../../../common/styles';
+import { FlexColumn, FlexRow } from '../../../common/styles';
 
 const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 	const handlePlus = (item, quantityTypes) => {
@@ -63,6 +67,10 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 		}
 	};
 
+	useEffect(() => {
+		localStorage.setItem('checkoutItem', JSON.stringify(selectedFoodItem));
+	}, [selectedFoodItem]);
+
 	const handleMinus = (item, quantityTypes) => {
 		const foodItems = { ...selectedFoodItem };
 
@@ -86,18 +94,104 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 		});
 	};
 
-	const [showAddPop, setShowAddPop] = useState(null);
+	const [showButtonContent, setShowButtonContent] = useState(false);
 
-	const handleOpenPopover = (event) => {
-		setShowAddPop(event.currentTarget);
+	const handleOpenAddContent = () => {
+		setShowButtonContent(true);
 	};
 
-	const handleClosePopover = () => {
-		setShowAddPop(null);
+	const handleCloseAddConten = () => {
+		setShowButtonContent(false);
 	};
 
-	const open = Boolean(showAddPop);
-	const id = open ? 'simple-popover' : undefined;
+	const addButtonContent = (item) => {
+		console.log('itemss', selectedFoodItem);
+		return (
+			<PopContainer>
+				<Column>
+					<AddButtonTitle>
+						<FlexRow>
+							{item?.productType === 'veg' ? (
+								<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+							) : (
+								<NonVegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
+							)}
+							{item?.productName}
+						</FlexRow>
+					</AddButtonTitle>
+					<Line />
+					<FlexRow>
+						<FlexColumn style={{ width: '25%' }}>
+							<span style={{ fontWeight: '600' }}>Half</span>
+						</FlexColumn>
+						<FlexColumn style={{ width: '50%' }}>
+							<ButtonGroup style={{ marginLeft: '20px' }}>
+								<Button
+									onClick={() => {
+										handleMinus(item, 'H');
+									}}
+									className="minusButton"
+									disabled={!(selectedFoodItem[item.id]?.full <= 0)}
+								>
+									{' '}
+									<RemoveIcon fontSize="small" />
+								</Button>
+
+								<Button
+									onClick={() => {
+										handlePlus(item, 'H');
+									}}
+									className="plusButton"
+								>
+									{' '}
+									<AddIcon fontSize="small" />
+								</Button>
+							</ButtonGroup>
+						</FlexColumn>
+						<FlexColumn style={{ width: '25%' }}>
+							{selectedFoodItem[item.id] && (
+								<Count className="modal_count">{selectedFoodItem[item.id]?.half}</Count>
+							)}
+						</FlexColumn>
+					</FlexRow>
+					<FlexRow style={{ marginTop: '20px' }}>
+						<FlexColumn style={{ width: '25%' }}>
+							<span style={{ fontWeight: '600' }}>Full</span>
+						</FlexColumn>
+						<FlexColumn style={{ width: '50%' }}>
+							<ButtonGroup style={{ marginLeft: '20px' }}>
+								<Button
+									onClick={() => {
+										handleMinus(item, 'F');
+									}}
+									className="minusButton"
+									disabled={!(selectedFoodItem[item.id]?.half <= 0)}
+								>
+									{' '}
+									<RemoveIcon fontSize="small" />
+								</Button>
+
+								<Button
+									onClick={() => {
+										handlePlus(item, 'F');
+									}}
+									className="plusButton"
+								>
+									{' '}
+									<AddIcon fontSize="small" />
+								</Button>
+							</ButtonGroup>
+						</FlexColumn>
+						<FlexColumn style={{ width: '25%' }}>
+							{selectedFoodItem[item.id] && (
+								<Count className="modal_count">{selectedFoodItem[item.id]?.full}</Count>
+							)}
+						</FlexColumn>
+					</FlexRow>
+				</Column>
+			</PopContainer>
+		);
+	};
 
 	return (
 		<Container>
@@ -110,65 +204,74 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 							<Column>
 								<ItemName>{item?.productName}</ItemName>
 								<ItemDescription>{item?.productDesc}</ItemDescription>
-								<Price>₹ {item?.productHalfPrice}</Price>
+								<Price>
+									₹
+									<>
+										{item?.productHalfPrice
+											? item?.productHalfPrice
+											: item?.productFullPrice}
+									</>
+								</Price>
 								<FlexRow>
 									{!selectedFoodItem[item.id] ? (
-										<>
-											{item?.productFullPrice && item?.productFullPrice ? (
-												<OrderButton onClick={handleOpenPopover}>Add</OrderButton>
-											) : (
-												<OrderButton
-													onClick={() => {
-														handlePlus(item, 'F');
-													}}
-												>
-													Add
-												</OrderButton>
+										<FlexColumn>
+											<OrderButton
+												onClick={() => {
+													return item?.productHalfPrice && item?.productFullPrice
+														? handleOpenAddContent()
+														: handlePlus(item, 'F');
+												}}
+											>
+												Add
+											</OrderButton>
+											{item?.productHalfPrice && item?.productFullPrice && (
+												<Customize>Customisable</Customize>
 											)}
-										</>
+										</FlexColumn>
 									) : (
-										<ButtonGroup>
-											<Button
-												onClick={() => {
-													handleMinus(item, 'F');
-												}}
-												className="minusButton"
-											>
-												{' '}
-												<RemoveIcon fontSize="small" />
-											</Button>
-											<Count className="count">
-												{selectedFoodItem[item.id].quantity}
-											</Count>
-											<Button
-												onClick={() => {
-													handlePlus(item, 'F');
-												}}
-												className="plusButton"
-											>
-												{' '}
-												<AddIcon fontSize="small" />
-											</Button>
-										</ButtonGroup>
+										<FlexColumn>
+											<ButtonGroup>
+												<Button
+													onClick={() => {
+														return item?.productHalfPrice && item?.productFullPrice
+															? handleOpenAddContent()
+															: handleMinus(item, 'F');
+													}}
+													className="minusButton"
+												>
+													{' '}
+													<RemoveIcon fontSize="small" />
+												</Button>
+												<Count className="count">
+													{selectedFoodItem[item.id].quantity}
+												</Count>
+												<Button
+													onClick={() => {
+														return item?.productHalfPrice && item?.productFullPrice
+															? handleOpenAddContent()
+															: handlePlus(item, 'F');
+													}}
+													className="plusButton"
+												>
+													{' '}
+													<AddIcon fontSize="small" />
+												</Button>
+											</ButtonGroup>
+											{item?.productHalfPrice && item?.productFullPrice && (
+												<Customize>Customisable</Customize>
+											)}
+										</FlexColumn>
 									)}
-									<Popover
-										id={id}
-										open={open}
-										anchorEl={showAddPop}
-										onClose={handleClosePopover}
-										anchorOrigin={{
-											vertical: 'bottom',
-											horizontal: 'center',
-										}}
-										transformOrigin={{
-											vertical: 'top',
-											horizontal: 'center',
-										}}
+									<Modal
+										open={showButtonContent}
+										onClose={handleCloseAddConten}
+										aria-labelledby="simple-modal-title"
+										aria-describedby="simple-modal-description"
 									>
-										Hello
-									</Popover>
+										{addButtonContent(item)}
+									</Modal>
 									<TypeIcon>
-										{item?.productType === 'Veg' ? <VegIcon /> : <NonVegIcon />}
+										{item?.productType === 'veg' ? <VegIcon /> : <NonVegIcon />}
 									</TypeIcon>
 								</FlexRow>
 							</Column>
@@ -176,7 +279,6 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 					</Card>
 				))}
 			</CardCont>
-			{JSON.stringify(selectedFoodItem)}
 		</Container>
 	);
 };
