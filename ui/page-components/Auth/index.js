@@ -38,10 +38,9 @@ function PageSignin() {
 		phoneNumber:'',
 		password:''
 	})
-
-	const [{ loading }, executePost] = useRequest(
+	const [{ loading:signinLoading }, signInApi] = useRequest(
 		{
-			url: '/auth/signin',
+			url: '/signin',
 			method: 'POST',
 		},
 		{ manual: true },
@@ -67,26 +66,6 @@ function PageSignin() {
 		},
 		{ manual: true },
 	);
-
-	const SubmitDetails = (values) => {
-		executePost({
-			data: values,
-		})
-			.then(() => {
-				router.push('/admin');
-				refetch();
-				message.success('Welcome to Cogoport CMS 🎉');
-			})
-			.catch((error) => {
-				message.error(error.response.data.messages[0]);
-			});
-	};
-	const onSignUpClick = async () => {
-		await router.push('/admin/signup');
-	};
-
-
-
 	const onSendOtpClick = async (event) => {
 
 		event.preventDefault();
@@ -110,8 +89,6 @@ function PageSignin() {
 			}
 		}
 	};
-
-
 	const onVerifyOTPClick= async (event)=>{
 		event.preventDefault();
 		if(signupDetails.otp_entered_by_user){
@@ -135,7 +112,6 @@ function PageSignin() {
 
 		
 	}
-
 	const handleSignUpChange=(event)=>{
 		const value=event.target.value;
 		const key=event.target.name;
@@ -144,7 +120,6 @@ function PageSignin() {
 			return {...prev,[key]:value}
 		})
 	}
-
 	const handleSignUp=async (event)=>{
 		event.preventDefault();
 		console.log(signupDetails);
@@ -163,6 +138,25 @@ function PageSignin() {
 		else{
 
 		}
+	}
+	const handleSignInChange= async (event)=>{
+		const value=event.target.value;
+		const key=event.target.name;
+
+		setSignInDetails((prev)=>{
+			return {...prev,[key]:value}
+		})
+	}
+	const handleSignIn= async (event)=>{
+		event.preventDefault();
+		await signInApi({
+			data:signInDetails
+		}).then((result)=>{
+			localStorage.setItem("afjalMao-x-access-token",result.data.token)
+			router.push("/")
+		}).catch((err)=>{
+			console.log("err ",err);
+		})
 	}
 
 	return (
@@ -185,9 +179,9 @@ function PageSignin() {
 					</NameContent>
 					{login ? (
 						<Form>
-							<input type="tel" name="phoneNumber" placeholder="Phone Number" required />
-							<input type="password" name="password" placeholder="Password" required />
-							<LoginButton>Login</LoginButton>
+							<input type="tel" name="phoneNumber" placeholder="Phone Number" value={signInDetails.phoneNumber} required onChange={handleSignInChange} />
+							<input type="password" name="password" placeholder="Password" value={signInDetails.password}  required onChange={handleSignInChange} />
+							<LoginButton  onClick={handleSignIn} >{signinLoading?'loading...':'Login'}</LoginButton>
 							<hr />
 							<AccountFlex>
 								New to Mao
@@ -207,12 +201,12 @@ function PageSignin() {
 								{otpError && <p style={{color:"red"}}> {otpError} </p>}
 								</>}
 							{otpSessionId==='' && (
-								<LoginButton onClick={onSendOtpClick}>Send OTP</LoginButton>
+								<LoginButton onClick={onSendOtpClick}>{sendOTPLoading ? 'loading...':'Send OTP'}</LoginButton>
 							)}
-							{otpSessionId && showSignupButton===false && <LoginButton onClick={onVerifyOTPClick}>Verify OTP</LoginButton>}
+							{otpSessionId && showSignupButton===false && <LoginButton onClick={onVerifyOTPClick}>{verifyOTPLoading?'loading...':'Verify OTP'}</LoginButton>}
 							{showSignupButton && <>
 								<input name="password" type="password" value={signupDetails.password} onChange={handleSignUpChange} placeholder="Enter password" required />
-								<LoginButton onClick={handleSignUp} >Signup</LoginButton>
+								<LoginButton onClick={handleSignUp} >{signUpLoading ?'loading...':"Sign Up"}</LoginButton>
 							</>}
 							<hr />
 							<AccountFlex>
