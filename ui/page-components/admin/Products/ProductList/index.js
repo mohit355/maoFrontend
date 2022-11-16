@@ -7,7 +7,7 @@ const ProductList = () => {
 	const [allProducts, setAllProducts] = useState([]);
 	const [{ loading: getAllProductsLoading }, getAllProducts] = useRequest(
 		{
-			url: '/product/all',
+			url: '/admin/product/all',
 			method: 'GET',
 		},
 		{ manual: true },
