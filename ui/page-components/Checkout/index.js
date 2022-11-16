@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
 
+import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
 import {
 	Container,
 	Title,
@@ -9,6 +11,12 @@ import {
 	SubTotal,
 	CheckoutContainer,
 	AddressContainer,
+	Instruction,
+	ApplyCoupon,
+	ApplyCouponButton,
+	FinalCheckout,
+	ConfirmOrderButton,
+	Text,
 } from './styles';
 import { FlexColumn, FlexRow } from '../../common/styles';
 
@@ -23,6 +31,12 @@ const Checkout = () => {
 		const items = JSON.parse(localStorage.getItem('checkoutItem'));
 		setSelectedFoodItem(items);
 	}, []);
+
+	const outlets = [
+		{ value: 'mazgaon', label: 'Mazgaon' },
+		{ value: 'crawford', label: 'Crawford' },
+		{ value: 'vashi_naka', label: 'Vashi Naka' },
+	];
 
 	const renderCart = Object.values(selectedFoodItem).map((values) => {
 		return (
@@ -95,40 +109,61 @@ const Checkout = () => {
 	return (
 		<Container>
 			<Title>Checkout</Title>
-			<FlexRow>
-				<AddressContainer>
-					<SubTitle>Select Address</SubTitle>
-					<Address />
-				</AddressContainer>
-				<CheckoutContainer>
-					<SubTitle>Cart Details</SubTitle>
-					{Object.keys(selectedFoodItem).length ? (
-						<>
-							<Description>
-								compiled client and server successfully in 151 ms (456 modules) compiled
-								client and server successfully in 151 ms (456 modules)
-							</Description>
-							<Line />
-							{renderCart}
-							<FlexRow
-								style={{
-									marginTop: '15%',
-									width: '75%',
-									marginLeft: 'auto',
-									marginRight: 'auto',
-								}}
-							>
-								<FlexColumn style={{ width: '50%' }}>
-									<SubTotal>Subtotal</SubTotal>
-								</FlexColumn>
-								<FlexColumn style={{ width: '50%', textAlign: 'right' }}>
-									₹ {foodTotal}
-								</FlexColumn>
-							</FlexRow>
-						</>
-					) : null}
-				</CheckoutContainer>
-			</FlexRow>
+			<FlexColumn>
+				<FlexRow>
+					<AddressContainer>
+						<SubTitle style={{ marginBottom: '40px' }}>Select Address</SubTitle>
+						<Address />
+					</AddressContainer>
+					<CheckoutContainer>
+						<SubTitle>Cart Details</SubTitle>
+						{Object.keys(selectedFoodItem).length ? (
+							<>
+								<Description>
+									You choose an awesome item, please go ahead to complete your order
+								</Description>
+
+								<Instruction placeholder="Any Suggestion or Instruction?" />
+								<Line />
+								{renderCart}
+
+								<ApplyCoupon>
+									<ApplyCouponButton>
+										<LocalOfferOutlinedIcon
+											style={{ marginTop: 'auto', marginRight: '8px' }}
+										/>{' '}
+										Apply Coupon
+									</ApplyCouponButton>
+								</ApplyCoupon>
+								<FlexRow
+									style={{
+										marginTop: '15%',
+										width: '75%',
+										marginLeft: 'auto',
+										marginRight: 'auto',
+									}}
+								>
+									<FlexColumn style={{ width: '50%' }}>
+										<SubTotal>Subtotal</SubTotal>
+									</FlexColumn>
+									<FlexColumn style={{ width: '50%', textAlign: 'right' }}>
+										₹ {foodTotal}
+									</FlexColumn>
+								</FlexRow>
+							</>
+						) : null}
+					</CheckoutContainer>
+				</FlexRow>
+				<FinalCheckout>
+					<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+						<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+							<Text>Select Outlet</Text>
+							<Select options={outlets} />
+						</FlexRow>
+						<ConfirmOrderButton>CONFIRM ORDER</ConfirmOrderButton>
+					</FlexRow>
+				</FinalCheckout>
+			</FlexColumn>
 		</Container>
 	);
 };

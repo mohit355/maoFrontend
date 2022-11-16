@@ -6,17 +6,36 @@ export const Container = styled.div`
 
 export const CheckoutContainer = styled.div`
 	border-radius: 4px;
-	padding: 16px;
+	padding: 28px;
 	background: #ffffff;
 	margin: 12px;
+	width: 60%;
 `;
 
 export const AddressContainer = styled.div`
 	border-radius: 4px;
-	padding: 16px;
+	padding: 28px;
 	background: #ffffff;
 	width: 40%;
 	margin: 12px;
+`;
+
+export const FinalCheckout = styled.div`
+	border-radius: 4px;
+	padding: 28px;
+	background: #ffffff;
+	width: 98%;
+	margin: 12px;
+	select {
+		background: transparent;
+		color: #57595c;
+		font-weight: 600;
+		font-size: 16px;
+		padding: 4px 20px;
+		height: 20%;
+		border-radius: 4px;
+		border: 1px solid #57595c;
+	}
 `;
 
 export const Title = styled.div`
@@ -56,4 +75,53 @@ export const SubTotal = styled.div`
 	font-weight: 700;
 	font-size: 18px;
 	color: #4a4d4f;
+`;
+
+export const Instruction = styled.input`
+	background: #f2f2f3;
+	border: none;
+	width: 100%;
+	height: 14%;
+	padding: 16px;
+	font-size: 12px;
+	color: #62666a;
+	&::placeholder {
+		color: #888c91;
+	}
+`;
+
+export const ApplyCoupon = styled.div`
+	text-align: center;
+	margin: 40px 8px;
+`;
+
+export const ApplyCouponButton = styled.button`
+	display: flex;
+	border: 1px dashed #caccce;
+	background: transparent;
+	color: #6e7377;
+	text-align: center;
+	align-items: center;
+	margin: auto;
+	cursor: pointer;
+	padding: 8px 28px;
+	width: 75%;
+
+	:hover {
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+`;
+
+export const Text = styled.h3`
+	margin-right: 40px;
+`;
+
+export const ConfirmOrderButton = styled.button`
+	color: #ffffff;
+	background: #b68949;
+	border: none;
+	padding: 12px;
+	cursor: pointer;
+	font-weight: 700;
+	font-size: 14px;
 `;
