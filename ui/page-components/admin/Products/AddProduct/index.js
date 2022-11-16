@@ -18,7 +18,7 @@ const AddProduct = () => {
 
     const onAddProduct=(productDetails)=>{
         addProduct({
-          data:updateProduct
+          data:productDetails
         }).then((response) => {
           console.log("prduct",response);
           // got back to /products page
@@ -32,7 +32,7 @@ const AddProduct = () => {
 
   return (
     <div>AddProduct
-      <ProductForm onSubmit={onAddProduct}></ProductForm>
+      <ProductForm onSubmit={onAddProduct} isEdit={false}></ProductForm>
       <span onClick={onAddProduct} > add </span>
     </div>
   )

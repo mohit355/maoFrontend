@@ -55,7 +55,7 @@ const EditProduct = () => {
 
   return (
     <div>EditProduct - {product.productName}
-    <ProductForm onSubmit={onUpdateProduct} ></ProductForm>
+    <ProductForm onSubmit={onUpdateProduct} isEdit={true} ></ProductForm>
     
     <span onClick={onUpdateProduct} >update</span>
     </div>

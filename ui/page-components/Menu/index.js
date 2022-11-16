@@ -35,7 +35,7 @@ const Menu = () => {
 
 	return (
 		<Container>
-			<Header selectedFoodItem={selectedFoodItem} />
+			{/* <Header selectedFoodItem={selectedFoodItem} /> */}
 			<FlexRow>
 				<CardContainer
 					selectedFoodItem={selectedFoodItem}
