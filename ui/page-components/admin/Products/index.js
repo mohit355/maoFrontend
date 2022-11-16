@@ -1,12 +1,13 @@
 import React from 'react';
 import ProductList from './ProductList';
+import AdminPageLayout from '../AdminPageLayout';
 
 const Products = () => {
 	return (
-		<div>
+		<AdminPageLayout>
 			Products
 			<ProductList />
-		</div>
+		</AdminPageLayout>
 	);
 };
 
