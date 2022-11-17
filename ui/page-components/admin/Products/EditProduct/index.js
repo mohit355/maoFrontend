@@ -14,9 +14,6 @@ const EditProduct = () => {
       {
         url:"/product/"+productId,
         method:"GET",
-        headers:{
-				  'x-access-token':localStorage.getItem('afjalMao-x-access-token')
-			  }
       },
       { manual: true },
     );
@@ -24,16 +21,17 @@ const EditProduct = () => {
       {
         url:"/product/update/"+productId,
         method:"POST",
-        headers:{
-				  'x-access-token':localStorage.getItem('afjalMao-x-access-token')
-			  }
       },
       { manual: true },
     );
 
     useEffect(() => {
       if(productId){
-          getProductById().then((response) => {
+          getProductById({
+            headers:{
+				      'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			      }
+          }).then((response) => {
           console.log("prduct",response);
           setProduct(response.data.data)
         }).catch((err) => {
@@ -56,7 +54,10 @@ const EditProduct = () => {
         productImage:updatedProduct.productImage,
       }
       updateProduct({
-        data:newupdatedProduct
+        data:newupdatedProduct,
+        headers:{
+				  'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			  }
       }).then((response) => {
           console.log("prduct",response);
           router.push("/admin/products")
@@ -66,10 +67,8 @@ const EditProduct = () => {
     }
 
   return (
-    <div>EditProduct - {product.productName}
+    <div>
     <ProductForm onSubmit={onUpdateProduct} isEdit={true} product={product} ></ProductForm>
-    
-    <span onClick={onUpdateProduct} >update</span>
     </div>
   )
 }
