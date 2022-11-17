@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -15,9 +15,12 @@ import {
 	AccountButton,
 	AccountFlex,
 } from './styles';
+import { SessionContext } from '../_app';
 
 function PageSignin() {
 	const router = useRouter();
+	const {userDetails,setUserDetails} =  useContext(SessionContext);
+
 
 	const [showInputOtp, setShowInputOtp] = useState(false);
 	const [showButtonOtp, setShowButtonOtp] = useState(true);
@@ -125,8 +128,9 @@ function PageSignin() {
 				data: signupDetails,
 			})
 				.then((result) => {
-					console.log('RESULT signup ', result);
 					localStorage.setItem('afjalMao-x-access-token', result.data.token);
+					const user=result.data.user;
+					setUserDetails({id:user.id, name:user.name, phoneNumber:user.phoneNumber, isAdmin:user.isAdmin})
 					router.push('/');
 				})
 				.catch((err) => {
@@ -150,6 +154,8 @@ function PageSignin() {
 			data:signInDetails
 		}).then((result)=>{
 			localStorage.setItem("afjalMao-x-access-token",result.data.token)
+			const user=result.data.user;
+			setUserDetails({id:user.id, name:user.name, phoneNumber:user.phoneNumber, isAdmin:user.isAdmin})
 			router.push("/")
 		}).catch((err)=>{
 			console.log("err ",err);

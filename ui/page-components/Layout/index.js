@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import Aux from '../../hoc/Auxillary/Auxillary';
+import React, { useContext, useState } from 'react'
+import Aux from '../hoc/Auxillary/Auxillary';
 import SideDrawer from "../Navigation/SideDrawer/index.js";
 import Toolbar from "../Navigation/Toolbar/index";
+import {SessionContext} from "../_app/index"
 
-const AdminPageLayout = (props) => {
+const Layout = (props) => {
 
   const [showSideDrawer, setShowSideDrawer] = useState(false)
+	const {userDetails,setUserDetails} =  useContext(SessionContext);
 
   const sideDrawerClosedHandler = () => {
     setShowSideDrawer(false);
@@ -18,11 +20,16 @@ const AdminPageLayout = (props) => {
   return (
     <Aux>
         <Toolbar
-          isAuth={props.isAuthenticate}
+          isAuth={userDetails.id?true:false}
+          isAdmin={userDetails.isAdmin==="1"?true:false}
+          userDetails={userDetails}
+          setUserDetails={setUserDetails}
           drowerToggleClicked={sideDrawerToggleHandler}
         />
         <SideDrawer
-          isAuth={props.isAuthenticate}
+          isAuth={userDetails.id?true:false}
+          isAdmin={userDetails.isAdmin==="1"?true:false}
+          setUserDetails={setUserDetails}
           open={showSideDrawer}
           closed={sideDrawerClosedHandler}
         />
@@ -31,4 +38,4 @@ const AdminPageLayout = (props) => {
   )
 }
 
-export default AdminPageLayout
+export default Layout

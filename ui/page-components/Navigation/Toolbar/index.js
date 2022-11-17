@@ -4,14 +4,14 @@ import React from "react";
 import NavigationItems from "../NavigationItems";
 import DrowerToggler from "../SideDrawer/DrawerToggler";
 
-const Toolbar = (props) => {
+const Toolbar = ({drowerToggleClicked,isAuth, isAdmin,userDetails, setUserDetails}) => {
   return (
     <header className="Toolbar">
-      <DrowerToggler clicked={props.drowerToggleClicked} />
+      <DrowerToggler clicked={drowerToggleClicked} />
       {/* <Logo height="50px" /> */}
       Logo
       <nav className="DesktopOnly">
-        <NavigationItems isAuthenticated={props.isAuth} />
+        <NavigationItems isAuthenticated={isAuth} isAdmin={isAdmin} userDetails={userDetails} setUserDetails={setUserDetails} />
       </nav>
     </header>
   );

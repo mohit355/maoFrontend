@@ -1,13 +1,13 @@
 import React from "react";
 // import Logo from "../../Logo/Logo";
 import NavigationItems from "../NavigationItems";
-// import Backdrop from "../../UI/Backdrop/Backdrop";
-import Aux from "../../../hoc/Auxillary/Auxillary";
+import Backdrop from "../../shared/BackDrop";
+import Aux from "../../hoc/Auxillary/Auxillary";
 
 const SideDrawer = (props) => {
   return (
     <Aux>
-      {/* <Backdrop show={props.open} clicked={props.closed} /> */}
+      <Backdrop show={props.open} clicked={props.closed} />
       <div
         className={`SideDrawer ${props.open ? "Open" : "Close"} `}
         onClick={props.closed}
@@ -18,7 +18,7 @@ const SideDrawer = (props) => {
         </div>
 
         <nav>
-          <NavigationItems isAuthenticated={props.isAuth} />
+          <NavigationItems isAuthenticated={props.isAuth} isSideDrawerOpen={props.open} />
         </nav>
       </div>
     </Aux>
