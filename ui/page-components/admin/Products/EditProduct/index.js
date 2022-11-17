@@ -14,13 +14,19 @@ const EditProduct = () => {
       {
         url:"/product/"+productId,
         method:"GET",
+        headers:{
+				  'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			  }
       },
       { manual: true },
     );
     const [{ loading:updateProductLoading }, updateProduct] = useRequest(
       {
-        url:"/product/update"+productId,
+        url:"/product/update/"+productId,
         method:"POST",
+        headers:{
+				  'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			  }
       },
       { manual: true },
     );
@@ -38,24 +44,30 @@ const EditProduct = () => {
 
     const onUpdateProduct=(updatedProduct)=>{
 
-      // formatting data
-
+      console.log(updatedProduct,"aa");
+     let newupdatedProduct={
+        productName:updatedProduct.productName,
+        productHalfPrice:updatedProduct.productHalfPrice,
+        productFullPrice:updatedProduct.productFullPrice,
+        productImage:updatedProduct.productImage,
+        productDesc:updatedProduct.productDesc,
+        productType:updatedProduct.productType,
+        productCategory:updatedProduct.productCategory,
+        productImage:updatedProduct.productImage,
+      }
       updateProduct({
-        data:updateProduct
+        data:newupdatedProduct
       }).then((response) => {
           console.log("prduct",response);
-          // got back to /products page
           router.push("/admin/products")
         }).catch((err) => {
         
         });
-
-
     }
 
   return (
     <div>EditProduct - {product.productName}
-    <ProductForm onSubmit={onUpdateProduct} isEdit={true} ></ProductForm>
+    <ProductForm onSubmit={onUpdateProduct} isEdit={true} product={product} ></ProductForm>
     
     <span onClick={onUpdateProduct} >update</span>
     </div>

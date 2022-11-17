@@ -9,6 +9,9 @@ const ProductList = () => {
 		{
 			url: '/admin/product/all',
 			method: 'GET',
+			headers:{
+				'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			}
 		},
 		{ manual: true },
 	);
@@ -17,6 +20,9 @@ const ProductList = () => {
 		{
 			url: '/product/delete',
 			method: 'DELETE',
+			headers:{
+				'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			}
 		},
 		{ manual: true },
 	);
