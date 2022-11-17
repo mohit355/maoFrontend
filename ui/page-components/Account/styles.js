@@ -38,6 +38,10 @@ export const Image = styled.img`
 export const ProfileName = styled.h4`
 	text-align: center;
 `;
+export const PhoneNumber = styled.h5`
+	text-align: center;
+	color: #57595c;
+`;
 
 export const Nav = styled.div`
 	display: -ms-flexbox;
@@ -70,12 +74,12 @@ export const FlexRow = styled.div`
 `;
 
 export const Icon = styled.div`
-	height: 28px;
-	width: 28px;
+	height: 26px;
+	width: 26px;
 	background: #595959;
 	padding: 4px;
 	border-radius: 50%;
-
+	margin-right: 8px;
 	svg {
 		height: 16px;
 		width: 16px;
