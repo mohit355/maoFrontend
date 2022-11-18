@@ -82,7 +82,7 @@ const Checkout = () => {
 								) : (
 									<NonVegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
 								)}
-								{values?.foodName} {values?.halfPrice && 'Half'}
+								{values?.foodName} {values?.halfPrice && '(Full)'}
 							</FlexRow>
 						</FlexColumn>
 						<FlexColumn style={{ width: '10%' }}>X {values?.full}</FlexColumn>
