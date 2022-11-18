@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react';
-
 import { useRouter } from 'next/router';
-
 import { useRequest } from '../../helpers/request-helper';
 
 import {
@@ -16,6 +14,7 @@ import {
 	AccountFlex,
 } from './styles';
 import { SessionContext } from '../_app';
+import { CircularProgress } from '@mui/material';
 
 function PageSignin() {
 	const router = useRouter();
@@ -206,7 +205,7 @@ function PageSignin() {
 								onChange={handleSignInChange}
 							/>
 							<LoginButton onClick={handleSignIn}>
-								{signinLoading ? 'loading...' : 'Login'}
+								{signinLoading ? <CircularProgress /> : 'Login'}
 							</LoginButton>
 							<hr />
 							<AccountFlex>
@@ -254,12 +253,12 @@ function PageSignin() {
 							)}
 							{otpSessionId === '' && (
 								<LoginButton onClick={onSendOtpClick}>
-									{sendOTPLoading ? 'loading...' : 'Send OTP'}
+									{sendOTPLoading ? <CircularProgress /> : 'Send OTP'}
 								</LoginButton>
 							)}
 							{otpSessionId && showSignupButton === false && (
 								<LoginButton onClick={onVerifyOTPClick}>
-									{verifyOTPLoading ? 'loading...' : 'Verify OTP'}
+									{verifyOTPLoading ? <CircularProgress /> : 'Verify OTP'}
 								</LoginButton>
 							)}
 							{showSignupButton && (
@@ -273,7 +272,7 @@ function PageSignin() {
 										required
 									/>
 									<LoginButton onClick={handleSignUp}>
-										{signUpLoading ? 'loading...' : 'Sign Up'}
+										{signUpLoading ? <CircularProgress /> : 'Sign Up'}
 									</LoginButton>
 								</>
 							)}

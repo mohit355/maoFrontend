@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 import { Form,Button } from './style'
@@ -123,7 +124,7 @@ const ProductForm = ({onSubmit,isEdit,loading,product}) => {
             placeholder="write description here"
           />
 
-          <Button disabled={loading?true:false} onClick={handleProductSubmit} > {loading?'loading':''} {isEdit&&!loading?"Update food item":"Add food item"}</Button>
+          <Button disabled={loading?true:false} onClick={handleProductSubmit} > {loading?<CircularProgress />:''} {isEdit&&!loading?"Update food item":"Add food item"}</Button>
     </Form>
     </div>
   )
