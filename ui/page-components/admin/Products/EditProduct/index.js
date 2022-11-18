@@ -19,7 +19,7 @@ const EditProduct = () => {
     );
     const [{ loading:updateProductLoading }, updateProduct] = useRequest(
       {
-        url:"/product/update"+productId,
+        url:"/product/update/"+productId,
         method:"POST",
       },
       { manual: true },
@@ -27,7 +27,11 @@ const EditProduct = () => {
 
     useEffect(() => {
       if(productId){
-          getProductById().then((response) => {
+          getProductById({
+            headers:{
+				      'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			      }
+          }).then((response) => {
           console.log("prduct",response);
           setProduct(response.data.data)
         }).catch((err) => {
@@ -38,26 +42,33 @@ const EditProduct = () => {
 
     const onUpdateProduct=(updatedProduct)=>{
 
-      // formatting data
-
+      console.log(updatedProduct,"aa");
+     let newupdatedProduct={
+        productName:updatedProduct.productName,
+        productHalfPrice:updatedProduct.productHalfPrice,
+        productFullPrice:updatedProduct.productFullPrice,
+        productImage:updatedProduct.productImage,
+        productDesc:updatedProduct.productDesc,
+        productType:updatedProduct.productType,
+        productCategory:updatedProduct.productCategory,
+        productImage:updatedProduct.productImage,
+      }
       updateProduct({
-        data:updateProduct
+        data:newupdatedProduct,
+        headers:{
+				  'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			  }
       }).then((response) => {
           console.log("prduct",response);
-          // got back to /products page
           router.push("/admin/products")
         }).catch((err) => {
         
         });
-
-
     }
 
   return (
-    <div>EditProduct - {product.productName}
-    <ProductForm onSubmit={onUpdateProduct} isEdit={true} ></ProductForm>
-    
-    <span onClick={onUpdateProduct} >update</span>
+    <div>
+    <ProductForm onSubmit={onUpdateProduct} isEdit={true} product={product} ></ProductForm>
     </div>
   )
 }

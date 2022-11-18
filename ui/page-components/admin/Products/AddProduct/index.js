@@ -11,6 +11,9 @@ const AddProduct = () => {
       {
         url:"/product/add",
         method:"POST",
+        headers:{
+				  'x-access-token':localStorage.getItem('afjalMao-x-access-token')
+			  }
       },
       { manual: true },
     );
@@ -21,18 +24,15 @@ const AddProduct = () => {
           data:productDetails
         }).then((response) => {
           console.log("prduct",response);
-          // got back to /products page
           router.push("/admin/products")
         }).catch((err) => {
         
         });
-
-
     }
 
   return (
     <div>AddProduct
-      <ProductForm onSubmit={onAddProduct} isEdit={false}></ProductForm>
+      <ProductForm onSubmit={onAddProduct} isEdit={false} loading={addProductLoading}></ProductForm>
       <span onClick={onAddProduct} > add </span>
     </div>
   )

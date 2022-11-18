@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Form,Button } from './style'
 
-const ProductForm = ({onSubmit,isEdit}) => {
+const ProductForm = ({onSubmit,isEdit,loading,product}) => {
 
   const [productDetails, setProductDetails] = useState({
     productName:'',
-    productHalfprice:'',
+    productHalfPrice:'',
     productFullPrice:'',
     productImage:'',
     productDesc:'',
@@ -15,11 +15,14 @@ const ProductForm = ({onSubmit,isEdit}) => {
     productImage:'',
   })
 
-  const productType=['All','veg',,'non-veg']
-  const [value, setValue] = React.useState(productType[0]);
-  const [inputValue, setInputValue] = React.useState('');
+  useEffect(() => {
 
-
+    if(isEdit){
+      console.log("HHHHH ",product);
+      setProductDetails({...product})
+    }
+  }, [product])
+  
 
   const handleProductDetailsChange=(event)=>{
 
@@ -35,9 +38,9 @@ const ProductForm = ({onSubmit,isEdit}) => {
   }
 
   const handleProductSubmit=(event)=>{
-    // event.preventDefault()
 
-      console.log("Submitted");
+    event.preventDefault()
+    onSubmit(productDetails);
   }
 
 
@@ -67,17 +70,19 @@ const ProductForm = ({onSubmit,isEdit}) => {
           />
         <label htmlFor="productHalfprice">Food's half price</label>
           <input
+            type="number"
             required
-            id="productHalfprice"
-            name='productHalfprice'
+            id="productHalfPrice"
+            name='productHalfPrice'
             label="Half Rate"
-            value={productDetails.productHalfprice}
+            value={productDetails.productHalfPrice}
             onChange={handleProductDetailsChange}
             placeholder="Half price"
           />
         <label htmlFor="productFullPrice">Food's full price</label>
           <input
             required
+            type="number"
             id="productFullPrice"
             name='productFullPrice'
             label="Full Rate"
@@ -118,7 +123,7 @@ const ProductForm = ({onSubmit,isEdit}) => {
             placeholder="write description here"
           />
 
-          <Button onClick={handleProductSubmit} >{isEdit?"Update food item":"Add food item"}</Button>
+          <Button disabled={loading?true:false} onClick={handleProductSubmit} > {loading?'loading':''} {isEdit&&!loading?"Update food item":"Add food item"}</Button>
     </Form>
     </div>
   )

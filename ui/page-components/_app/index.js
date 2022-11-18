@@ -34,6 +34,9 @@ function Mao({ Component, pageProps }) {
 
 					if (userDetails !== {}) {
 						setUserDetails(userDetails);
+						// if(userDetails.isAdmin==='1'){
+						//   router.push("/admin/products")
+						// }
 					} else {
 						setUserDetails({});
 					}
@@ -44,6 +47,16 @@ function Mao({ Component, pageProps }) {
 		}
 		getMyDetails();
 	}, []);
+
+	// useEffect(() => {
+	//   if(userDetails){
+	//     if(userDetails.isAdmin==='1'){
+	//       if(!router.pathname.startsWith("/admin")){
+	//         router.push("/admin/products")
+	//       }
+	//     }
+	//   }
+	// }, [userDetails])
 
 	const Components = ['/auth'].includes(router.pathname) ? (
 		<Component {...pageProps} />

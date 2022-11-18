@@ -4,6 +4,9 @@ import NavigationItem from '../NavigationItem'
 const AdminNavItems = () => {
     return (
         <>
+            <NavigationItem link="/admin/dashboard" exact>
+                Dashboards
+            </NavigationItem>
             <NavigationItem link="/admin/orders" exact>
                 Orders
             </NavigationItem>
