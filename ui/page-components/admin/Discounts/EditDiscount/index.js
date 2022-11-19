@@ -24,7 +24,7 @@ const EditDiscount = () => {
 	);
 	const [{ loading: updateDiscountLoading }, updateDiscountApi] = useRequest(
 		{
-			url: `/discount/update${discountId}`,
+			url: `/discount/update/${discountId}`,
 			method: 'POST',
 		},
 		{ manual: true },

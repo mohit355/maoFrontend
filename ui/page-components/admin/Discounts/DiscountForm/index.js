@@ -1,35 +1,37 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
 import ShowMessage from '../../../ErrorHandling/showMessage';
-import { Container, DiscountPreviewDiv, FormBox } from './styles';
+import {
+	Button,
+	Container,
+	Discount,
+	DiscountPreview,
+	DiscountPreviewDiv,
+	Form,
+	Title,
+} from './styles';
 
 const DiscountForm = ({ onSubmit, discountDetail, loading }) => {
-	const discountTypeOptions = [
-		{ value: 'Flat/Absolute', label: 'Flat/Absolute' },
-		{ value: 'Percentage', label: 'Percentage' },
-	];
+	const discountTypeOptions = ['Flat/Absolute', 'Percentage'];
 	const [showNotification, setShowNotification] = useState({
 		type: 'success',
 		open: false,
 		msg: '',
 	});
 	const [discountDetails, setDiscountDetails] = useState({
-		discountType: '',
+		discountType: 'Flat/Absolute',
 		discountValue: '',
 		discountOnOrderAbove: '',
 	});
-	const [discountType, setDiscountType] = useState('');
+
+	console.log('sss ', discountDetails);
 
 	useEffect(() => {
 		if (discountDetail) {
 			setDiscountDetails({
+				discountType: discountDetail.discountType,
 				discountValue: discountDetail.discountValue,
 				discountOnOrderAbove: discountDetail.discountOnOrderAbove,
-			});
-			setDiscountType({
-				value: discountDetail.discountType,
-				label: discountDetail.discountType,
 			});
 		}
 	}, [discountDetail]);
@@ -54,7 +56,7 @@ const DiscountForm = ({ onSubmit, discountDetail, loading }) => {
 
 	const handleSubmitDiscount = (e) => {
 		e.preventDefault();
-		if (!discountType) {
+		if (!discountDetails.discountType) {
 			setShowNotification({
 				type: 'error',
 				open: true,
@@ -79,7 +81,10 @@ const DiscountForm = ({ onSubmit, discountDetail, loading }) => {
 			return;
 		}
 
-		if (discountType.value === 'Percentage' && discountDetails.discountValue > 100) {
+		if (
+			discountDetails.discountType === 'Percentage' &&
+			discountDetails.discountValue > 100
+		) {
 			setShowNotification({
 				type: 'error',
 				open: true,
@@ -88,6 +93,7 @@ const DiscountForm = ({ onSubmit, discountDetail, loading }) => {
 			return;
 		}
 		if (discountDetails.discountValue > discountDetails.discountOnOrderAbove) {
+			console.log(discountDetails.discountValue, discountDetails.discountOnOrderAbove);
 			setShowNotification({
 				type: 'error',
 				open: true,
@@ -96,75 +102,73 @@ const DiscountForm = ({ onSubmit, discountDetail, loading }) => {
 			return;
 		}
 
-		const payload = {
-			discountType: discountType.value,
-			discountValue: discountDetails.discountValue,
-			discountOnOrderAbove: discountDetails.discountOnOrderAbove,
-		};
-		onSubmit(payload);
+		onSubmit(discountDetails);
 	};
 
 	return (
 		<div>
 			<Container>
-				<FormBox>
-					<form>
-						<div>
-							<div htmlFor="discountType">Discount Type</div>
-							<Select
-								value={discountType}
-								name="discountType"
-								onChange={setDiscountType}
-								options={discountTypeOptions}
-								placeholder="Select Discount type"
-								required
-							/>
-						</div>
-						<div>
-							<div htmlFor="discountValue">Discount value</div>
-							<input
-								required
-								type="number"
-								id="discountValue"
-								name="discountValue"
-								value={discountDetails.discountValue}
-								onChange={handleDiscountDetailsChange}
-								placeholder="Enter Discount Value"
-							/>
-						</div>
-						<div>
-							<div htmlFor="discountOnOrderAbove">
-								Discount will applied on order Above
-							</div>
-							<input
-								required
-								type="number"
-								id="discountOnOrderAbove"
-								name="discountOnOrderAbove"
-								value={discountDetails.discountOnOrderAbove}
-								onChange={handleDiscountDetailsChange}
-								placeholder="Enter value"
-							/>
-						</div>
-						<button type="submit" onClick={handleSubmitDiscount}>
+				<Title>
+					{discountDetail && !loading ? 'Edit Discount' : 'Add New Discount Coupon'}
+				</Title>
+
+				<Discount>
+					<Form>
+						<label htmlFor="discountType">Discount Type</label>
+						<select
+							name="discountType"
+							value={discountDetails.discountType}
+							onChange={handleDiscountDetailsChange}
+							required
+						>
+							{discountTypeOptions.map((options) => (
+								<option value={options}>{options}</option>
+							))}
+						</select>
+						<label htmlFor="discountValue">Discount value</label>
+						<input
+							required
+							type="number"
+							id="discountValue"
+							name="discountValue"
+							value={discountDetails.discountValue}
+							onChange={handleDiscountDetailsChange}
+							placeholder="Enter Discount Value"
+						/>
+						<label htmlFor="discountOnOrderAbove">
+							Discount will applied on order Above
+						</label>
+						<input
+							required
+							type="number"
+							id="discountOnOrderAbove"
+							name="discountOnOrderAbove"
+							value={discountDetails.discountOnOrderAbove}
+							onChange={handleDiscountDetailsChange}
+							placeholder="Enter value"
+						/>
+						<Button type="submit" onClick={handleSubmitDiscount}>
 							{loading ? (
 								<CircularProgress />
 							) : (
 								<>{discountDetail ? 'Update' : 'Create'}Discount</>
 							)}
-						</button>
-					</form>
-				</FormBox>
-				<DiscountPreviewDiv>
-					<div>
-						{discountType.value === 'Flat/Absolute' && 'Rs '}
-						{discountDetails.discountValue ? `${discountDetails.discountValue} ` : '____'}
-						{discountType.value === 'Percentage' && '%'} off on order above{' '}
-						{discountDetails.discountOnOrderAbove
-							? discountDetails.discountOnOrderAbove
-							: '____'}
-					</div>
-				</DiscountPreviewDiv>
+						</Button>
+					</Form>
+					<DiscountPreviewDiv>
+						<h3>Preview</h3>
+						<DiscountPreview>
+							{discountDetails.discountType === 'Flat/Absolute' && 'Rs '}
+							{discountDetails.discountValue
+								? `${discountDetails.discountValue} `
+								: '____'}
+							{discountDetails.discountType === 'Percentage' && '%'} off on order above{' '}
+							{discountDetails.discountOnOrderAbove
+								? discountDetails.discountOnOrderAbove
+								: '____'}
+						</DiscountPreview>
+					</DiscountPreviewDiv>
+				</Discount>
 			</Container>
 			<ShowMessage
 				handleClose={handleClose}

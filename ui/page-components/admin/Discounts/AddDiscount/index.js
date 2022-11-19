@@ -55,7 +55,6 @@ const AddDiscount = () => {
 
 	return (
 		<div>
-			Add Discount
 			<DiscountForm onSubmit={onAddDiscount} loading={addDiscountApiLoading} />
 			<ShowMessage
 				handleClose={handleClose}

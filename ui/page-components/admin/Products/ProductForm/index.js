@@ -1,6 +1,5 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
 import { Form, Button, Container, Title } from './styles';
 
 const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
@@ -16,7 +15,6 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 
 	useEffect(() => {
 		if (isEdit) {
-			console.log('HHHHH ', product);
 			setProductDetails({ ...product });
 		}
 	}, [product]);
@@ -40,7 +38,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 
 	return (
 		<Container>
-			<Title> {isEdit && !loading ? 'Edit Food' : 'Add New Food'}</Title>
+			<Title> {isEdit && !loading ? 'Edit Food' : 'Add New Food Item'}</Title>
 			<Form>
 				<label htmlFor="productName">Food item name</label>
 				<input
@@ -117,7 +115,6 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					onChange={handleProductDetailsChange}
 					placeholder="write description here"
 				/>
-
 				<Button disabled={!!loading} onClick={handleProductSubmit}>
 					{' '}
 					{loading ? <CircularProgress /> : ''}{' '}
