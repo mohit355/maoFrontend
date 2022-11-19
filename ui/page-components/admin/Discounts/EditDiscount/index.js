@@ -1,67 +1,101 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import apis from '../../../../apis/index'
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { CircularProgress } from '@mui/material';
 import { useRequest } from '../../../../helpers/request-helper';
 import DiscountForm from '../DiscountForm';
+import ShowMessage from '../../../ErrorHandling/showMessage';
 
 const EditDiscount = () => {
+	const router = useRouter();
 
-    const router = useRouter()
+	const { discountId } = router.query;
+	const [discount, setDiscount] = useState([]);
+	const [showNotification, setShowNotification] = useState({
+		type: 'success',
+		open: false,
+		msg: '',
+	});
+	const [{ loading: discountByIdLoading }, getDiscountByIdApi] = useRequest(
+		{
+			url: `/discount/${discountId}`,
+			method: 'GET',
+		},
+		{ manual: true },
+	);
+	const [{ loading: updateDiscountLoading }, updateDiscountApi] = useRequest(
+		{
+			url: `/discount/update${discountId}`,
+			method: 'POST',
+		},
+		{ manual: true },
+	);
 
-    const {discountId}= router.query;
-    const [discount, setDiscount] = useState([])
-    const [{ loading:discountByIdLoading }, getDiscountByIdApi] = useRequest(
-      {
-        url:"/discount/"+discountId,
-        method:"GET",
-      },
-      { manual: true },
-    );
-    const [{ loading:updateDiscountLoading }, updateDiscountApi] = useRequest(
-      {
-        url:"/discount/update"+discountId,
-        method:"POST",
-      },
-      { manual: true },
-    );
+	useEffect(() => {
+		if (discountId) {
+			getDiscountByIdApi()
+				.then((response) => {
+					setDiscount(response.data.data);
+				})
+				.catch(() => {});
+		}
+	}, [discountId]);
 
-    useEffect(() => {
-      if(discountId){
-          getDiscountByIdApi().then((response) => {
-          console.log("discount",response);
-          setDiscount(response.data.data)
-        }).catch((err) => {
-        
-        });
-      }
-    }, [discountId])
+	const handleClose = () => {
+		setShowNotification((prev) => {
+			return {
+				...prev,
+				open: false,
+			};
+		});
+	};
 
-    const onUpdateDiscount=(updatedDiscount)=>{
+	const onUpdateDiscount = (updatedDiscount) => {
+		updateDiscountApi({
+			data: updatedDiscount,
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
+		})
+			.then(() => {
+				setShowNotification({
+					type: 'success',
+					open: true,
+					msg: 'Discount updated successfully',
+				});
+				router.push('/admin/discounts');
+			})
+			.catch(() => {
+				setShowNotification({
+					type: 'error',
+					open: true,
+					msg: 'Unable to create Discount. Please try again later',
+				});
+			});
 
-      // formatting data
-    //   updateDiscountApi({
-    //     data:updatedDiscount
-    //   }).then((response) => {
-    //       console.log("prduct",response);
-    //       // got back to /products page
-    //       router.push("/admin/discount")
-    //     }).catch((err) => {
-        
-    //     });
+		router.push('/admin/discounts');
+	};
 
-          router.push("/admin/discounts")
+	return (
+		<div>
+			{discountByIdLoading ? (
+				<CircularProgress />
+			) : (
+				<>
+					<DiscountForm
+						onSubmit={onUpdateDiscount}
+						discountDetail={discount}
+						loading={updateDiscountLoading}
+					/>
+					<ShowMessage
+						handleClose={handleClose}
+						open={showNotification.open}
+						type={showNotification.type}
+						message={showNotification.msg}
+					/>
+				</>
+			)}
+		</div>
+	);
+};
 
-
-
-    }
-
-  return (
-    <div>EditDiscount - {discount.id}
-    <DiscountForm onSubmit={onUpdateDiscount} ></DiscountForm>
-    
-    <span onClick={onUpdateDiscount} >update</span>
-    </div>
-  )
-}
-
-export default EditDiscount
+export default EditDiscount;

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import apis from '../../../../apis';
-import { useRequest } from '../../../../helpers/request-helper';
-import { Container, FlexContainer, FlexListItem } from './styles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useRequest } from '../../../../helpers/request-helper';
+import { Container, FlexContainer, FlexListItem } from './styles';
+import ConfirmModal from '../../../shared/BackDrop/ConfirmModal';
+import { CircularProgress } from '@mui/material';
 
 const ProductList = () => {
 	const [allProducts, setAllProducts] = useState([]);
+	const [openDeleteModal, setOpenDeleteModal] = useState(false);
+	const [deleteableId, setDeleteableId] = useState('');
 	const [{ loading: getAllProductsLoading }, getAllProducts] = useRequest(
 		{
 			url: '/admin/product/all',
@@ -26,11 +29,11 @@ const ProductList = () => {
 
 	const listAllProducts = () => {
 		getAllProducts({
-			headers:{
-				'x-access-token':localStorage.getItem('afjalMao-x-access-token')
-			}
-		}).then((response) => {
-				console.log('response', response);
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
+		})
+			.then((response) => {
 				setAllProducts(response.data.data);
 			})
 			.catch((err) => {});
@@ -41,52 +44,79 @@ const ProductList = () => {
 	}, []);
 
 	const handleDeleteProduct = (productId) => {
+		setDeleteableId(productId);
+		setOpenDeleteModal(true);
+	};
+
+	const handleDelete = () => {
+		const productId = deleteableId;
 		deleteProduct({
 			url: `/product/delete/${productId}`,
-			headers:{
-				'x-access-token':localStorage.getItem('afjalMao-x-access-token')
-			}
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
 		})
-			.then((response) => {
-				console.log('response', response);
+			.then(() => {
+				handleDeleteModalClose();
 				listAllProducts();
 			})
 			.catch((err) => {});
 	};
 
+	const handleDeleteModalClose = () => {
+		setOpenDeleteModal(false);
+	};
+
 	return (
 		<Container>
-			<FlexContainer>
-				<div>
-					<Link href="/admin/products/add">Add New Food Item</Link>
-				</div>
-				<div>
-					<select>
-						<option>Category</option>
-					</select>
-					<select>
-						<option>Type</option>
-					</select>
-					<input type="text" placeholder='search food name'></input>
-				</div>
-			<div>
-				{allProducts.map((product, index) => {
-				return (
-					<FlexListItem key={product.id}>
+			{getAllProductsLoading ? (
+				<CircularProgress />
+			) : (
+				<FlexContainer>
+					<div>
+						<Link href="/admin/products/add">Add New Food Item</Link>
+					</div>
+					<div>
+						<select>
+							<option>Category</option>
+						</select>
+						<select>
+							<option>Type</option>
+						</select>
+						<input type="text" placeholder="search food name" />
+					</div>
+					<div>
+						{allProducts.map((product) => {
+							return (
+								<FlexListItem key={product.id}>
+									<div>{product.productName}</div>
 
-						<div>
-							{product.productName}
-						</div>
-						
-						<div>
-							<Link href={`/admin/products/edit/${product.id}`}><EditIcon></EditIcon></Link>
-							<span className='deleteFoodItem' onClick={() => handleDeleteProduct(product.id)}><DeleteIcon></DeleteIcon></span>
-						</div>
-					</FlexListItem>
-				);
-			})}
-			</div>
-			</FlexContainer>
+									<div>
+										<Link href={`/admin/products/edit/${product.id}`}>
+											<EditIcon />
+										</Link>
+										<span
+											className="deleteFoodItem"
+											onClick={() => handleDeleteProduct(product.id)}
+										>
+											<DeleteIcon />
+										</span>
+									</div>
+								</FlexListItem>
+							);
+						})}
+					</div>
+				</FlexContainer>
+			)}
+			<ConfirmModal
+				open={openDeleteModal}
+				loading={deleteLoading}
+				onConfirm={handleDelete}
+				onClose={handleDeleteModalClose}
+				heading="Delete Food"
+				content="Are you sure you want to delete food from menu"
+				buttonName={['No', 'Yes']}
+			/>
 		</Container>
 	);
 };

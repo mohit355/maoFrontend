@@ -1,14 +1,15 @@
-import React from 'react'
-import DiscountList from './DiscountList'
+import React from 'react';
+import DiscountList from './DiscountList';
 
 const Discounts = () => {
-  return (
-    <div>Discounts
-    <div>
-      <DiscountList></DiscountList>
-    </div>
-    </div>
-  )
-}
+	return (
+		<div>
+			Discounts
+			<div>
+				<DiscountList />
+			</div>
+		</div>
+	);
+};
 
-export default Discounts
+export default Discounts;

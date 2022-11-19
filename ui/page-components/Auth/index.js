@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
+import { CircularProgress } from '@mui/material';
 import { useRequest } from '../../helpers/request-helper';
 
 import {
@@ -14,15 +15,11 @@ import {
 	AccountFlex,
 } from './styles';
 import { SessionContext } from '../_app';
-import { CircularProgress } from '@mui/material';
 
 function PageSignin() {
 	const router = useRouter();
 	const { userDetails, setUserDetails } = useContext(SessionContext);
 
-	const [showInputOtp, setShowInputOtp] = useState(false);
-	const [showButtonOtp, setShowButtonOtp] = useState(true);
-	const [showLoginButton, setShowLoginButton] = useState(false);
 	const [showSignupButton, setShowSignupButton] = useState(false);
 	const [login, setLogin] = useState(true);
 	const [mobileNumberError, setMobileNumberError] = useState(null);
@@ -136,7 +133,6 @@ function PageSignin() {
 				.catch((err) => {
 					console.log('error ', err);
 				});
-		} else {
 		}
 	};
 	const handleSignInChange = async (event) => {

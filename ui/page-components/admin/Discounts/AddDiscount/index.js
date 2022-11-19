@@ -1,43 +1,70 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useRequest } from '../../../../helpers/request-helper';
-import { useRouter } from 'next/router'
 import DiscountForm from '../DiscountForm';
-
+import ShowMessage from '../../../ErrorHandling/showMessage';
 
 const AddDiscount = () => {
+	const router = useRouter();
+	const [showNotification, setShowNotification] = useState({
+		type: 'success',
+		open: false,
+		msg: '',
+	});
 
-  const router=useRouter();
-      const [{ loading:addDiscountApiLoading }, addDiscountApi] = useRequest(
-      {
-        url:"/discount/add",
-        method:"POST",
-      },
-      { manual: true },
-    );
+	const [{ loading: addDiscountApiLoading }, addDiscountApi] = useRequest(
+		{
+			url: '/discount/add',
+			method: 'POST',
+		},
+		{ manual: true },
+	);
 
+	const handleClose = () => {
+		setShowNotification((prev) => {
+			return {
+				...prev,
+				open: false,
+			};
+		});
+	};
 
-    const onAddDiscount=(DiscountDetails)=>{
-        // addDiscountApi({
-        //   data:DiscountDetails
-        // }).then((response) => {
-        //   console.log("prduct",response);
-        //   // got back to /discount page
-        //   router.push("/admin/discount")
-        // }).catch((err) => {
-        
-        // });
-          router.push("/admin/discounts")
+	const onAddDiscount = (DiscountDetails) => {
+		addDiscountApi({
+			data: DiscountDetails,
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
+		})
+			.then(() => {
+				setShowNotification({
+					type: 'success',
+					open: true,
+					msg: 'Discount created successfully',
+				});
+				router.push('/admin/discounts');
+			})
+			.catch(() => {
+				setShowNotification({
+					type: 'error',
+					open: true,
+					msg: 'Unable to create Discount. Please try again later',
+				});
+			});
+	};
 
+	return (
+		<div>
+			Add Discount
+			<DiscountForm onSubmit={onAddDiscount} loading={addDiscountApiLoading} />
+			<ShowMessage
+				handleClose={handleClose}
+				open={showNotification.open}
+				type={showNotification.type}
+				message={showNotification.msg}
+			/>
+		</div>
+	);
+};
 
-
-    }
-
-  return (
-    <div>Add Discount
-      <DiscountForm onSubmit={onAddDiscount}></DiscountForm>
-      <button onClick={onAddDiscount} > add discount </button>
-    </div>
-  )
-}
-
-export default AddDiscount
+export default AddDiscount;

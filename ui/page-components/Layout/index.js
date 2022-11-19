@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Aux from '../hoc/Auxillary/Auxillary';
 import SideDrawer from '../Navigation/SideDrawer/index.js';
 import Toolbar from '../Navigation/Toolbar/index';
-import { SessionContext } from '../_app/index';
+// import { SessionContext } from '../_app/index';
 
-const Layout = (props) => {
+const Layout = ({ userDetails, setUserDetails, children }) => {
 	const [showSideDrawer, setShowSideDrawer] = useState(false);
-	const { userDetails, setUserDetails } = useContext(SessionContext);
+	// const { userDetails, setUserDetails } = useContext(SessionContext);
 
 	const sideDrawerClosedHandler = () => {
 		setShowSideDrawer(false);
@@ -32,7 +32,7 @@ const Layout = (props) => {
 				open={showSideDrawer}
 				closed={sideDrawerClosedHandler}
 			/>
-			<main className="Content"> {props.children} </main>
+			<main className="Content"> {children} </main>
 		</Aux>
 	);
 };

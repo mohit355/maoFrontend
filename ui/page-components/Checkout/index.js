@@ -213,7 +213,7 @@ const Checkout = () => {
 					<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
 						<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
 							<Text>Select Outlet</Text>
-							<Select options={outlets} />
+							<Select onChange={setSelectedOutlet} options={outlets} />
 						</FlexRow>
 						<ConfirmOrderButton onClick={placeOrder} >CONFIRM ORDER</ConfirmOrderButton>
 					</FlexRow>

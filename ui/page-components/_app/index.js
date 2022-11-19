@@ -30,10 +30,8 @@ function Mao({ Component, pageProps }) {
 				},
 			})
 				.then((res) => {
-					const { userDetails } = res.data;
-
-					if (userDetails !== {}) {
-						setUserDetails(userDetails);
+					if (res.data.userDetails !== {}) {
+						setUserDetails(res.data.userDetails);
 						// if(userDetails.isAdmin==='1'){
 						//   router.push("/admin/products")
 						// }
@@ -41,27 +39,17 @@ function Mao({ Component, pageProps }) {
 						setUserDetails({});
 					}
 				})
-				.catch((err) => {
+				.catch(() => {
 					setUserDetails({});
 				});
 		}
 		getMyDetails();
 	}, []);
 
-	// useEffect(() => {
-	//   if(userDetails){
-	//     if(userDetails.isAdmin==='1'){
-	//       if(!router.pathname.startsWith("/admin")){
-	//         router.push("/admin/products")
-	//       }
-	//     }
-	//   }
-	// }, [userDetails])
-
 	const Components = ['/auth'].includes(router.pathname) ? (
 		<Component {...pageProps} />
 	) : (
-		<Layout>
+		<Layout userDetails={userDetails} setUserDetails={setUserDetails}>
 			<Component {...pageProps} />
 		</Layout>
 	);
