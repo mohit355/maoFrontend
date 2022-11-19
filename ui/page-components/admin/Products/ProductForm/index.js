@@ -1,7 +1,7 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
-import { Form, Button } from './style';
+import { Form, Button, Container, Title } from './styles';
 
 const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	const [productDetails, setProductDetails] = useState({
@@ -16,12 +16,14 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 
 	useEffect(() => {
 		if (isEdit) {
+			console.log('HHHHH ', product);
 			setProductDetails({ ...product });
 		}
 	}, [product]);
 
 	const handleProductDetailsChange = (event) => {
-		const { value, name } = event.target;
+		const { name } = event.target;
+		const { value } = event.target;
 
 		setProductDetails((prev) => {
 			return {
@@ -37,7 +39,8 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	};
 
 	return (
-		<div>
+		<Container>
+			<Title> {isEdit && !loading ? 'Edit Food' : 'Add New Food'}</Title>
 			<Form>
 				<label htmlFor="productName">Food item name</label>
 				<input
@@ -103,7 +106,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					onChange={handleProductDetailsChange}
 					placeholder="Enter Food Category"
 				/>
-				<label htmlFor="productDesc"> Food's description</label>
+				<label htmlFor="productDesc">Food's description</label>
 				<textarea
 					required
 					id="productDesc"
@@ -115,13 +118,13 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					placeholder="write description here"
 				/>
 
-				<Button disabled={loading} onClick={handleProductSubmit}>
+				<Button disabled={!!loading} onClick={handleProductSubmit}>
 					{' '}
 					{loading ? <CircularProgress /> : ''}{' '}
-					{isEdit && !loading ? 'Update food item' : 'Add food item'}
+					{isEdit && !loading ? 'UPDATE FOOD' : 'ADD FOOD'}
 				</Button>
 			</Form>
-		</div>
+		</Container>
 	);
 };
 

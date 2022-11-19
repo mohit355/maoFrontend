@@ -1,26 +1,48 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+	margin: 40px;
+	display: flex;
+	flex-direction: column;
+`;
+
 export const Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	background: #fff;
 	padding: 2rem;
-	width: 530px;
-	height: 380px;
-	border-radius: 0.5rem;
+	width: 60%;
+	height: auto;
+	border-radius: 8px;
+	margin: 20px;
+	margin-left: auto;
+	margin-right: auto;
 
-	input, textarea, select {
-		outline: none;
-		padding: 0.8rem 1rem;
-		margin-bottom: 0.8rem;
-		font-size: 1.1rem;
-		border-radius: 10px;
-		background: #ffffff;
-		color: #333333;
-		border: 1px solid #a87d43;
+	label {
+		margin-bottom: 4px;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 14px;
+		color: #57595c;
 	}
 
-	input,textarea,select:focus {
+	input,
+	textarea,
+	select {
+		outline: none;
+		padding: 0.6rem 0.8rem;
+		margin-bottom: 1rem;
+		font-size: 15px;
+		border-radius: 4px;
+		background: #ffffff;
+		color: #57595c;
+		border: 1px solid #57595c;
+	}
+
+	input,
+	textarea,
+	select:focus {
 		border: 1px solid #a87d43;
 	}
 
@@ -41,13 +63,15 @@ export const Form = styled.form`
 		width: 300px;
 		height: fit-content;
 
-		input,textarea,select {
+		input,
+		textarea,
+		select {
 			margin-bottom: 1rem;
-			font-size: 1.5rem;
+			font-size: 14px;
 		}
 
 		a {
-			font-size: 1.5rem;
+			font-size: 14px;
 		}
 	}
 
@@ -57,11 +81,11 @@ export const Form = styled.form`
 
 		input {
 			margin-bottom: 1rem;
-			font-size: 1.5rem;
+			font-size: 14px;
 		}
 
 		a {
-			font-size: 1.5rem;
+			font-size: 14px;
 		}
 	}
 
@@ -71,11 +95,11 @@ export const Form = styled.form`
 
 		input {
 			margin-bottom: 1rem;
-			font-size: 1.5rem;
+			font-size: 14px;
 		}
 
 		a {
-			font-size: 1.5rem;
+			font-size: 14px;
 		}
 	}
 `;
@@ -85,8 +109,9 @@ export const Button = styled.button`
 	border: none;
 	background: #a87d43;
 	padding: 0.8rem 1rem;
-	border-radius: 0.4rem;
+	border-radius: 4px;
 	font-size: 1.1rem;
+	font-weight: 600;
 	color: #fff;
 
 	:hover {
@@ -94,14 +119,18 @@ export const Button = styled.button`
 	}
 
 	@media (max-width: 500px) {
-		font-size: 1.5rem;
+		font-size: 1rem;
 	}
 
 	@media (min-width: 501px) and (max-width: 768px) {
-		font-size: 1.5rem;
+		font-size: 1rem;
 	}
 
 	@media (min-width: 769px) and (max-width: 1200px) {
-		font-size: 1.5rem;
+		font-size: 1rem;
 	}
+`;
+
+export const Title = styled.h1`
+	color: #a87d43;
 `;
