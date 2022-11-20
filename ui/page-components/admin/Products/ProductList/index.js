@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { CircularProgress } from '@mui/material';
 import { useRequest } from '../../../../helpers/request-helper';
 import { Container, FlexContainer, FlexListItem } from './styles';
 import ConfirmModal from '../../../shared/BackDrop/ConfirmModal';
-import { CircularProgress } from '@mui/material';
 
 const ProductList = () => {
 	const [allProducts, setAllProducts] = useState([]);
@@ -73,9 +73,6 @@ const ProductList = () => {
 				<CircularProgress />
 			) : (
 				<FlexContainer>
-					<div>
-						<Link href="/admin/products/add">Add New Food Item</Link>
-					</div>
 					<div>
 						<select>
 							<option>Category</option>
