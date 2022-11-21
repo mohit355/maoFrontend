@@ -25,10 +25,31 @@ const Orders = () => {
 			.catch(() => {});
 	}, []);
 
+	console.log("orders ", orders);
+
 	return (
 		<div>
-			<div>Filters</div>
-			<div>
+			<div style={{display:"flex",alignItems:"center",justifyContent:'space-between'}}>
+				<div>
+					<input type="text" placeholder='enter food item name or Id' />
+				</div>
+				<div>
+					<label>Outlet Name</label>
+					<select>
+						<option>outlet1</option>
+						<option>outlet2</option>
+					</select>
+					<label>Order Status</label>
+					<select>
+						<option>All</option>
+						<option>Order received</option>
+						<option>Preparing</option>
+					</select>
+				</div>
+			</div>
+
+			
+			<div style={{display: "flex",flexDirection: "column",alignItems: "center",margin:"12px"}}>
 				{orders.map((order) => (
 					<Order
 						key={order.id}
@@ -39,6 +60,7 @@ const Orders = () => {
 						User={order.User}
 						orderId={order.orderId}
 						DeliveryAddress={order.Address}
+						orderTime={order.createdAt}
 					/>
 				))}
 			</div>
