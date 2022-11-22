@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Icons/standard/status/info</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M2,12 C2,6.47666667 6.47666667,2 12,2 C17.5233333,2 22,6.47666667 22,12 C22,17.5233333 17.5233333,22 12,22 C6.47666667,22 2,17.5233333 2,12 Z M4,12 C4,16.4187638 7.58123617,20 12,20 C16.4187638,20 20,16.4187638 20,12 C20,7.58123617 16.4187638,4 12,4 C7.58123617,4 4,7.58123617 4,12 Z M11,11.0029293 C11,10.4490268 11.4438648,10 12,10 C12.5522847,10 13,10.4378814 13,11.0029293 L13,15.9970707 C13,16.5509732 12.5561352,17 12,17 C11.4477153,17 11,16.5621186 11,15.9970707 L11,11.0029293 Z M12,9 C11.4477153,9 11,8.55228475 11,8 C11,7.44771525 11.4477153,7 12,7 C12.5522847,7 13,7.44771525 13,8 C13,8.55228475 12.5522847,9 12,9 Z" id="path-1"></path>
+    </defs>
+    <g id="Icons/standard/status/info" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Combined-Shape" fill="#42526E" fill-rule="nonzero" xlink:href="#path-1"></use>
+        <g id="↳-🎨Color" mask="url(#mask-2)" fill="#525252" fill-rule="nonzero">
+            <polygon id="N500" points="0 24 24 24 24 0 0 0"></polygon>
+        </g>
+    </g>
+</svg>

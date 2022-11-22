@@ -7,7 +7,7 @@ import { FlexRow } from '../../../common/styles';
 const Products = () => {
 	return (
 		<Container>
-			<FlexRow style={{ justifyContent: 'space-between', marginTop: '20px' }}>
+			<FlexRow className="flex_container">
 				<Title>Products</Title>
 
 				<Link className="add_food" href="/admin/products/add">
