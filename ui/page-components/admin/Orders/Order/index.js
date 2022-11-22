@@ -1,9 +1,11 @@
 import { CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
+import Select from 'react-select';
 import { useRequest } from '../../../../helpers/request-helper';
 import CustomerDetails from './CustomerDetails';
 import OrderedFoodList from './OrderedFoodList';
+import { Container } from './styles';
 
 const Order = ({
 	id,
@@ -28,12 +30,19 @@ const Order = ({
 		setShowCustomerDetails((prev) => !prev);
 	};
 
+	const orderStatusOption = [
+		{ value: 'Order received', label: 'Order Received' },
+		{ value: 'Preparing', label: 'Preparing' },
+		{ value: 'Out for delivery', label: 'Out for Delivery' },
+		{ value: 'Delivered', label: 'Delivered' },
+	];
+
 	const handleEditOrderStatus = () => {
 		setEditOrderStatus((prev) => !prev);
 	};
 
 	const handleOrderStatusChange = (e, id) => {
-		const statusValue = e.target.value;
+		const statusValue = e.value;
 
 		updateOrder({
 			url: `/order/update/${id}`,
@@ -66,16 +75,7 @@ const Order = ({
 	};
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				border: '1px solid black',
-				marginBottom: '12px',
-				padding: '12px',
-				width: '80vw',
-				flexDirection: 'column',
-			}}
-		>
+		<Container>
 			<div
 				style={{
 					display: 'flex',
@@ -103,17 +103,21 @@ const Order = ({
 						</p>
 					)}
 					{editOrderStatus && (
-						<select
+						<Select
+							options={orderStatusOption}
 							value={orderStatus}
 							onChange={(e) => {
 								handleOrderStatusChange(e, id);
 							}}
-						>
-							<option value="Order received">Order received</option>
-							<option value="Preparing">Preparing</option>
-							<option value="Out for delivery">Out for delivery</option>
-							<option value="Delivered">Delivered</option>
-						</select>
+						/>
+						// <select
+
+						// >
+						// 	<option value="Order received">Order received</option>
+						// 	<option value="Preparing">Preparing</option>
+						// 	<option value="Out for delivery">Out for delivery</option>
+						// 	<option value="Delivered">Delivered</option>
+						// </select>
 					)}
 					{/* {updateOrderLoading && <CircularProgress /> } */}
 				</div>
@@ -137,7 +141,7 @@ const Order = ({
 					<CustomerDetails User={User} DeliveryAddress={DeliveryAddress} />
 				)}
 			</div>
-		</div>
+		</Container>
 	);
 };
 
