@@ -30,6 +30,7 @@ const ProductList = () => {
 
 	const listAllProducts = () => {
 		getAllProducts({
+			url: `/admin/product/all?productType=${''}&name=${''}`,
 			headers: {
 				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
 			},

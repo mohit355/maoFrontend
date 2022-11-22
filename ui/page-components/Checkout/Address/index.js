@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from '@material-ui/core/Modal';
 import {
 	Container,
@@ -13,10 +13,15 @@ import {
 } from './styles';
 import { FlexColumn } from '../../../common/styles';
 import { useRequest } from '../../../helpers/request-helper';
+import { SessionContext } from '../../_app';
+import { SubTitle } from '../styles';
+import CheckIcon from '@material-ui/icons/VerifiedUserSharp';
 
-const Address = () => {
+const Address = ({setSelectedAddress,selectedAddress}) => {
 	const [userAddress, setUserAddress] = useState([]);
 	const [addressModal, setAddressModal] = useState(false);
+	const [showSelectedAddress, setShowSelectedAddress] = useState(false);
+	const {userDetails} =  useContext(SessionContext);
 
 	const handleModalOpen = () => {
 		setAddressModal(true);
@@ -36,10 +41,12 @@ const Address = () => {
 
 	const listAddress = () => {
 		getAddress({
-			url: `/address/getByUserId/20098d93-b05f-42a8-9fab-902ce7304756`,
+			url: `/address/getByUserId/${userDetails.id}`,
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
 		})
 			.then((response) => {
-				console.log('address', response);
 				setUserAddress(response.data.data);
 			})
 			.catch((err) => {
@@ -48,10 +55,20 @@ const Address = () => {
 	};
 
 	useEffect(() => {
-		listAddress();
-	}, []);
+		if(userDetails.id){
+			listAddress();
+		}
+	}, [JSON.stringify(userDetails.id)]);
 
-	console.log('userAddress', userAddress);
+	const handleSelectedAddress=(address)=>{
+		setSelectedAddress(address);
+		setShowSelectedAddress(true);
+	}
+
+	const handleChangeAddress=()=>{
+		setShowSelectedAddress(false);
+		setSelectedAddress('')
+	}
 
 	const modalContent = (
 		<ModalContainer>
@@ -81,20 +98,53 @@ const Address = () => {
 
 	return (
 		<Container>
-			<AddressCard>
-				<FlexColumn>
-					<Title>Work</Title>
-					<FullAddress>
-						Cogoport, 6th Floor, Bhim Nagar Road, Kondivita, Mumbai 400047, India
-					</FullAddress>
-					<DeliverHere>
-						{' '}
-						<input type="radio" name="radio" />
-						DELIVER HERE
-					</DeliverHere>
-				</FlexColumn>
-			</AddressCard>
-			<AddNewAddress onClick={handleModalOpen}>Add New Address</AddNewAddress>
+			{selectedAddress ? <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}} >
+				<SubTitle style={{ marginBottom: '40px' }}>Delivery Address  <CheckIcon  style={{color:'green'}} /> </SubTitle>
+				<div style={{cursor:'pointer',color:'red'}} onClick={handleChangeAddress} >
+					CHANGE
+				</div>
+			</div>:<SubTitle style={{ marginBottom: '40px' }}>Select Address</SubTitle>}
+			{!showSelectedAddress && <div>
+				{
+					userAddress.map(address=>{
+						return <AddressCard>
+					<FlexColumn>
+						<Title>{address.addressType}</Title>
+						<FullAddress>
+							{`${address.houseNo}, ${address.area} ${address.city}`}
+							<br/>
+							{`pincode: ${address.pincode}`}
+							<br/>
+							{`${address.receiverPhoneNumber}`}
+						</FullAddress>
+						<DeliverHere onClick={()=>handleSelectedAddress(address)} >
+							DELIVER HERE
+						</DeliverHere>
+					</FlexColumn>
+				</AddressCard>
+				})
+				}
+				<AddNewAddress onClick={handleModalOpen}>Add New Address</AddNewAddress>
+				</div>
+			}
+			{userAddress.length===0 && !showSelectedAddress && 
+				<AddNewAddress onClick={handleModalOpen}>Add New Address</AddNewAddress>
+			}
+
+			{
+				showSelectedAddress && <AddressCard style={{border:'1px solid green'}}  >
+					<FlexColumn>
+						<Title>{selectedAddress.addressType}</Title>
+						<FullAddress>
+							{`${selectedAddress.houseNo}, ${selectedAddress.area} ${selectedAddress.city}`}
+							<br/>
+							{`pincode: ${selectedAddress.pincode}`}
+							<br/>
+							{`${selectedAddress.receiverPhoneNumber}`}
+						</FullAddress>
+					</FlexColumn>
+				</AddressCard>
+			}
 			<Modal
 				open={addressModal}
 				onClose={handleModalClose}

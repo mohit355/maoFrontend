@@ -27,8 +27,8 @@ import { Alert } from '@mui/material';
 const Checkout = () => {
 	const [showNotification, setShowNotification] = useState({type:"success",open:false, msg:''})
 	const [selectedFoodItem, setSelectedFoodItem] = useState({});
-	const [selectedAddressId, setSelectedAddressId] = useState(null)
-	const [selectedOutlet, setSelectedOutlet] = useState(null)
+	const [selectedAddress, setSelectedAddress] = useState(null);
+	const [selectedOutlet, setSelectedOutlet] = useState(null);
 	const [suggestion, setSuggestion] = useState('')
 	useEffect(() => {
 		const items = JSON.parse(localStorage.getItem('checkoutItem'));
@@ -129,7 +129,7 @@ const Checkout = () => {
 
 	const placeOrder=()=>{
 
-		if(!selectedAddressId){
+		if(!selectedAddress){
 			setShowNotification({
 				type:"error",open:true, msg:'Please select delivery address'
 			})
@@ -165,11 +165,15 @@ const Checkout = () => {
 	return (
 		<Container>
 			<Title>Checkout</Title>
-			<FlexColumn>
+			{Object.keys(selectedFoodItem).length>0 &&
+				<FlexColumn>
 				<FlexRow>
 					<AddressContainer>
-						<SubTitle style={{ marginBottom: '40px' }}>Select Address</SubTitle>
-						<Address />
+						<Address setSelectedAddress={setSelectedAddress} selectedAddress={selectedAddress} />
+						<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+							<Text>Select Outlet</Text>
+							<Select onChange={setSelectedOutlet} options={outlets} />
+						</FlexRow>
 					</AddressContainer>
 					<CheckoutContainer>
 						<SubTitle>Cart Details</SubTitle>
@@ -207,18 +211,19 @@ const Checkout = () => {
 								</FlexRow>
 							</>
 						) : null}
+						<FinalCheckout>
+							<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+								<ConfirmOrderButton onClick={placeOrder} >CONFIRM ORDER</ConfirmOrderButton>
+							</FlexRow>
+						</FinalCheckout>
 					</CheckoutContainer>
 				</FlexRow>
-				<FinalCheckout>
-					<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-						<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-							<Text>Select Outlet</Text>
-							<Select onChange={setSelectedOutlet} options={outlets} />
-						</FlexRow>
-						<ConfirmOrderButton onClick={placeOrder} >CONFIRM ORDER</ConfirmOrderButton>
-					</FlexRow>
-				</FinalCheckout>
 			</FlexColumn>
+			
+			}
+
+			{Object.keys(selectedFoodItem).length==0 && <h2>No Food Item selected</h2>}
+
 			<Snackbar
 				anchorOrigin={{ vertical:'top', horizontal:'right' }}
 				autoHideDuration={2000}
