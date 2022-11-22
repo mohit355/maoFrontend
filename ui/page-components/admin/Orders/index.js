@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
+import Select from 'react-select';
+import { isMobile } from 'react-device-detect';
 import { useRequest } from '../../../helpers/request-helper';
 import Order from './Order';
+import Input from '../../../common/Input';
+import { Container } from './styles';
+import { FlexRow } from '../../../common/styles';
+import { outlets } from '../../../common/SelectOutlets';
 
 const Orders = () => {
 	const [orders, setOrders] = useState([]);
+	const orderStatus = [
+		{ value: 'all', label: 'All' },
+		{ value: 'order_received', label: 'Order Received' },
+		{ value: 'preparing', label: 'Preparing' },
+	];
 
 	const [{ loading: getAllOrdersLoading }, getAllOrdersApi] = useRequest(
 		{
@@ -25,31 +38,50 @@ const Orders = () => {
 			.catch(() => {});
 	}, []);
 
-	console.log("orders ", orders);
+	console.log('orders ', orders);
 
 	return (
-		<div>
-			<div style={{display:"flex",alignItems:"center",justifyContent:'space-between'}}>
-				<div>
-					<input type="text" placeholder='enter food item name or Id' />
-				</div>
-				<div>
-					<label>Outlet Name</label>
-					<select>
-						<option>outlet1</option>
-						<option>outlet2</option>
-					</select>
-					<label>Order Status</label>
-					<select>
-						<option>All</option>
-						<option>Order received</option>
-						<option>Preparing</option>
-					</select>
-				</div>
-			</div>
+		<Container>
+			<FlexRow
+				style={{
+					flexDirection: isMobile ? 'column' : 'row',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					margin: '100px 80px 20px 80px',
+				}}
+			>
+				<Input
+					prefix={<SearchIcon className="search-icon" />}
+					suffix={<CloseIcon className="cross-icon" />}
+					style={{ width: '260px', marginInline: '10px' }}
+					// onChange={(e) => onQueryChange(e.target.value)}
+					// value={searchQuery}
+					placeholder="Search"
+					type="text"
+				/>
 
-			
-			<div style={{display: "flex",flexDirection: "column",alignItems: "center",margin:"12px"}}>
+				<FlexRow
+					style={{
+						flexDirection: isMobile ? 'column' : 'row',
+						alignItems: 'center',
+						width: '500px',
+					}}
+				>
+					<label className="header-label">Outlet Name</label>
+					<Select options={outlets} className="header-select" />
+					<label className="header-label">Order Status</label>
+					<Select options={orderStatus} />
+				</FlexRow>
+			</FlexRow>
+
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					margin: '12px',
+				}}
+			>
 				{orders.map((order) => (
 					<Order
 						key={order.id}
@@ -64,7 +96,7 @@ const Orders = () => {
 					/>
 				))}
 			</div>
-		</div>
+		</Container>
 	);
 };
 
