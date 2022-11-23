@@ -19,6 +19,7 @@ const CardList = ({
 	pageLimit,
 	showPagination = true,
 	handleDeleteProduct = () => {},
+	handleDeleteDiscount = () => {},
 }) => {
 	console.log('data', data);
 	// const { list, page = 0, total_count = 0 } = data || {};
@@ -37,6 +38,7 @@ const CardList = ({
 				fields={fields}
 				isLast={data?.list?.length === i + 1}
 				handleDeleteProduct={handleDeleteProduct}
+				handleDeleteDiscount={handleDeleteDiscount}
 			/>
 		));
 	};

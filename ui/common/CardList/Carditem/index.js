@@ -17,6 +17,7 @@ const Item = ({
 	loading = false,
 	disabled = false,
 	handleDeleteProduct = () => {},
+	handleDeleteDiscount = () => {},
 }) => {
 	const stylesCol = { padding: '0px 4px' };
 	const newFunctions = {
@@ -34,8 +35,18 @@ const Item = ({
 				<DeleteIcon />
 			</span>
 		),
+		handleDeleteDiscount: () => (
+			<span onClick={() => handleDeleteDiscount(item.id)}>
+				<DeleteIcon />
+			</span>
+		),
 		handleEdit: () => (
 			<Link href={`/admin/products/edit/${item.id}`}>
+				<EditIcon />
+			</Link>
+		),
+		handleEditDiscount: () => (
+			<Link href={`/admin/discounts/edit/${item.id}`}>
 				<EditIcon />
 			</Link>
 		),
