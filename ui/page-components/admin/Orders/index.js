@@ -13,14 +13,19 @@ import { outlets } from '../../../common/SelectOutlets';
 const Orders = () => {
 	const [orders, setOrders] = useState([]);
 	const orderStatus = [
-		{ value: 'all', label: 'All' },
+		{ value: '', label: 'All' },
 		{ value: 'order_received', label: 'Order Received' },
 		{ value: 'preparing', label: 'Preparing' },
 	];
+	const [searchedOrderId, setSearchedOrderId] = useState('');
+	const [selectedOutletName, setSelectedOutletName] = useState('')
+	const [selectedOrderStatus, setSelectedOrderStatus] = useState('')
+
+
 
 	const [{ loading: getAllOrdersLoading }, getAllOrdersApi] = useRequest(
 		{
-			url: '/order/all',
+			url: `/order/all?status=${selectedOrderStatus.value}&orderId=${searchedOrderId}&outletName=${selectedOutletName.value}`,
 			method: 'GET',
 		},
 		{ manual: true },
@@ -36,9 +41,8 @@ const Orders = () => {
 				setOrders(result.data.data);
 			})
 			.catch(() => {});
-	}, []);
+	}, [searchedOrderId,selectedOutletName,selectedOrderStatus]);
 
-	console.log('orders ', orders);
 
 	return (
 		<Container>
@@ -52,11 +56,11 @@ const Orders = () => {
 			>
 				<Input
 					prefix={<SearchIcon className="search-icon" />}
-					suffix={<CloseIcon className="cross-icon" />}
+					suffix={<CloseIcon onClick={()=>setSearchedOrderId('')} className="cross-icon" />}
 					style={{ width: '260px', marginInline: '10px' }}
-					// onChange={(e) => onQueryChange(e.target.value)}
-					// value={searchQuery}
-					placeholder="Search"
+					onChange={(e) => setSearchedOrderId(e.target.value)}
+					value={searchedOrderId}
+					placeholder="Search by #order id"
 					type="text"
 				/>
 
@@ -68,9 +72,9 @@ const Orders = () => {
 					}}
 				>
 					<label className="header-label">Outlet Name</label>
-					<Select options={outlets} className="header-select" />
+					<Select onChange={setSelectedOutletName} value={selectedOutletName} options={outlets} className="header-select" />
 					<label className="header-label">Order Status</label>
-					<Select options={orderStatus} />
+					<Select onChange={setSelectedOrderStatus} value={selectedOrderStatus}  options={orderStatus} />
 				</FlexRow>
 			</FlexRow>
 

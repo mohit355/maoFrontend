@@ -16,19 +16,14 @@ import { useRequest } from '../../../helpers/request-helper';
 import { SessionContext } from '../../_app';
 import { SubTitle } from '../styles';
 import CheckIcon from '@material-ui/icons/VerifiedUserSharp';
+import AddressForm from '../../Address/AddressForm';
 
-const Address = ({setSelectedAddress,selectedAddress}) => {
+const Address = ({showSelectedAddress,setShowSelectedAddress, handleModalClose,setAddressModal,addressModal,handleAddAddress,setSelectedAddress,selectedAddress}) => {
 	const [userAddress, setUserAddress] = useState([]);
-	const [addressModal, setAddressModal] = useState(false);
-	const [showSelectedAddress, setShowSelectedAddress] = useState(false);
 	const {userDetails} =  useContext(SessionContext);
 
 	const handleModalOpen = () => {
 		setAddressModal(true);
-	};
-
-	const handleModalClose = () => {
-		setAddressModal(false);
 	};
 
 	const [{ loading: addessLoading }, getAddress] = useRequest(
@@ -39,8 +34,9 @@ const Address = ({setSelectedAddress,selectedAddress}) => {
 		{ manual: true },
 	);
 
-	const listAddress = () => {
-		getAddress({
+
+	const listAddress = async () => {
+		await getAddress({
 			url: `/address/getByUserId/${userDetails.id}`,
 			headers: {
 				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
@@ -68,33 +64,10 @@ const Address = ({setSelectedAddress,selectedAddress}) => {
 	const handleChangeAddress=()=>{
 		setShowSelectedAddress(false);
 		setSelectedAddress('')
+		listAddress();
 	}
 
-	const modalContent = (
-		<ModalContainer>
-			<h2 id="simple-modal-title">Add New Address</h2>
-			<Form>
-				<label htmlFor="address">Flat No, Street, Locality...</label>
-				<input
-					required
-					id="address"
-					name="address"
-					label="Flat No, Street, Locality..."
-					placeholder="Flat No, Street, Locality..."
-				/>
-				<label htmlFor="pincode">Pincode</label>
-				<input
-					required
-					id="pincode"
-					name="pincode"
-					label="Pincode"
-					placeholder="Pincode"
-				/>
-
-				<AddButton> Add +</AddButton>
-			</Form>
-		</ModalContainer>
-	);
+	
 
 	return (
 		<Container>
@@ -127,9 +100,6 @@ const Address = ({setSelectedAddress,selectedAddress}) => {
 				<AddNewAddress onClick={handleModalOpen}>Add New Address</AddNewAddress>
 				</div>
 			}
-			{userAddress.length===0 && !showSelectedAddress && 
-				<AddNewAddress onClick={handleModalOpen}>Add New Address</AddNewAddress>
-			}
 
 			{
 				showSelectedAddress && <AddressCard style={{border:'1px solid green'}}  >
@@ -151,7 +121,7 @@ const Address = ({setSelectedAddress,selectedAddress}) => {
 				aria-labelledby="simple-modal-title"
 				aria-describedby="simple-modal-description"
 			>
-				{modalContent}
+				<AddressForm onSubmit={handleAddAddress}/>
 			</Modal>
 		</Container>
 	);

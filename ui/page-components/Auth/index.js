@@ -121,6 +121,8 @@ function PageSignin() {
 			})
 				.then((result) => {
 					localStorage.setItem('afjalMao-x-access-token', result.data.token);
+					var now = new Date().getTime();
+					localStorage.getItem('afjalMaoTokenExpiry',now);
 					const { user } = result.data;
 					setUserDetails({
 						id: user.id,
@@ -150,6 +152,8 @@ function PageSignin() {
 		})
 			.then((result) => {
 				localStorage.setItem('afjalMao-x-access-token', result.data.token);
+				var now = new Date().getTime();
+				localStorage.setItem('afjalMaoTokenExpiry',now);
 				const { user } = result.data;
 				setUserDetails({
 					id: user.id,

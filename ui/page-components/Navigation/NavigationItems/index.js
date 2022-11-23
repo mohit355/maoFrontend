@@ -42,6 +42,7 @@ const NavigationItems = ({
 
 	const handleLogOutClick = () => {
 		localStorage.removeItem('afjalMao-x-access-token');
+		localStorage.removeItem('afjalMaoTokenExpiry');
 		setUserDetails({});
 		router.push('/');
 		handlePopClose();
