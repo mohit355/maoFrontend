@@ -5,6 +5,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { CircularProgress } from '@mui/material';
 import { useRequest } from '../../../../helpers/request-helper';
 import ConfirmModal from '../../../shared/BackDrop/ConfirmModal';
+import CardList from '../../../../common/CardList';
+import { DISCOUNT } from './listDiscount';
+import { Container } from './styles';
 
 const DiscountList = () => {
 	const [allDiscounts, setAllDiscounts] = useState([]);
@@ -64,13 +67,14 @@ const DiscountList = () => {
 		setOpenDeleteModal(false);
 	};
 
+	const config = DISCOUNT;
+
 	return (
-		<div>
-			{getAllDiscountsLoading ? (
+		<Container>
+			{/* {getAllDiscountsLoading ? (
 				<CircularProgress />
 			) : (
 				<>
-					<Link href="/admin/discounts/add">Add New Discount Coupons</Link>
 					{allDiscounts.map((discount) => {
 						return (
 							<div key={discount.id}>
@@ -94,8 +98,23 @@ const DiscountList = () => {
 						buttonName={['No', 'Yes']}
 					/>
 				</>
-			)}
-		</div>
+			)} */}
+			<CardList
+				fields={config.fields}
+				data={allDiscounts}
+				loading={getAllDiscountsLoading}
+				handleDeleteDiscount={handleDeleteDiscount}
+			/>
+			<ConfirmModal
+				open={openDeleteModal}
+				loading={deleteLoading}
+				onConfirm={handleDelete}
+				onClose={handleDeleteModalClose}
+				heading="Delete discount"
+				content="Are you sure you want to delete the discount"
+				buttonName={['No', 'Yes']}
+			/>
+		</Container>
 	);
 };
 
