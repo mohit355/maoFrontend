@@ -53,13 +53,14 @@ const Products = () => {
 				</Link>
 			</FlexRow>
 			<>
+				{allProducts.length!==0 &&
 				<FlexContainer>
 					<div>
 						<input value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} type="text" placeholder="search food name" />
 						<Select options={foodCategoryType} isSearchable={true} value={selectedFoodCategory} onChange={setSelectedFoodCategory} className="header-select" />
 						<Select options={foodTypeOption} value={selectedFoodType} onChange={setSelectedFoodType} className="header-select" />
 					</div>
-				</FlexContainer>
+				</FlexContainer>}
 				<ProductList listAllProducts={listAllProducts} allProducts={allProducts} getAllProductsLoading={getAllProductsLoading} />
 			</>
 		</Container>

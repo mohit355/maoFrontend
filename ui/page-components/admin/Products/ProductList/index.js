@@ -72,7 +72,6 @@ const ProductList = ({listAllProducts,allProducts,getAllProductsLoading}) => {
 				</>
 			)}
 
-			
 		</Container>
 	);
 };

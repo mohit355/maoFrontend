@@ -15,11 +15,16 @@ import {
 	AccountFlex,
 } from './styles';
 import { SessionContext } from '../_app';
+import ShowMessage from '../ErrorHandling/showMessage';
 
 function PageSignin() {
 	const router = useRouter();
 	const { userDetails, setUserDetails } = useContext(SessionContext);
-
+	const [showNotification, setShowNotification] = useState({
+		type: 'success',
+		open: false,
+		msg: '',
+	});
 	const [showSignupButton, setShowSignupButton] = useState(false);
 	const [login, setLogin] = useState(true);
 	const [mobileNumberError, setMobileNumberError] = useState(null);
@@ -151,6 +156,7 @@ function PageSignin() {
 			data: signInDetails,
 		})
 			.then((result) => {
+				console.log(result);
 				localStorage.setItem('afjalMao-x-access-token', result.data.token);
 				var now = new Date().getTime();
 				localStorage.setItem('afjalMaoTokenExpiry',now);
@@ -161,11 +167,29 @@ function PageSignin() {
 					phoneNumber: user.phoneNumber,
 					isAdmin: user.isAdmin,
 				});
+				setShowNotification({
+					type: 'success',
+					open: true,
+					msg: result.data.msg,
+				});
 				router.push('/');
 			})
 			.catch((err) => {
-				console.log('err ', err);
+				setShowNotification({
+					type: 'error',
+					open: true,
+					msg: `User name or password is incorrect`,
+				});
 			});
+	};
+
+	const handleClose = () => {
+		setShowNotification((prev) => {
+			return {
+				...prev,
+				open: false,
+			};
+		});
 	};
 
 	return (
@@ -285,6 +309,12 @@ function PageSignin() {
 					)}
 				</Flex>
 			</Content>
+			<ShowMessage
+				handleClose={handleClose}
+				open={showNotification.open}
+				type={showNotification.type}
+				message={showNotification.msg}
+			/>
 		</Container>
 	);
 }
