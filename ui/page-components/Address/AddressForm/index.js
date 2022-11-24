@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ShowMessage from '../../ErrorHandling/showMessage';
 import {
 	ModalContainer,
@@ -7,21 +7,35 @@ import {
     Title
 } from './styles';
 
-const AddressForm = ({onSubmit}) => {
+const AddressForm = ({onSubmit,editAddress}) => {
 
     const [address, setAddress] = useState({
         houseNo:'',
         area:'',
         city:'',
         pincode:'',
-        receiverPhoneNumber:'',
         addressType:'',
+        receiverPhoneNumber:'',
     })
     const [showNotification, setShowNotification] = useState({
 		type: 'success',
 		open: false,
 		msg: '',
 	});
+
+	useEffect(() => {
+		if(editAddress){
+			setAddress({
+				houseNo:editAddress.houseNo,
+        		area:editAddress.area,
+        		city:editAddress.city,
+				pincode:editAddress.pincode,
+				addressType:editAddress.addressType,
+				receiverPhoneNumber:editAddress.receiverPhoneNumber,
+			})
+		}
+	}, [editAddress])
+	
 
 
     const handleOnChange=(e)=>{
@@ -37,7 +51,7 @@ const AddressForm = ({onSubmit}) => {
     }
 
 
-    const addAddress=(e)=>{
+    const handleAddressSubmit=(e)=>{
         e.preventDefault()
         let emptyFieldName=''
 		Object.keys(address).forEach(fieldName => {
@@ -54,7 +68,8 @@ const AddressForm = ({onSubmit}) => {
 			});
 		}
 		else{
-			const isSuccess=onSubmit(address);
+			const isEdit=editAddress!=={}?'edit':'add'
+			const isSuccess=onSubmit(address,isEdit);
 
             if(!isSuccess){
                 setShowNotification({
@@ -138,7 +153,7 @@ const AddressForm = ({onSubmit}) => {
                     placeholder="Phone number"
 				/>
                 </>}
-				<AddButton onClick={addAddress} >Add address</AddButton>
+				<AddButton onClick={handleAddressSubmit} >{editAddress?'Update address':'Add address'}</AddButton>
 			</Form>
             <ShowMessage
 				handleClose={handleClose}

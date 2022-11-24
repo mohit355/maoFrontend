@@ -13,8 +13,8 @@ const Products = () => {
 
 	const foodTypeOption=[{value:"",label:"All"},{value:'veg',label:"Veg"},{value:'non-veg',label:"Non-veg"}]
 	const [searchValue, setSearchValue] = useState('')
-	const [selectedFoodCategory, setSelectedFoodCategory] = useState('')
-	const [selectedFoodType, setSelectedFoodType] = useState('')
+	const [selectedFoodCategory, setSelectedFoodCategory] = useState({value:"",label:"All"})
+	const [selectedFoodType, setSelectedFoodType] = useState({value:"",label:"All"})
 	const [allProducts, setAllProducts] = useState([]);
 
 	const [{ loading: getAllProductsLoading }, getAllProducts] = useRequest(
@@ -53,14 +53,13 @@ const Products = () => {
 				</Link>
 			</FlexRow>
 			<>
-				{allProducts.length!==0 &&
 				<FlexContainer>
 					<div>
 						<input value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} type="text" placeholder="search food name" />
 						<Select options={foodCategoryType} isSearchable={true} value={selectedFoodCategory} onChange={setSelectedFoodCategory} className="header-select" />
 						<Select options={foodTypeOption} value={selectedFoodType} onChange={setSelectedFoodType} className="header-select" />
 					</div>
-				</FlexContainer>}
+				</FlexContainer>
 				<ProductList listAllProducts={listAllProducts} allProducts={allProducts} getAllProductsLoading={getAllProductsLoading} />
 			</>
 		</Container>

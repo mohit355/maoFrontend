@@ -18,8 +18,8 @@ const Orders = () => {
 		{ value: 'preparing', label: 'Preparing' },
 	];
 	const [searchedOrderId, setSearchedOrderId] = useState('');
-	const [selectedOutletName, setSelectedOutletName] = useState('')
-	const [selectedOrderStatus, setSelectedOrderStatus] = useState('')
+	const [selectedOutletName, setSelectedOutletName] = useState({ value: '', label: 'All' })
+	const [selectedOrderStatus, setSelectedOrderStatus] = useState({ value: '', label: 'All' },)
 
 
 
