@@ -6,6 +6,9 @@ export const Container = styled.div`
 	padding: 16px;
 	margin: 20px;
 	width: 70%;
+	@media (max-width: 768px) {
+		width: 100%;
+	}
 `;
 
 export const CardCont = styled.div`
@@ -68,7 +71,7 @@ export const Row = styled.div`
 `;
 
 export const TypeIcon = styled.div`
-	margin-left: auto;
+	margin-left: 10%;
 	svg {
 		width: 24px;
 		height: 24px;
@@ -168,28 +171,6 @@ export const OrderButton = styled.button`
 	background: #b68949;
 	box-shadow: 0 2px 4px rgba(128, 96, 51, 0.7);
 	border-radius: 4px;
-`;
-
-export const PopContainer = styled.div`
-	background-color: #ffffff;
-	width: 20%;
-	height: auto;
-	padding: 16px;
-	margin: auto;
-	margin-top: 10%;
-`;
-
-export const AddButtonTitle = styled.div`
-	font-style: normal;
-	font-weight: 600;
-	font-size: 18px;
-	color: #4a4d4f;
-`;
-
-export const Line = styled.div`
-	border-bottom: 1px dotted #caccce;
-	margin-top: 20px;
-	margin-bottom: 20px;
 `;
 
 export const Customize = styled.div`
