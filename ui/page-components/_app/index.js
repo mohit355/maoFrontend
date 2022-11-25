@@ -12,6 +12,7 @@ function Mao({ Component, pageProps }) {
 	if (propTitle) {
 		title = `${title} | ${propTitle}`;
 	}
+
 	const router = useRouter();
 	const [userDetails, setUserDetails] = useState({});
 	const [{ loading: getMeLoading }, getMe] = useRequest(
@@ -22,8 +23,23 @@ function Mao({ Component, pageProps }) {
 		{ manual: true },
 	);
 
+	const checkTokenExpiry=()=>{
+		var hours = 1;
+		var now = new Date().getTime();
+		var setupTime = localStorage.getItem('afjalMaoTokenExpiry');
+		if (setupTime == null) {
+			return true;
+		} else {
+			if(now-setupTime > hours*60*60*1000) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	useEffect(() => {
 		async function getMyDetails() {
+
 			await getMe({
 				headers: {
 					'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
@@ -32,9 +48,6 @@ function Mao({ Component, pageProps }) {
 				.then((res) => {
 					if (res.data.userDetails !== {}) {
 						setUserDetails(res.data.userDetails);
-						// if(userDetails.isAdmin==='1'){
-						//   router.push("/admin/products")
-						// }
 					} else {
 						setUserDetails({});
 					}
@@ -43,7 +56,20 @@ function Mao({ Component, pageProps }) {
 					setUserDetails({});
 				});
 		}
-		getMyDetails();
+		if(!localStorage.getItem('afjalMao-x-access-token')){
+			setUserDetails({});
+			localStorage.removeItem('afjalMaoTokenExpiry');
+		}
+		else{
+			const isExpired=checkTokenExpiry();
+			if(isExpired){
+				localStorage.removeItem('afjalMao-x-access-token');
+				localStorage.removeItem('afjalMaoTokenExpiry');
+			}
+			else{
+				getMyDetails();
+			}
+		}
 	}, []);
 
 	const Components = ['/auth'].includes(router.pathname) ? (
@@ -66,9 +92,11 @@ function Mao({ Component, pageProps }) {
 			/>
 
 			<link href="https://fonts.cdnfonts.com/css/sketsa-ramadhan" rel="stylesheet" />
-			<SessionContext.Provider value={{ userDetails, setUserDetails }}>
+			{
+				!getMeLoading && <SessionContext.Provider value={{ userDetails, setUserDetails }}>
 				{Components}
 			</SessionContext.Provider>
+			}
 		</>
 	);
 }

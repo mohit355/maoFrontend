@@ -9,9 +9,6 @@ const AddProduct = () => {
 		{
 			url: '/product/add',
 			method: 'POST',
-			headers: {
-				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
-			},
 		},
 		{ manual: true },
 	);
@@ -19,6 +16,9 @@ const AddProduct = () => {
 	const onAddProduct = (productDetails) => {
 		addProduct({
 			data: productDetails,
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
 		})
 			.then((response) => {
 				console.log('prduct', response);

@@ -5,6 +5,7 @@ import CardItem from './Carditem';
 import LoadingState from './LoadingState';
 import { Container } from './styles';
 import FlexRow from '../styles';
+import Empty from "../../assets/empty.svg"
 
 const CardList = ({
 	fields = [],
@@ -48,7 +49,10 @@ const CardList = ({
 			{!statsLoading && (
 				<Header fields={fields} showCode={showCode} sort={sort} setSort={setSort} />
 			)}
-			<div className="card-list-data">{handleRender()}</div>
+			{data.length===0 ?<div style={{display:'flex', flexDirection:'column',alignItems:'center',justifyContent:'center'}} >
+				<Empty style={{height:"60vh",width:'60vw'}} />
+				<h3>No Food Product Added</h3>
+			</div>:<div className="card-list-data">{handleRender()}</div>}
 			{/* {showPagination ? (
 				<FlexRow
 					style={{ justifyContent: 'flex-end', alignItems: 'center', marginTop: '10px' }}

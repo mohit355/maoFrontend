@@ -31,9 +31,11 @@ const Checkout = () => {
 		open: false,
 		msg: '',
 	});
+	const [addressModal, setAddressModal] = useState(false);
 	const [selectedFoodItem, setSelectedFoodItem] = useState({});
 	const [selectedAddress, setSelectedAddress] = useState(null);
 	const [selectedOutlet, setSelectedOutlet] = useState(null);
+	const [showSelectedAddress, setShowSelectedAddress] = useState(false);
 	const [suggestion, setSuggestion] = useState('')
 	useEffect(() => {
 		const items = JSON.parse(localStorage.getItem('checkoutItem'));
@@ -43,6 +45,14 @@ const Checkout = () => {
 	const [{ loading: placeOrderLoading }, placeOrderApi] = useRequest(
 		{
 			url: '/order/add',
+			method: 'POST',
+		},
+		{ manual: true },
+	);
+
+	const [{ loading: addAddessLoading }, addAddress] = useRequest(
+		{
+			url: '/address/add',
 			method: 'POST',
 		},
 		{ manual: true },
@@ -150,9 +160,9 @@ const Checkout = () => {
 
 		const payload = {
 			product: selectedFoodItem,
-			addressId: 'a906d31b-2beb-441b-8643-c0608c1fbd38',
+			addressId: selectedAddress.id,
 			modeOfPayment: 'cash',
-			outletName: 'ss',
+			outletName: selectedOutlet.value,
 		};
 		placeOrderApi({
 			data: payload,
@@ -171,6 +181,32 @@ const Checkout = () => {
 			.catch((error) => {});
 	};
 
+	const handleModalClose = () => {
+		setAddressModal(false);
+	};
+
+	const handleAddAddress= async (addressDetails)=>{
+		await addAddress({
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
+			data:addressDetails
+		}).then((result)=>{
+			console.log(result);
+			handleModalClose();
+			setShowNotification({
+					type: 'success',
+					open: true,
+					msg: `Address added successfully`,
+			});
+			setSelectedAddress(result.data.data)
+			setShowSelectedAddress(true);
+		}).catch(err=>{
+			console.log(err);
+			return false;
+		})
+	}
+
 	return (
 		<Container>
 			<Title>Checkout</Title>
@@ -178,7 +214,7 @@ const Checkout = () => {
 				<FlexColumn>
 				<FlexRow>
 					<AddressContainer>
-						<Address setSelectedAddress={setSelectedAddress} selectedAddress={selectedAddress} />
+						<Address setShowSelectedAddress={setShowSelectedAddress} showSelectedAddress={showSelectedAddress} addressModal={addressModal} setAddressModal={setAddressModal} handleModalClose={handleModalClose} handleAddAddress={handleAddAddress} setSelectedAddress={setSelectedAddress} selectedAddress={selectedAddress} />
 						<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
 							<Text>Select Outlet</Text>
 							<Select onChange={setSelectedOutlet} options={outlets} />

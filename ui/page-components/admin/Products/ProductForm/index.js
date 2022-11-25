@@ -1,16 +1,24 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Title } from './styles';
+import {foodCategoryType} from '../../../../common/selectFoodCategory/index';
+import ShowMessage from '../../../ErrorHandling/showMessage';
+
 
 const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	const [productDetails, setProductDetails] = useState({
 		productName: '',
+		productImage: '',
 		productHalfPrice: '',
 		productFullPrice: '',
-		productImage: '',
-		productDesc: '',
-		productType: 'All',
+		productType: '',
 		productCategory: '',
+		productDesc: '',
+	});
+	const [showNotification, setShowNotification] = useState({
+		type: 'success',
+		open: false,
+		msg: '',
 	});
 
 	useEffect(() => {
@@ -33,14 +41,41 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 
 	const handleProductSubmit = (event) => {
 		event.preventDefault();
-		onSubmit(productDetails);
+		console.log(productDetails);
+		let emptyFieldName=''
+		Object.keys(productDetails).forEach(fieldName => {
+			if(fieldName!=="productDesc" && productDetails[fieldName].length===0 && emptyFieldName===''){
+				console.log(fieldName);
+				emptyFieldName=fieldName
+				return;
+			}
+		});
+		if(emptyFieldName){
+			setShowNotification({
+					type: 'error',
+					open: true,
+					msg: `${emptyFieldName} is required`,
+			});
+		}
+		else{
+			onSubmit(productDetails);
+		}
+	};
+
+	const handleClose = () => {
+		setShowNotification((prev) => {
+			return {
+				...prev,
+				open: false,
+			};
+		});
 	};
 
 	return (
 		<Container>
 			<Title> {isEdit && !loading ? 'Edit Food' : 'Add New Food Item'}</Title>
 			<Form>
-				<label htmlFor="productName">Food item name</label>
+				<label htmlFor="productName">Food item name *</label>
 				<input
 					required
 					id="productName"
@@ -50,7 +85,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					onChange={handleProductDetailsChange}
 					placeholder="Food name"
 				/>
-				<label htmlFor="productImage">Food image link</label>
+				<label htmlFor="productImage">Food image link *</label>
 				<input
 					required
 					id="productImage"
@@ -61,7 +96,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					onChange={handleProductDetailsChange}
 					placeholder="Food image link"
 				/>
-				<label htmlFor="productHalfprice">Food's half price</label>
+				<label htmlFor="productHalfprice">Food's half price *</label>
 				<input
 					type="number"
 					required
@@ -72,7 +107,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					onChange={handleProductDetailsChange}
 					placeholder="Half price"
 				/>
-				<label htmlFor="productFullPrice">Food's full price</label>
+				<label htmlFor="productFullPrice">Food's full price *</label>
 				<input
 					required
 					type="number"
@@ -83,27 +118,35 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					onChange={handleProductDetailsChange}
 					placeholder="Full price"
 				/>
-				<label htmlFor="productType">Food Type</label>
+				<label htmlFor="productType">Food Type *</label>
 				<select
+					required
 					id="productType"
 					name="productType"
 					value={productDetails.productType}
 					onChange={handleProductDetailsChange}
-				>
-					<option value="All">All</option>
+				>	
+					<option value="">Select food type</option>
 					<option value="veg">veg</option>
 					<option value="non-veg">non-veg</option>
 				</select>
-				<label htmlFor="productCategory">Food Category</label>
-				<input
+				<label htmlFor="productCategory">Food Category *</label>
+				<select
 					required
 					id="productCategory"
 					name="productCategory"
-					label="Food Category"
 					value={productDetails.productCategory}
 					onChange={handleProductDetailsChange}
-					placeholder="Enter Food Category"
-				/>
+				>	
+					{foodCategoryType.map((category,index)=>{
+						if(index===0){
+							return <option key={category.value} value={category.value} >Select Category</option>
+						}
+						if(index>0){
+							return <option key={category.value} value={category.value} >{category.label}</option>
+						}
+					})}
+				</select>
 				<label htmlFor="productDesc">Food's description</label>
 				<textarea
 					required
@@ -121,6 +164,12 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					{isEdit && !loading ? 'UPDATE FOOD' : 'ADD FOOD'}
 				</Button>
 			</Form>
+			<ShowMessage
+				handleClose={handleClose}
+				open={showNotification.open}
+				type={showNotification.type}
+				message={showNotification.msg}
+			/>
 		</Container>
 	);
 };
