@@ -9,6 +9,12 @@ export const Container = styled.div`
 	padding-top: 5%;
 	position: fixed;
 	right: 0;
+	@media (max-width: 768px) {
+		width: 90%;
+		bottom: 0;
+		height: 25%;
+		overflow: auto;
+	}
 `;
 
 export const Title = styled.div`

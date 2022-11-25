@@ -9,8 +9,6 @@ import NonVegIcon from '../../../assets/non-veg-icon.svg';
 import EmptyCart from './EmptyCart';
 
 const CartContainer = ({ selectedFoodItem }) => {
-	console.log('selectedFoodItem', selectedFoodItem);
-
 	const renderCart = Object.values(selectedFoodItem).map((values) => {
 		return (
 			<>

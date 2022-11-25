@@ -5,7 +5,7 @@ import CartContainer from './CartContainer';
 
 import { useRequest } from '../../helpers/request-helper';
 
-import { Container, FlexRow } from './styles';
+import { Container, Flex } from './styles';
 
 const Menu = () => {
 	const [selectedFoodItem, setSelectedFoodItem] = useState({});
@@ -41,14 +41,14 @@ const Menu = () => {
 	return (
 		<Container>
 			{/* <Header selectedFoodItem={selectedFoodItem} /> */}
-			<FlexRow>
+			<Flex>
 				<CardContainer
 					selectedFoodItem={selectedFoodItem}
 					setSelectedFoodItem={setSelectedFoodItem}
 					allFood={allFood}
 				/>
 				<CartContainer selectedFoodItem={selectedFoodItem} />
-			</FlexRow>
+			</Flex>
 		</Container>
 	);
 };
