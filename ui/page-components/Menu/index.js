@@ -20,7 +20,7 @@ const Menu = () => {
 
 	const listAllFoods = () => {
 		getFood({
-			url: `/admin/product/all?productType=${''}&name=${''}`,
+			url: `/product/all?productType=${''}&name=${''}`,
 			headers: {
 				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
 			},
