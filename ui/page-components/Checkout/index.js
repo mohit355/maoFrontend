@@ -36,7 +36,10 @@ const Checkout = () => {
 	const [selectedAddress, setSelectedAddress] = useState(null);
 	const [selectedOutlet, setSelectedOutlet] = useState(null);
 	const [showSelectedAddress, setShowSelectedAddress] = useState(false);
+	const [discountAppliedDetails, setDiscountAppliedDetails] = useState(0)
+	const [foodTotal, setFoodTotal] = useState(0);
 	const [suggestion, setSuggestion] = useState('')
+
 	useEffect(() => {
 		const items = JSON.parse(localStorage.getItem('checkoutItem'));
 		setSelectedFoodItem(items);
@@ -58,73 +61,61 @@ const Checkout = () => {
 		{ manual: true },
 	);
 
-	// const renderCart = Object.values(selectedFoodItem).map((values) => {
-	// 	return (
-	// 		<>
-	// 			{values?.half >= 1 && (
-	// 				<FlexRow
-	// 					style={{
-	// 						marginTop: '20px',
-	// 						width: '75%',
-	// 						marginLeft: 'auto',
-	// 						marginRight: 'auto',
-	// 					}}
-	// 				>
-	// 					<FlexColumn style={{ width: '70%' }}>
-	// 						<FlexRow>
-	// 							{values?.productType === 'veg' ? (
-	// 								<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
-	// 							) : (
-	// 								<NonVegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
-	// 							)}
-	// 							{values?.foodName} (Half)
-	// 						</FlexRow>
-	// 					</FlexColumn>
-	// 					<FlexColumn style={{ width: '10%' }}>X {values?.half}</FlexColumn>
-	// 					<FlexColumn style={{ width: '25%', textAlign: 'right' }}>
-	// 						₹ {values?.halfPrice}
-	// 					</FlexColumn>
-	// 				</FlexRow>
-	// 			)}
-	// 			{values?.full >= 1 && (
-	// 				<FlexRow
-	// 					style={{
-	// 						marginTop: '20px',
-	// 						width: '75%',
-	// 						marginLeft: 'auto',
-	// 						marginRight: 'auto',
-	// 					}}
-	// 				>
-	// 					<FlexColumn style={{ width: '70%' }}>
-	// 						<FlexRow>
-	// 							{values?.productType === 'veg' ? (
-	// 								<VegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
-	// 							) : (
-	// 								<NonVegIcon style={{ marginTop: 'auto', marginRight: '8px' }} />
-	// 							)}
-	// 							{values?.foodName} {values?.halfPrice && '(Full)'}
-	// 						</FlexRow>
-	// 					</FlexColumn>
-	// 					<FlexColumn style={{ width: '10%' }}>X {values?.full}</FlexColumn>
-	// 					<FlexColumn style={{ width: '25%', textAlign: 'right' }}>
-	// 						{' '}
-	// 						₹ {values?.fullPrice}
-	// 					</FlexColumn>
-	// 				</FlexRow>
-	// 			)}
-	// 		</>
-	// 	);
-	// });
+	const [{ loading: loadingDiscount }, applicableDiscountApi] = useRequest(
+		{
+			url: '/discount/discountByOrderPrice',
+			method: 'POST',
+		},
+		{ manual: true },
+	);
 
-	let foodTotal = 0;
-	Object.values(selectedFoodItem).forEach((values) => {
-		if (values?.half >= 1) {
-			foodTotal += values?.halfPrice * values?.half;
+	const getApplicableDiscount= async ()=>{
+		let payload={priceRange:foodTotal}
+		await applicableDiscountApi({
+			data: payload,
+			headers: {
+				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
+			},
+		}).then((result)=>{
+			console.log("RESULT ",result);
+			const dis=result.data.data;
+			setDiscountAppliedDetails(dis);
+		}).catch((err)=>{
+			console.log("R ",err);
+		})
+	}
+
+	useEffect(() => {
+	  
+		if(discountAppliedDetails.totalDiscountAmount){
+			setFoodTotal(foodTotal-discountAppliedDetails.totalDiscountAmount)
 		}
-		if (values?.full >= 1) {
-			foodTotal += values?.fullPrice * values?.full;
+	}, [discountAppliedDetails.totalDiscountAmount])
+	
+
+	
+	useEffect(() => {
+		let totalPrice=0;
+		console.log("selectedFoodItem asasa ",selectedFoodItem);
+		Object.values(selectedFoodItem).forEach((values) => {
+			if (values?.half >= 1) {
+				totalPrice += values?.halfPrice * values?.half;
+			}
+			if (values?.full >= 1) {
+				totalPrice += values?.fullPrice * values?.full;
+			}
+		});
+		setFoodTotal(totalPrice);
+	}, [selectedFoodItem])
+	
+
+	useEffect(() => {	  
+		if(foodTotal && !discountAppliedDetails){
+			getApplicableDiscount();
 		}
-	});
+	}, [foodTotal])
+	
+
 
 	const handleClose = (event, reason) => {
 		// if (reason === 'clickaway') {
@@ -163,6 +154,7 @@ const Checkout = () => {
 			addressId: selectedAddress.id,
 			modeOfPayment: 'cash',
 			outletName: selectedOutlet.value,
+			discountId:'',
 		};
 		placeOrderApi({
 			data: payload,
@@ -227,7 +219,7 @@ const Checkout = () => {
 								<Description>
 									You choosed awesome item, please go ahead to complete your order
 								</Description>
-
+								{/* {JSON.stringify(discountAppliedDetails)} */}
 								<Instruction
 									onChange={(e) => setSuggestion(e.target.value)}
 									value={suggestion}
@@ -235,14 +227,42 @@ const Checkout = () => {
 								/>
 								<Line />
 								<FoodDetails selectedFoodItem={selectedFoodItem} />
-								<ApplyCoupon>
+								{
+									discountAppliedDetails.discounts &&
+									<>
+										<ApplyCoupon>
 									<ApplyCouponButton>
 										<LocalOfferOutlinedIcon
 											style={{ marginTop: 'auto', marginRight: '8px' }}
 										/>{' '}
-										Apply Coupon
-									</ApplyCouponButton>
+										
+										{discountAppliedDetails.discounts!==[]?<>
+											{discountAppliedDetails.discounts.discountType === 'Flat/Absolute' && 'Rs '}
+										{discountAppliedDetails.discounts.discountValue
+											? `${discountAppliedDetails.discounts.discountValue} `
+											: '____'}
+										{discountAppliedDetails.discounts.discountType === 'Percentage' && '%'} off on order above{' '}
+										{discountAppliedDetails.discounts.discountOnOrderAbove
+											? discountAppliedDetails.discounts.discountOnOrderAbove
+											: '____'}
+										</>:<>
+											Not applicable for Discount
+										</>}
+										</ApplyCouponButton>
 								</ApplyCoupon>
+								<FlexRow
+								style={{
+									marginTop: '20px',
+									width: '75%',
+									marginLeft: 'auto',
+									marginRight: 'auto',
+								}}
+								>
+								<FlexColumn style={{ width: '90%' }}>Total Discount </FlexColumn>
+								<FlexColumn>₹ {discountAppliedDetails.totalDiscountAmount}</FlexColumn>
+								</FlexRow>
+									</>
+								}
 								<FlexRow
 									style={{
 										marginTop: '15%',
