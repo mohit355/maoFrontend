@@ -157,6 +157,12 @@ const ManageAddress = () => {
 		})
 	}
 
+	const handleAddAddress=()=>{
+
+		setEditableAddress(null)
+		handleModalOpen();
+	}
+
 
 	return (
 		<Container>
@@ -182,7 +188,7 @@ const ManageAddress = () => {
 					</AddressContainer>
 				)
 			})}
-			<AddressContainer onClick={handleModalOpen}  style={{border:'2px solid green',cursor:'pointer'}} >
+			<AddressContainer onClick={handleAddAddress}  style={{border:'2px solid green',cursor:'pointer'}} >
 						<div style={{display:'flex',alignItems:'center', justifyContent:'center',fontWeight:'bolder'}}>
 							+ Add new address
 						</div>

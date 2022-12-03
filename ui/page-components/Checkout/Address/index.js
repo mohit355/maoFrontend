@@ -70,7 +70,7 @@ const Address = ({showSelectedAddress,setShowSelectedAddress, handleModalClose,s
 	
 
 	return (
-		<Container>
+		<Container style={{border:'1px dotted gray', padding:'12px'}} >
 			{selectedAddress ? <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}} >
 				<SubTitle style={{ marginBottom: '40px' }}>Delivery Address  <CheckIcon  style={{color:'green'}} /> </SubTitle>
 				<div style={{cursor:'pointer',color:'red'}} onClick={handleChangeAddress} >
@@ -97,7 +97,7 @@ const Address = ({showSelectedAddress,setShowSelectedAddress, handleModalClose,s
 				</AddressCard>
 				})
 				}
-				<AddNewAddress onClick={handleModalOpen}>Add New Address</AddNewAddress>
+				<AddNewAddress onClick={handleModalOpen}>ADD NEW ADDRESS</AddNewAddress>
 				</div>
 			}
 

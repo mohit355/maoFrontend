@@ -92,8 +92,6 @@ const Checkout = () => {
 		}
 	}, [discountAppliedDetails.totalDiscountAmount])
 	
-
-	
 	useEffect(() => {
 		let totalPrice=0;
 		console.log("selectedFoodItem asasa ",selectedFoodItem);
@@ -154,7 +152,7 @@ const Checkout = () => {
 			addressId: selectedAddress.id,
 			modeOfPayment: 'cash',
 			outletName: selectedOutlet.value,
-			discountId:'',
+			discountId:discountAppliedDetails?.discounts?.id || null,
 		};
 		placeOrderApi({
 			data: payload,
@@ -207,10 +205,19 @@ const Checkout = () => {
 				<FlexRow>
 					<AddressContainer>
 						<Address setShowSelectedAddress={setShowSelectedAddress} showSelectedAddress={showSelectedAddress} addressModal={addressModal} setAddressModal={setAddressModal} handleModalClose={handleModalClose} handleAddAddress={handleAddAddress} setSelectedAddress={setSelectedAddress} selectedAddress={selectedAddress} />
-						<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-							<Text>Select Outlet</Text>
-							<Select onChange={setSelectedOutlet} options={outlets} />
-						</FlexRow>
+						<FlexColumn style={{ marginTop:'12px', padding:'20px', border:'1px dotted gray' }}>
+								<Text style={{marginTop:'0px'}}>Select Outlet</Text>
+							<FlexRow>
+								<Select  onChange={setSelectedOutlet} options={outlets} />
+							</FlexRow>
+						</FlexColumn>
+						<FlexColumn style={{justifyContent: 'space-between',marginTop:'12px', padding:'20px',  border:'1px dotted gray'}}>
+							<Text style={{marginTop:'0px'}} >Payment Method</Text>
+							<FlexRow>
+								<input type="radio" id="html" name="fav_language" value="cod" checked/>
+								<label for="cod">Cash on Delivery (COD)</label>
+							</FlexRow>
+						</FlexColumn>
 					</AddressContainer>
 					<CheckoutContainer>
 						<SubTitle>Cart Details</SubTitle>
@@ -219,7 +226,6 @@ const Checkout = () => {
 								<Description>
 									You choosed awesome item, please go ahead to complete your order
 								</Description>
-								{/* {JSON.stringify(discountAppliedDetails)} */}
 								<Instruction
 									onChange={(e) => setSuggestion(e.target.value)}
 									value={suggestion}
@@ -231,51 +237,52 @@ const Checkout = () => {
 									discountAppliedDetails.discounts &&
 									<>
 										<ApplyCoupon>
-									<ApplyCouponButton>
-										<LocalOfferOutlinedIcon
-											style={{ marginTop: 'auto', marginRight: '8px' }}
-										/>{' '}
-										
-										{discountAppliedDetails.discounts!==[]?<>
-											{discountAppliedDetails.discounts.discountType === 'Flat/Absolute' && 'Rs '}
-										{discountAppliedDetails.discounts.discountValue
-											? `${discountAppliedDetails.discounts.discountValue} `
-											: '____'}
-										{discountAppliedDetails.discounts.discountType === 'Percentage' && '%'} off on order above{' '}
-										{discountAppliedDetails.discounts.discountOnOrderAbove
-											? discountAppliedDetails.discounts.discountOnOrderAbove
-											: '____'}
-										</>:<>
-											Not applicable for Discount
-										</>}
-										</ApplyCouponButton>
-								</ApplyCoupon>
-								<FlexRow
-								style={{
-									marginTop: '20px',
-									width: '75%',
-									marginLeft: 'auto',
-									marginRight: 'auto',
-								}}
-								>
-								<FlexColumn style={{ width: '90%' }}>Total Discount </FlexColumn>
-								<FlexColumn>₹ {discountAppliedDetails.totalDiscountAmount}</FlexColumn>
-								</FlexRow>
-									</>
+											<ApplyCouponButton>
+												<LocalOfferOutlinedIcon
+													style={{ marginTop: 'auto', marginRight: '8px' }}
+												/>{' '}
+												
+												{Object.keys(discountAppliedDetails.discounts).length>0?<>
+													{discountAppliedDetails.discounts.discountType === 'Flat/Absolute' && 'Rs '}
+												{discountAppliedDetails.discounts.discountValue
+													? `${discountAppliedDetails.discounts.discountValue} `
+													: '____'}
+												{discountAppliedDetails.discounts.discountType === 'Percentage' && '%'} off on order above{' '}
+												{discountAppliedDetails.discounts.discountOnOrderAbove
+													? discountAppliedDetails.discounts.discountOnOrderAbove
+													: '____'}
+												</>:<>
+													Not applicable for Discount
+												</>}
+											</ApplyCouponButton>
+										</ApplyCoupon>
+								{Object.keys(discountAppliedDetails.discounts).length>0 && 
+									<FlexRow
+									style={{
+										width: '100%',
+										marginLeft: 'auto',
+										marginRight: 'auto',
+									}}
+									>
+									<FlexColumn style={{ width: '90%' }}>Total Discount </FlexColumn>
+									<FlexColumn>₹ {discountAppliedDetails.totalDiscountAmount}</FlexColumn>
+									</FlexRow>
+								}
+								</>
 								}
 								<FlexRow
 									style={{
-										marginTop: '15%',
-										width: '75%',
+										marginTop: '5%',
+										width: '100%',
 										marginLeft: 'auto',
 										marginRight: 'auto',
 									}}
 								>
-									<FlexColumn style={{ width: '50%' }}>
+									<FlexColumn style={{ width: '85%' }}>
 										<SubTotal>Subtotal</SubTotal>
 									</FlexColumn>
-									<FlexColumn style={{ width: '50%', textAlign: 'right' }}>
-										₹ {foodTotal}
+									<FlexColumn style={{ width: '30%', textAlign: 'right' }}>
+										<SubTotal>₹ {foodTotal}</SubTotal>
 									</FlexColumn>
 								</FlexRow>
 							</>

@@ -9,23 +9,29 @@ export const CheckoutContainer = styled.div`
 	padding: 28px;
 	background: #ffffff;
 	margin: 12px;
-	width: 60%;
+	width: 50%;
 `;
 
 export const AddressContainer = styled.div`
 	border-radius: 4px;
 	padding: 28px;
 	background: #ffffff;
-	width: 40%;
+	width: 50%;
 	margin: 12px;
+
 `;
 
 export const FinalCheckout = styled.div`
 	border-radius: 4px;
 	padding: 28px;
 	background: #ffffff;
-	width: 98%;
+	width: 100%;
 	margin: 12px;
+	margin-right:0px;
+	padding-right:0px;
+	display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 	select {
 		background: transparent;
 		color: #57595c;
@@ -81,7 +87,7 @@ export const Instruction = styled.input`
 	background: #f2f2f3;
 	border: none;
 	width: 100%;
-	height: 14%;
+	height: 60px;
 	padding: 16px;
 	font-size: 12px;
 	color: #62666a;

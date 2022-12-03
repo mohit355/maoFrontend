@@ -16,6 +16,8 @@ const Orders = () => {
 		{ value: '', label: 'All' },
 		{ value: 'order_received', label: 'Order Received' },
 		{ value: 'preparing', label: 'Preparing' },
+		{ value: 'Out for delivery', label: 'Out for delivery' },
+		{ value: 'Delivered', label: 'Delivered' },
 	];
 	const [searchedOrderId, setSearchedOrderId] = useState('');
 	const [selectedOutletName, setSelectedOutletName] = useState({ value: '', label: 'All' })
@@ -86,6 +88,7 @@ const Orders = () => {
 					margin: '12px',
 				}}
 			>
+				<h4>Total active orders: {orders.length}</h4>
 				{orders.map((order) => (
 					<Order
 						key={order.id}

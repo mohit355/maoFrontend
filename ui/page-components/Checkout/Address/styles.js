@@ -5,7 +5,6 @@ export const Container = styled.div``;
 export const AddressCard = styled.div`
 	border: 1px solid #caccce;
 	padding: 20px;
-	margin-top:10px;
 	margin-bottom:10px;
 `;
 
@@ -33,11 +32,15 @@ export const DeliverHere = styled.label`
 	cursor: pointer;
 	font-weight: 700;
 	font-size: 14px;
-	width:130px
+	width:130px;
+	display:flex;
+	justify-content:center;
 `;
 
 export const AddNewAddress = styled.label`
 	display: flex;
+	align-items:center;
+	justify-content:center;
 	color: #ffffff;
 	background: #b68949;
 	border: none;

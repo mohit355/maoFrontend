@@ -24,7 +24,7 @@ const AddressForm = ({onSubmit,editAddress}) => {
 	});
 
 	useEffect(() => {
-		if(editAddress){
+		if(editAddress!==null){
 			setAddress({
 				houseNo:editAddress.houseNo,
         		area:editAddress.area,
@@ -55,9 +55,21 @@ const AddressForm = ({onSubmit,editAddress}) => {
         e.preventDefault()
         let emptyFieldName=''
 		Object.keys(address).forEach(fieldName => {
-			if(address[fieldName].length===0 && emptyFieldName===''){
-				emptyFieldName=fieldName
-				return;
+			
+			if(fieldName==="receiverPhoneNumber"){
+				if(address.addressType==="Friends & Family"){
+					if(address[fieldName].length===0 && emptyFieldName===''){
+						emptyFieldName=fieldName
+						return;
+					}
+				}
+				
+			}
+			else{
+				if(address[fieldName].length===0 && emptyFieldName===''){
+					emptyFieldName=fieldName
+					return;
+				}
 			}
 		});
 		if(emptyFieldName){
@@ -68,7 +80,7 @@ const AddressForm = ({onSubmit,editAddress}) => {
 			});
 		}
 		else{
-			const isEdit=editAddress!=={}?'edit':'add'
+			const isEdit=editAddress!==null?'edit':'add'
 			const isSuccess=onSubmit(address,isEdit);
 
             if(!isSuccess){
@@ -136,12 +148,12 @@ const AddressForm = ({onSubmit,editAddress}) => {
 				<select id="addressType" name="addressType" value={address.addressType}
                     onChange={handleOnChange} >
                     <option value="" >Select Address type</option>
-                    <option value="home" >Home</option>
-                    <option value="office" >work/Office</option>
-                    <option value="friendAndFamily" >Friends and Family</option>
-                    <option value="other">Others</option>
+                    <option value="Home" >Home</option>
+                    <option value="work/Office" >work/Office</option>
+                    <option value="Friends & Family" >Friends and Family</option>
+                    <option value="Others">Others</option>
                 </select>
-                {address.addressType==="friendAndFamily" && <>
+                {address.addressType==="Friends & Family" && <>
                     <label htmlFor="receiverPhoneNumber">Receiver Phone Number</label>
 				<input
 					required
@@ -153,7 +165,7 @@ const AddressForm = ({onSubmit,editAddress}) => {
                     placeholder="Phone number"
 				/>
                 </>}
-				<AddButton onClick={handleAddressSubmit} >{editAddress?'Update address':'Add address'}</AddButton>
+				<AddButton onClick={handleAddressSubmit} >{editAddress!==null?'Update address':'Add address'}</AddButton>
 			</Form>
             <ShowMessage
 				handleClose={handleClose}

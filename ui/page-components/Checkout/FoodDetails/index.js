@@ -13,7 +13,7 @@ const FoodDetails = ({ selectedFoodItem }) => {
 							<FlexRow
 								style={{
 									marginTop: '20px',
-									width: '75%',
+									width: '100%',
 									marginLeft: 'auto',
 									marginRight: 'auto',
 								}}
@@ -38,7 +38,7 @@ const FoodDetails = ({ selectedFoodItem }) => {
 							<FlexRow
 								style={{
 									marginTop: '20px',
-									width: '75%',
+									width: '100%',
 									marginLeft: 'auto',
 									marginRight: 'auto',
 								}}
