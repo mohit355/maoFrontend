@@ -23,8 +23,6 @@ const Orders = () => {
 	const [selectedOutletName, setSelectedOutletName] = useState({ value: '', label: 'All' })
 	const [selectedOrderStatus, setSelectedOrderStatus] = useState({ value: '', label: 'All' },)
 
-
-
 	const [{ loading: getAllOrdersLoading }, getAllOrdersApi] = useRequest(
 		{
 			url: `/order/all?status=${selectedOrderStatus.value}&orderId=${searchedOrderId}&outletName=${selectedOutletName.value}`,

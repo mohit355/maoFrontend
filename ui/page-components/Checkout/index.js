@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Select from 'react-select';
 import Snackbar from '@mui/material/Snackbar';
 import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
@@ -24,6 +24,8 @@ import Address from './Address';
 import FoodDetails from './FoodDetails';
 import { useRequest } from '../../helpers/request-helper';
 import { outlets } from '../../common/SelectOutlets';
+import { SessionContext } from '../_app';
+import { useRouter } from 'next/router';
 
 const Checkout = () => {
 	const [showNotification, setShowNotification] = useState({
@@ -39,7 +41,8 @@ const Checkout = () => {
 	const [discountAppliedDetails, setDiscountAppliedDetails] = useState(0)
 	const [foodTotal, setFoodTotal] = useState(0);
 	const [suggestion, setSuggestion] = useState('')
-
+	const {userDetails, setUserDetails}= useContext(SessionContext);
+	const router=useRouter();
 	useEffect(() => {
 		const items = JSON.parse(localStorage.getItem('checkoutItem'));
 		setSelectedFoodItem(items);
@@ -197,6 +200,10 @@ const Checkout = () => {
 		})
 	}
 
+	const handleLoginSignupClick=()=>{
+		router.push("/auth")
+	}
+
 	return (
 		<Container>
 			<Title>Checkout</Title>
@@ -204,20 +211,29 @@ const Checkout = () => {
 				<FlexColumn>
 				<FlexRow>
 					<AddressContainer>
-						<Address setShowSelectedAddress={setShowSelectedAddress} showSelectedAddress={showSelectedAddress} addressModal={addressModal} setAddressModal={setAddressModal} handleModalClose={handleModalClose} handleAddAddress={handleAddAddress} setSelectedAddress={setSelectedAddress} selectedAddress={selectedAddress} />
-						<FlexColumn style={{ marginTop:'12px', padding:'20px', border:'1px dotted gray' }}>
-								<Text style={{marginTop:'0px'}}>Select Outlet</Text>
-							<FlexRow>
-								<Select  onChange={setSelectedOutlet} options={outlets} />
-							</FlexRow>
+					{
+						userDetails && userDetails.id?<>
+							<Address setShowSelectedAddress={setShowSelectedAddress} showSelectedAddress={showSelectedAddress} addressModal={addressModal} setAddressModal={setAddressModal} handleModalClose={handleModalClose} handleAddAddress={handleAddAddress} setSelectedAddress={setSelectedAddress} selectedAddress={selectedAddress} />
+							<FlexColumn style={{ marginTop:'12px', padding:'20px', border:'1px dotted gray' }}>
+									<Text style={{marginTop:'0px'}}>Select Outlet</Text>
+								<FlexRow>
+									<Select  onChange={setSelectedOutlet} options={outlets} />
+								</FlexRow>
+							</FlexColumn>
+							<FlexColumn style={{justifyContent: 'space-between',marginTop:'12px', padding:'20px',  border:'1px dotted gray'}}>
+								<Text style={{marginTop:'0px'}} >Payment Method</Text>
+								<FlexRow>
+									<input type="radio" id="html" name="fav_language" value="cod" checked/>
+									<label for="cod">Cash on Delivery (COD)</label>
+								</FlexRow>
+							</FlexColumn>
+						</>:<FlexColumn>
+							To place your order now, log in to your existing account or sign up.
+								<ConfirmOrderButton onClick={handleLoginSignupClick} style={{marginTop:'20px', width:'fit-content'}}  >Login / Signup </ConfirmOrderButton>
+
 						</FlexColumn>
-						<FlexColumn style={{justifyContent: 'space-between',marginTop:'12px', padding:'20px',  border:'1px dotted gray'}}>
-							<Text style={{marginTop:'0px'}} >Payment Method</Text>
-							<FlexRow>
-								<input type="radio" id="html" name="fav_language" value="cod" checked/>
-								<label for="cod">Cash on Delivery (COD)</label>
-							</FlexRow>
-						</FlexColumn>
+					}
+						
 					</AddressContainer>
 					<CheckoutContainer>
 						<SubTitle>Cart Details</SubTitle>
@@ -289,7 +305,7 @@ const Checkout = () => {
 						) : null}
 						<FinalCheckout>
 							<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-								<ConfirmOrderButton onClick={placeOrder} >CONFIRM ORDER</ConfirmOrderButton>
+								<ConfirmOrderButton disabled={ userDetails.id!==''} onClick={placeOrder} >CONFIRM ORDER</ConfirmOrderButton>
 							</FlexRow>
 						</FinalCheckout>
 					</CheckoutContainer>

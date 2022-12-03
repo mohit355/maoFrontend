@@ -24,7 +24,7 @@ const AddressForm = ({onSubmit,editAddress}) => {
 	});
 
 	useEffect(() => {
-		if(editAddress!==null){
+		if(editAddress){
 			setAddress({
 				houseNo:editAddress.houseNo,
         		area:editAddress.area,
@@ -165,7 +165,7 @@ const AddressForm = ({onSubmit,editAddress}) => {
                     placeholder="Phone number"
 				/>
                 </>}
-				<AddButton onClick={handleAddressSubmit} >{editAddress!==null?'Update address':'Add address'}</AddButton>
+				<AddButton onClick={handleAddressSubmit} >{editAddress?'Update address':'Add address'}</AddButton>
 			</Form>
             <ShowMessage
 				handleClose={handleClose}

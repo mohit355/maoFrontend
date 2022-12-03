@@ -130,4 +130,9 @@ export const ConfirmOrderButton = styled.button`
 	cursor: pointer;
 	font-weight: 700;
 	font-size: 14px;
+
+	:disabled{
+		background:gray;
+		cursor:not-allowed;
+	}
 `;
