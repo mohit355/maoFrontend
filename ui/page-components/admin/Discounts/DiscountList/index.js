@@ -71,34 +71,6 @@ const DiscountList = () => {
 
 	return (
 		<Container>
-			{/* {getAllDiscountsLoading ? (
-				<CircularProgress />
-			) : (
-				<>
-					{allDiscounts.map((discount) => {
-						return (
-							<div key={discount.id}>
-								{discount.id}
-								<Link href={`/admin/discounts/edit/${discount.id}`}>
-									<EditIcon />
-								</Link>
-								<span onClick={() => handleDeleteDiscount(discount.id)}>
-									<DeleteIcon />
-								</span>
-							</div>
-						);
-					})}
-					<ConfirmModal
-						open={openDeleteModal}
-						loading={deleteLoading}
-						onConfirm={handleDelete}
-						onClose={handleDeleteModalClose}
-						heading="Delete discount"
-						content="Are you sure you want to delete the discount"
-						buttonName={['No', 'Yes']}
-					/>
-				</>
-			)} */}
 			<CardList
 				fields={config.fields}
 				data={allDiscounts}
