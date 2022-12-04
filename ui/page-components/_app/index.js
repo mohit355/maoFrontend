@@ -23,23 +23,21 @@ function Mao({ Component, pageProps }) {
 		{ manual: true },
 	);
 
-	const checkTokenExpiry=()=>{
-		var hours = 1;
-		var now = new Date().getTime();
-		var setupTime = localStorage.getItem('afjalMaoTokenExpiry');
+	const checkTokenExpiry = () => {
+		const hours = 1;
+		const now = new Date().getTime();
+		const setupTime = localStorage.getItem('afjalMaoTokenExpiry');
 		if (setupTime == null) {
 			return true;
-		} else {
-			if(now-setupTime > hours*60*60*1000) {
-				return true;
-			}
+		}
+		if (now - setupTime > hours * 60 * 60 * 1000) {
+			return true;
 		}
 		return false;
-	}
+	};
 
 	useEffect(() => {
 		async function getMyDetails() {
-
 			await getMe({
 				headers: {
 					'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
@@ -56,17 +54,15 @@ function Mao({ Component, pageProps }) {
 					setUserDetails({});
 				});
 		}
-		if(!localStorage.getItem('afjalMao-x-access-token')){
+		if (!localStorage.getItem('afjalMao-x-access-token')) {
 			setUserDetails({});
 			localStorage.removeItem('afjalMaoTokenExpiry');
-		}
-		else{
-			const isExpired=checkTokenExpiry();
-			if(isExpired){
+		} else {
+			const isExpired = checkTokenExpiry();
+			if (isExpired) {
 				localStorage.removeItem('afjalMao-x-access-token');
 				localStorage.removeItem('afjalMaoTokenExpiry');
-			}
-			else{
+			} else {
 				getMyDetails();
 			}
 		}
@@ -92,11 +88,12 @@ function Mao({ Component, pageProps }) {
 			/>
 
 			<link href="https://fonts.cdnfonts.com/css/sketsa-ramadhan" rel="stylesheet" />
-			{
-				!getMeLoading && <SessionContext.Provider value={{ userDetails, setUserDetails }}>
-				{Components}
-			</SessionContext.Provider>
-			}
+
+			{!getMeLoading && (
+				<SessionContext.Provider value={{ userDetails, setUserDetails }}>
+					{Components}
+				</SessionContext.Provider>
+			)}
 		</>
 	);
 }

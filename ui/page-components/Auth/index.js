@@ -126,8 +126,8 @@ function PageSignin() {
 			})
 				.then((result) => {
 					localStorage.setItem('afjalMao-x-access-token', result.data.token);
-					var now = new Date().getTime();
-					localStorage.getItem('afjalMaoTokenExpiry',now);
+					const now = new Date().getTime();
+					localStorage.getItem('afjalMaoTokenExpiry', now);
 					const { user } = result.data;
 					setUserDetails({
 						id: user.id,
@@ -158,8 +158,8 @@ function PageSignin() {
 			.then((result) => {
 				console.log(result);
 				localStorage.setItem('afjalMao-x-access-token', result.data.token);
-				var now = new Date().getTime();
-				localStorage.setItem('afjalMaoTokenExpiry',now);
+				const now = new Date().getTime();
+				localStorage.setItem('afjalMaoTokenExpiry', now);
 				const { user } = result.data;
 				setUserDetails({
 					id: user.id,
@@ -204,7 +204,7 @@ function PageSignin() {
 						<div>
 							<img
 								style={{ height: '180px' }}
-								alt="cogo-logo"
+								alt="logo"
 								src="https://cogoport-testing.sgp1.digitaloceanspaces.com/e46a66b49abf496d9b4ba99ba5266893/am-logo.png"
 							/>
 						</div>
