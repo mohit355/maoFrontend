@@ -90,7 +90,7 @@ const Products = () => {
 							alignItems: 'center',
 						}}
 					>
-						<label className="header-label">Food Type</label>
+						<label className="header-label">Food Category</label>
 						<Select
 							options={foodCategoryType}
 							isSearchable
@@ -98,7 +98,7 @@ const Products = () => {
 							onChange={setSelectedFoodCategory}
 							className="header-select"
 						/>
-						<label className="header-label">Food Category</label>
+						<label className="header-label">Food Type</label>
 						<Select
 							options={foodTypeOption}
 							value={selectedFoodType}
