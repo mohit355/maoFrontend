@@ -1,9 +1,8 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Title } from './styles';
-import {foodCategoryType} from '../../../../common/selectFoodCategory/index';
+import { foodCategoryType } from '../../../../common/selectFoodCategory/index';
 import ShowMessage from '../../../ErrorHandling/showMessage';
-
 
 const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	const [productDetails, setProductDetails] = useState({
@@ -42,22 +41,24 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	const handleProductSubmit = (event) => {
 		event.preventDefault();
 		console.log(productDetails);
-		let emptyFieldName=''
-		Object.keys(productDetails).forEach(fieldName => {
-			if(fieldName!=="productDesc" && productDetails[fieldName].length===0 && emptyFieldName===''){
+		let emptyFieldName = '';
+		Object.keys(productDetails).forEach((fieldName) => {
+			if (
+				fieldName !== 'productDesc' &&
+				productDetails[fieldName].length === 0 &&
+				emptyFieldName === ''
+			) {
 				console.log(fieldName);
-				emptyFieldName=fieldName
-				return;
+				emptyFieldName = fieldName;
 			}
 		});
-		if(emptyFieldName){
+		if (emptyFieldName) {
 			setShowNotification({
-					type: 'error',
-					open: true,
-					msg: `${emptyFieldName} is required`,
+				type: 'error',
+				open: true,
+				msg: `${emptyFieldName} is required`,
 			});
-		}
-		else{
+		} else {
 			onSubmit(productDetails);
 		}
 	};
@@ -125,7 +126,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					name="productType"
 					value={productDetails.productType}
 					onChange={handleProductDetailsChange}
-				>	
+				>
 					<option value="">Select food type</option>
 					<option value="veg">veg</option>
 					<option value="non-veg">non-veg</option>
@@ -137,13 +138,21 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					name="productCategory"
 					value={productDetails.productCategory}
 					onChange={handleProductDetailsChange}
-				>	
-					{foodCategoryType.map((category,index)=>{
-						if(index===0){
-							return <option key={category.value} value={category.value} >Select Category</option>
+				>
+					{foodCategoryType.map((category, index) => {
+						if (index === 0) {
+							return (
+								<option key={category.value} value={category.value}>
+									Select Category
+								</option>
+							);
 						}
-						if(index>0){
-							return <option key={category.value} value={category.value} >{category.label}</option>
+						if (index > 0) {
+							return (
+								<option key={category.value} value={category.value}>
+									{category.label}
+								</option>
+							);
 						}
 					})}
 				</select>
