@@ -305,7 +305,7 @@ const Checkout = () => {
 						) : null}
 						<FinalCheckout>
 							<FlexRow style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-								<ConfirmOrderButton disabled={ userDetails.id!==''} onClick={placeOrder} >CONFIRM ORDER</ConfirmOrderButton>
+								<ConfirmOrderButton disabled={!userDetails.id} onClick={placeOrder} >CONFIRM ORDER</ConfirmOrderButton>
 							</FlexRow>
 						</FinalCheckout>
 					</CheckoutContainer>
