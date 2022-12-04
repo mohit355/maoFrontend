@@ -9,6 +9,7 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import MenuIcon from '@material-ui/icons/MenuBook';
 
 import { ModalContainer, Text } from './styles';
+import DiscountsPage from '../../../DiscountsPage';
 
 
 
@@ -24,19 +25,12 @@ const UserNavItems = ({isSideDrawerOpen}) => {
 		setOpenOfferModal(false);
 	};
 
-    const offerContent = (
-		<ModalContainer>
-			<h2 id="simple-modal-title">Offer</h2>
-			<p id="simple-modal-description">This is offer Modal</p>
-		</ModalContainer>
-	);
-
     return (
         <>
             <NavigationItem link="/menu" exact>
                 Menu
             </NavigationItem>
-            <NavigationItem link="/menu" exact>
+            <NavigationItem link="/" exact>
                 <Tooltip title="Offers and Discounts" arrow>
 					<Button onClick={handleModalOpen}>
 						{!isSideDrawerOpen && <LocalOfferIcon style={{ color: '#ffffff' }} />} {' '} {isSideDrawerOpen && <Text>Offers</Text>}
@@ -48,11 +42,11 @@ const UserNavItems = ({isSideDrawerOpen}) => {
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
                 >
-                        {offerContent}
+                        <DiscountsPage />
                 </Modal>
             </NavigationItem>
             
-            <NavigationItem link="/menu" exact>
+            <NavigationItem link="/checkout" exact>
                 <Tooltip title="Cart" arrow>
 				    <Button>
 					    <Badge color="secondary" badgeContent={foodCount}>
