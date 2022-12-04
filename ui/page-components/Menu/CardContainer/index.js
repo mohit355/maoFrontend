@@ -31,8 +31,8 @@ import { FlexColumn, FlexRow } from '../../../common/styles';
 const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 	const [addFood, setAddFood] = useState(null);
 
-	const handlePlus = (item, quantityTypes) => {
-		const foodItems = { ...selectedFoodItem };
+	const handlePlus =async  (item, quantityTypes) => {
+		let foodItems = { ...selectedFoodItem };
 
 		if (foodItems[item.id]) {
 			const foodItem = foodItems[item.id];
@@ -42,7 +42,7 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 			} else {
 				foodItem.half += 1;
 			}
-
+			foodItems={...foodItems,[item.id]: foodItem}
 			setSelectedFoodItem((prev) => {
 				return {
 					...prev,
@@ -50,29 +50,32 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 				};
 			});
 		} else {
+			const foodDetails={
+				quantity: 1,
+				foodName: item.productName,
+				half: quantityTypes === 'H' ? 1 : 0,
+				full: quantityTypes === 'F' ? 1 : 0,
+				halfPrice: item.productHalfPrice,
+				fullPrice: item.productFullPrice,
+				productType: item.productType,
+			}
+			foodItems={...foodItems,[item.id]: foodDetails}
 			setSelectedFoodItem((prev) => {
 				return {
 					...prev,
-					[item.id]: {
-						quantity: 1,
-						foodName: item.productName,
-						half: quantityTypes === 'H' ? 1 : 0,
-						full: quantityTypes === 'F' ? 1 : 0,
-						halfPrice: item.productHalfPrice,
-						fullPrice: item.productFullPrice,
-						productType: item.productType,
-					},
+					[item.id]: foodDetails,
 				};
 			});
 		}
+		await localStorage.setItem('checkoutItem', JSON.stringify(foodItems));
 	};
 
-	useEffect(() => {
-		localStorage.setItem('checkoutItem', JSON.stringify(selectedFoodItem));
-	}, [selectedFoodItem]);
+	// useEffect(() => {
+	// 	localStorage.setItem('checkoutItem', JSON.stringify(selectedFoodItem));
+	// }, [selectedFoodItem]);
 
 	const handleMinus = (item, quantityTypes) => {
-		const foodItems = { ...selectedFoodItem };
+		let foodItems = { ...selectedFoodItem };
 
 		let foodItem = foodItems[item.id];
 		foodItem.quantity -= 1;
@@ -86,6 +89,8 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 			foodItem = undefined;
 		}
 
+		foodItems={...foodItems,[item.id]: foodItem,}
+		localStorage.setItem('checkoutItem', JSON.stringify(foodItems));
 		setSelectedFoodItem((prev) => {
 			return {
 				...prev,

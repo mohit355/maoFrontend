@@ -35,6 +35,10 @@ const Menu = () => {
 	};
 
 	useEffect(() => {
+		const selectedFoods=localStorage.getItem("checkoutItem");
+		if(selectedFoods){
+			setSelectedFoodItem(JSON.parse(selectedFoods));
+		}
 		listAllFoods();
 	}, []);
 
