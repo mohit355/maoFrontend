@@ -20,8 +20,14 @@ const Orders = () => {
 		{ value: 'Delivered', label: 'Delivered' },
 	];
 	const [searchedOrderId, setSearchedOrderId] = useState('');
-	const [selectedOutletName, setSelectedOutletName] = useState({ value: '', label: 'All' })
-	const [selectedOrderStatus, setSelectedOrderStatus] = useState({ value: '', label: 'All' },)
+	const [selectedOutletName, setSelectedOutletName] = useState({
+		value: '',
+		label: 'All',
+	});
+	const [selectedOrderStatus, setSelectedOrderStatus] = useState({
+		value: '',
+		label: 'All',
+	});
 
 	const [{ loading: getAllOrdersLoading }, getAllOrdersApi] = useRequest(
 		{
@@ -41,8 +47,7 @@ const Orders = () => {
 				setOrders(result.data.data);
 			})
 			.catch(() => {});
-	}, [searchedOrderId,selectedOutletName,selectedOrderStatus]);
-
+	}, [searchedOrderId, selectedOutletName, selectedOrderStatus]);
 
 	return (
 		<Container>
@@ -56,7 +61,9 @@ const Orders = () => {
 			>
 				<Input
 					prefix={<SearchIcon className="search-icon" />}
-					suffix={<CloseIcon onClick={()=>setSearchedOrderId('')} className="cross-icon" />}
+					suffix={
+						<CloseIcon onClick={() => setSearchedOrderId('')} className="cross-icon" />
+					}
 					style={{ width: '260px', marginInline: '10px' }}
 					onChange={(e) => setSearchedOrderId(e.target.value)}
 					value={searchedOrderId}
@@ -72,9 +79,18 @@ const Orders = () => {
 					}}
 				>
 					<label className="header-label">Outlet Name</label>
-					<Select onChange={setSelectedOutletName} value={selectedOutletName} options={outlets} className="header-select" />
+					<Select
+						onChange={setSelectedOutletName}
+						value={selectedOutletName}
+						options={outlets}
+						className="header-select"
+					/>
 					<label className="header-label">Order Status</label>
-					<Select onChange={setSelectedOrderStatus} value={selectedOrderStatus}  options={orderStatus} />
+					<Select
+						onChange={setSelectedOrderStatus}
+						value={selectedOrderStatus}
+						options={orderStatus}
+					/>
 				</FlexRow>
 			</FlexRow>
 
