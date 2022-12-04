@@ -23,6 +23,14 @@ export const Container = styled.div`
 			flex-direction: column;
 		}
 	}
+
+	.header-label {
+		margin-right: 20px;
+	}
+
+	.header-select {
+		margin-right: 20px;
+	}
 `;
 
 export const Title = styled.h1`
