@@ -153,6 +153,7 @@ const Checkout = () => {
 			modeOfPayment: 'cash',
 			outletName: selectedOutlet.value,
 			discountId: discountAppliedDetails?.discounts?.id || null,
+			totalPayableAmount:foodTotal
 		};
 		placeOrderApi({
 			data: payload,

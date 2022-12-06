@@ -65,12 +65,9 @@ const Order = ({
 		const date = dateObj.getUTCDate();
 		const month = dateObj.getUTCMonth();
 		const year = dateObj.getUTCFullYear();
-		const hour = dateObj.getUTCHours();
-		const minutes = dateObj.getUTCMinutes();
+		const localString=dateObj.toLocaleTimeString();
 		return (
-			<span>{`${date}-${month}-${year}, ${hour % 12 < 10 ? `0${hour % 12}` : hour % 12}:${
-				minutes < 10 ? `0${minutes}` : minutes
-			} ${hour < 12 ? 'AM' : 'PM'}`}</span>
+			<span>{`${date}-${month}-${year}, ${localString.substring(0,2)%12}:${dateObj.toLocaleTimeString().substring(3,5)} ${localString.substring(0,2) < 12 ? 'AM' : 'PM'}`}</span>
 		);
 	};
 
@@ -110,22 +107,13 @@ const Order = ({
 								handleOrderStatusChange(e, id);
 							}}
 						/>
-						// <select
-
-						// >
-						// 	<option value="Order received">Order received</option>
-						// 	<option value="Preparing">Preparing</option>
-						// 	<option value="Out for delivery">Out for delivery</option>
-						// 	<option value="Delivered">Delivered</option>
-						// </select>
 					)}
-					{/* {updateOrderLoading && <CircularProgress /> } */}
 				</div>
 			</div>
 			<hr style={{ color: 'black', width: '100%' }} />
-			<div>
+			{suggestion && <div>
 				<h4 style={{ display: 'inline' }}>From customer side :</h4> {suggestion}
-			</div>
+			</div>}
 			<div>
 				<h4>Food ordered:</h4>
 				<OrderedFoodList foodItemList={orderedProduct} />
