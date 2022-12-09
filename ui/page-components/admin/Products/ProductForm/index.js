@@ -8,7 +8,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	const [productDetails, setProductDetails] = useState({
 		productName: '',
 		productImage: '',
-		productHalfPrice: '',
+		productHalfPrice: null,
 		productFullPrice: '',
 		productType: '',
 		productCategory: '',
@@ -44,11 +44,10 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 		let emptyFieldName = '';
 		Object.keys(productDetails).forEach((fieldName) => {
 			if (
-				fieldName !== 'productDesc' &&
+				fieldName !== 'productDesc' && fieldName !== 'productHalfPrice' &&
 				productDetails[fieldName].length === 0 &&
 				emptyFieldName === ''
 			) {
-				console.log(fieldName);
 				emptyFieldName = fieldName;
 			}
 		});
@@ -97,17 +96,6 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					onChange={handleProductDetailsChange}
 					placeholder="Food image link"
 				/>
-				<label htmlFor="productHalfprice">Food's half price *</label>
-				<input
-					type="number"
-					required
-					id="productHalfPrice"
-					name="productHalfPrice"
-					label="Half Rate"
-					value={productDetails.productHalfPrice}
-					onChange={handleProductDetailsChange}
-					placeholder="Half price"
-				/>
 				<label htmlFor="productFullPrice">Food's full price *</label>
 				<input
 					required
@@ -118,6 +106,16 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					value={productDetails.productFullPrice}
 					onChange={handleProductDetailsChange}
 					placeholder="Full price"
+				/>
+				<label htmlFor="productHalfprice">Food's half price <span style={{color:'gray', fontSize:'12px'}} > (Leave it blank if half product is not applicable)</span></label>
+				<input
+					type="number"
+					id="productHalfPrice"
+					name="productHalfPrice"
+					label="Half Rate"
+					value={productDetails.productHalfPrice}
+					onChange={handleProductDetailsChange}
+					placeholder="Half price"
 				/>
 				<label htmlFor="productType">Food Type *</label>
 				<select
