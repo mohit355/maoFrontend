@@ -103,6 +103,7 @@ const Orders = () => {
 				}}
 			>
 				<h4>Total active orders: {orders.length}</h4>
+				{JSON.stringify(orders)}
 				{orders.map((order) => (
 					<Order
 						key={order.id}
@@ -114,6 +115,10 @@ const Orders = () => {
 						orderId={order.orderId}
 						DeliveryAddress={order.Address}
 						orderTime={order.createdAt}
+						outletName={order.outletName}
+						modeOfPayment={order.modeOfPayment}
+						totalPayableAmount={order.totalPayableAmount}
+						totalDiscountedAmount={order.totalDiscountedAmount}
 					/>
 				))}
 			</div>

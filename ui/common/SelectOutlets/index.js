@@ -1,6 +1,6 @@
 export const outlets = [
 	{ value: '', label: 'All' },
-	{ value: 'mazgaon', label: 'Mazgaon' },
-	{ value: 'crawford', label: 'Crawford' },
-	{ value: 'vashi_naka', label: 'Vashi Naka' },
+	{ value: 'Mazgaon', label: 'Mazgaon' },
+	{ value: 'Crawford', label: 'Crawford' },
+	{ value: 'Vashi Naka', label: 'Vashi Naka' },
 ];

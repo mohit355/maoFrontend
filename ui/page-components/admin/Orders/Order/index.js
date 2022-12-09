@@ -16,6 +16,10 @@ const Order = ({
 	User,
 	DeliveryAddress,
 	orderTime,
+	outletName,
+	modeOfPayment,
+	totalPayableAmount,
+	totalDiscountedAmount
 }) => {
 	const [{ loading: updateOrderLoading }, updateOrder] = useRequest(
 		{
@@ -89,7 +93,10 @@ const Order = ({
 			<div
 				style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
 			>
-				<div />
+				<div >
+					<h4>Outlet Name: {outletName}</h4>
+					<h4>Mode of Payment: {modeOfPayment}</h4>
+				</div>
 				<div>
 					{!editOrderStatus && (
 						<p
@@ -116,7 +123,7 @@ const Order = ({
 			</div>}
 			<div>
 				<h4>Food ordered:</h4>
-				<OrderedFoodList foodItemList={orderedProduct} />
+				<OrderedFoodList totalPayableAmount={totalPayableAmount} totalDiscountedAmount={totalDiscountedAmount} foodItemList={orderedProduct} />
 			</div>
 
 			<div>
