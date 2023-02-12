@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { CircularProgress } from '@mui/material';
 import { useRequest } from '../../../../helpers/request-helper';
 import ConfirmModal from '../../../shared/BackDrop/ConfirmModal';
 import CardList from '../../../../common/CardList';
@@ -34,7 +30,9 @@ const DiscountList = () => {
 			.then((response) => {
 				setAllDiscounts(response.data.data);
 			})
-			.catch((err) => {});
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	useEffect(() => {
