@@ -112,10 +112,12 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 
 	return (
 		<Container>
-			<Title>Paneer</Title>
-			<CardCont>
-				{(allFood || []).map((item) => (
-					<Card>
+			{(Object.keys(allFood) || []).map((categoryName) => (
+				<>
+					<Title>{categoryName}</Title>
+					<CardCont>
+					{allFood[categoryName].map(item=>(
+						<Card>
 						<Row>
 							<Image alt="img" src={item?.productImage} />
 							<Column>
@@ -186,9 +188,14 @@ const CardContainer = ({ selectedFoodItem, setSelectedFoodItem, allFood }) => {
 								</FlexRow>
 							</Column>
 						</Row>
-					</Card>
-				))}
+				</Card>
+					))}
+				
+				
 			</CardCont>
+				</>
+					
+			))}
 			<Modal
 				open={showButtonContent}
 				onClose={handleCloseAddContent}

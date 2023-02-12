@@ -98,8 +98,7 @@ const Checkout = () => {
 
 	useEffect(() => {
 		let totalPrice = 0;
-		console.log('selectedFoodItem asasa ', selectedFoodItem);
-		Object.values(selectedFoodItem).forEach((values) => {
+		(Object.values(selectedFoodItem|| {})|| []).forEach((values) => {
 			if (values?.half >= 1) {
 				totalPrice += values?.halfPrice * values?.half;
 			}
@@ -150,9 +149,11 @@ const Checkout = () => {
 		const payload = {
 			product: selectedFoodItem,
 			addressId: selectedAddress.id,
-			modeOfPayment: 'cash',
+			modeOfPayment: 'Cash on Delivery',
 			outletName: selectedOutlet.value,
 			discountId: discountAppliedDetails?.discounts?.id || null,
+			totalPayableAmount:foodTotal,
+			totalDiscountedAmount:discountAppliedDetails.totalDiscountAmount
 		};
 		placeOrderApi({
 			data: payload,
@@ -206,7 +207,7 @@ const Checkout = () => {
 	return (
 		<Container>
 			<Title>Checkout</Title>
-			{Object.keys(selectedFoodItem).length > 0 && (
+			{(Object.keys(selectedFoodItem || {})|| []).length > 0 && (
 				<FlexColumn>
 					<FlexRow>
 						<AddressContainer>
@@ -247,7 +248,7 @@ const Checkout = () => {
 											<input
 												type="radio"
 												id="html"
-												name="fav_language"
+												name="modeOfPayment"
 												value="cod"
 												checked
 											/>
@@ -356,7 +357,7 @@ const Checkout = () => {
 				</FlexColumn>
 			)}
 
-			{Object.keys(selectedFoodItem).length == 0 && <h2>No Food Item selected</h2>}
+			{Object.keys(selectedFoodItem || {}).length == 0 && <h2>No Food Item selected</h2>}
 
 			<Snackbar
 				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
