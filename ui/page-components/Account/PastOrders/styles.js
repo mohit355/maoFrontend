@@ -15,6 +15,11 @@ export const PastOrder = styled.div`
 	margin: 16px;
 `;
 
+export const Row = styled.div`
+	display:flex;
+	flex-direction:row;
+`;
+
 export const FoodName = styled.div`
 	font-size: 16px;
 	font-weight: 600;
@@ -48,4 +53,12 @@ export const TotalPaid = styled.div`
 	font-size: 14px;
 	color: #666666;
 	margin-top: 8px;
+`;
+
+export const OrderStatus = styled.div`
+	font-size: 14px;
+	font-weight:bolder;
+	display:flex;
+	justify-content: right;
+	margin-top:5px;
 `;

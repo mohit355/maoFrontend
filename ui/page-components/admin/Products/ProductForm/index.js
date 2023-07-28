@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Title } from './styles';
 import { foodCategoryType } from '../../../../common/selectFoodCategory/index';
 import ShowMessage from '../../../ErrorHandling/showMessage';
+import { outlets } from '../../../../common/SelectOutlets';
 
 const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	const [productDetails, setProductDetails] = useState({
+		productOutletName:'',
 		productName: '',
 		productImage: '',
 		productHalfPrice: null,
@@ -75,6 +77,17 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 		<Container>
 			<Title> {isEdit && !loading ? 'Edit Food' : 'Add New Food Item'}</Title>
 			<Form>
+				<label htmlFor="productOutletName">Select Outlet*</label>
+				<select
+					required
+					id="productOutletName"
+					name="productOutletName"
+					value={productDetails.productOutletName}
+					onChange={handleProductDetailsChange}
+				>
+					{outlets.map(outlet => <option value={outlet.value}>{outlet.label}</option>)}
+				</select>
+				
 				<label htmlFor="productName">Food item name *</label>
 				<input
 					required
@@ -168,7 +181,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 				<Button disabled={!!loading} onClick={handleProductSubmit}>
 					{' '}
 					{loading ? <CircularProgress /> : ''}{' '}
-					{isEdit && !loading ? 'UPDATE FOOD' : 'ADD FOOD'}
+					{isEdit && !loading ? 'UPDATE PRODUCT' : 'ADD PRODUCT'}
 				</Button>
 			</Form>
 			<ShowMessage

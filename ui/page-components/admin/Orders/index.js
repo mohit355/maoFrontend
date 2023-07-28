@@ -13,7 +13,7 @@ import { outlets } from '../../../common/SelectOutlets';
 const Orders = () => {
 	const [orders, setOrders] = useState([]);
 	const orderStatus = [
-		{ value: '', label: 'All' },
+		{ value: '', label: 'All Orders' },
 		{ value: 'order_received', label: 'Order Received' },
 		{ value: 'preparing', label: 'Preparing' },
 		{ value: 'Out for delivery', label: 'Out for delivery' },
@@ -22,11 +22,11 @@ const Orders = () => {
 	const [searchedOrderId, setSearchedOrderId] = useState('');
 	const [selectedOutletName, setSelectedOutletName] = useState({
 		value: '',
-		label: 'All',
+		label: 'All Outlets',
 	});
 	const [selectedOrderStatus, setSelectedOrderStatus] = useState({
 		value: '',
-		label: 'All',
+		label: 'All Orders',
 	});
 
 	const [{ loading: getAllOrdersLoading }, getAllOrdersApi] = useRequest(
@@ -46,7 +46,7 @@ const Orders = () => {
 			.then((result) => {
 				setOrders(result.data.data);
 			})
-			.catch(() => {});
+			.catch(() => { });
 	}, [searchedOrderId, selectedOutletName, selectedOrderStatus]);
 
 	return (
@@ -55,7 +55,7 @@ const Orders = () => {
 				style={{
 					flexDirection: isMobile ? 'column' : 'row',
 					alignItems: 'center',
-					justifyContent: 'space-between',
+					justifyContent: 'flex-end',
 					margin: '100px 80px 20px 80px',
 				}}
 			>
@@ -70,28 +70,20 @@ const Orders = () => {
 					placeholder="Search by #order id"
 					type="text"
 				/>
-
-				<FlexRow
-					style={{
-						flexDirection: isMobile ? 'column' : 'row',
-						alignItems: 'center',
-						width: '500px',
-					}}
-				>
-					<label className="header-label">Outlet Name</label>
-					<Select
-						onChange={setSelectedOutletName}
-						value={selectedOutletName}
-						options={outlets}
-						className="header-select"
-					/>
-					<label className="header-label">Order Status</label>
-					<Select
-						onChange={setSelectedOrderStatus}
-						value={selectedOrderStatus}
-						options={orderStatus}
-					/>
-				</FlexRow>
+				{/* <label className="header-label">Outlet Name</label> */}
+				<Select
+					onChange={setSelectedOutletName}
+					value={selectedOutletName}
+					options={outlets}
+					className="selectBox"
+				/>
+				{/* <label className="header-label">Order Status</label> */}
+				<Select
+					onChange={setSelectedOrderStatus}
+					value={selectedOrderStatus}
+					options={orderStatus}
+					className="selectBox"
+				/>
 			</FlexRow>
 
 			<div
@@ -103,7 +95,6 @@ const Orders = () => {
 				}}
 			>
 				<h4>Total active orders: {orders.length}</h4>
-				{JSON.stringify(orders)}
 				{orders.map((order) => (
 					<Order
 						key={order.id}

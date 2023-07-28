@@ -30,7 +30,9 @@ export const Container = styled.div`
 		margin-right: 20px;
 	}
 
-	.header-select {
+	.selectBox {
 		margin-right: 20px;
+		min-width:200px;
+		cursor:pointer;
 	}
 `;

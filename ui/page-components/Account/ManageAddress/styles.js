@@ -9,11 +9,8 @@ export const Addresses = styled.div`
 
 export const ActionButtons = styled.div`
 	display:flex;
-	flex-description:'row'
 	align-items:center;
-	justify-content:space-around;
-	${'' /* position:absolute; */}
-	${'' /* bottom:-16px; */}
+	justify-content:end;
 `;
 
 export const Title = styled.h2`
@@ -39,6 +36,12 @@ export const Type = styled.div`
 
 export const FlexRow = styled.div`
 	display: flex;
+	align-items:center;
+`;
+
+export const Button = styled.div`
+	cursor: pointer ;
+	font-weight: bolder;
 `;
 
 export const FlexColumn = styled.div`
@@ -54,4 +57,5 @@ export const Address = styled.div`
 export const Icon = styled.span`
 	font-size: 8px;
 	cursor:pointer;
+	margin-left:10px;
 `;

@@ -1,5 +1,5 @@
 export const foodCategoryType=[
-    { value: "", label: "All" },
+    { value: "", label: "All Food Category" },
     { value: "Mao special", label: "Mao special" },
     { value: "Mutton", label: "Mutton" },
     { value: "Paneer", label: "Paneer" },

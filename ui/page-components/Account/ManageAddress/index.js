@@ -1,4 +1,4 @@
-import {Modal } from '@material-ui/core';
+import { Modal } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -14,7 +14,7 @@ const ManageAddress = () => {
 	const [userAddress, setUserAddress] = useState([]);
 	const [addressModal, setAddressModal] = useState(false);
 	const [editableAddress, setEditableAddress] = useState({})
-	const {userDetails} =  useContext(SessionContext);
+	const { userDetails } = useContext(SessionContext);
 	const [showNotification, setShowNotification] = useState({
 		type: 'success',
 		open: false,
@@ -69,7 +69,7 @@ const ManageAddress = () => {
 	};
 
 	useEffect(() => {
-		if(userDetails.id){
+		if (userDetails.id) {
 			listAddress();
 		}
 	}, [JSON.stringify(userDetails.id)]);
@@ -78,48 +78,48 @@ const ManageAddress = () => {
 		setAddressModal(true);
 	};
 
-	const handleUpdateAddress= async (addressDetails)=>{
+	const handleUpdateAddress = async (addressDetails) => {
 		await updateAddress({
-			url:`/address/update/${editableAddress.id}`,
+			url: `/address/update/${editableAddress.id}`,
 			headers: {
 				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
 			},
-			data:addressDetails
-		}).then((result)=>{
+			data: addressDetails
+		}).then((result) => {
 			handleModalClose();
 			setShowNotification({
-					type: 'success',
-					open: true,
-					msg: `Address Updated successfully`,
+				type: 'success',
+				open: true,
+				msg: `Address Updated successfully`,
 			});
 			listAddress();
-		}).catch(err=>{
+		}).catch(err => {
 			console.log(err);
 			return false;
 		})
 	}
 
-	const handleSubmitAddress= async (addressDetails, mode)=>{
-		if(mode==='add'){
+	const handleSubmitAddress = async (addressDetails, mode) => {
+		if (mode === 'add') {
 			await addAddress({
 				headers: {
 					'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
 				},
-				data:addressDetails
-			}).then((result)=>{
+				data: addressDetails
+			}).then((result) => {
 				handleModalClose();
 				setShowNotification({
-						type: 'success',
-						open: true,
-						msg: `Address added successfully`,
+					type: 'success',
+					open: true,
+					msg: `Address added successfully`,
 				});
 				listAddress();
-			}).catch(err=>{
+			}).catch(err => {
 				console.log(err);
 				return false;
 			})
 		}
-		else{
+		else {
 			handleUpdateAddress(addressDetails);
 		}
 	}
@@ -133,31 +133,31 @@ const ManageAddress = () => {
 		});
 	};
 
-	const handleEditAddress=(address)=>{
+	const handleEditAddress = (address) => {
 		setEditableAddress(address);
 		handleModalOpen();
 	}
 
-	const handleDeleteAddress= async (addressId)=>{
+	const handleDeleteAddress = async (addressId) => {
 		await deleteAddress({
-			url:`/address/delete/${addressId}`,
+			url: `/address/delete/${addressId}`,
 			headers: {
 				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
 			},
-		}).then((result)=>{
+		}).then((result) => {
 			setShowNotification({
-					type: 'success',
-					open: true,
-					msg: `Address deleted successfully`,
+				type: 'success',
+				open: true,
+				msg: `Address deleted successfully`,
 			});
 			listAddress();
-		}).catch(err=>{
+		}).catch(err => {
 			console.log(err);
 			return false;
 		})
 	}
 
-	const handleAddAddress=()=>{
+	const handleAddAddress = () => {
 
 		setEditableAddress(null)
 		handleModalOpen();
@@ -168,31 +168,31 @@ const ManageAddress = () => {
 		<Container>
 			<Title>Manage Addresses</Title>
 			<Addresses>
-				{userAddress.map(address=>{
-				return (
-					<AddressContainer key={address.id} >
-						<FlexColumn>
-							<Type>{address.addressType}</Type>
-							<Address>
-								{`${address.houseNo}, ${address.area} ${address.city}`}
-							<br/>
-							{`pincode: ${address.pincode}`}
-							<br/>
-							{`${address.receiverPhoneNumber}`}
-							</Address>
-						</FlexColumn>
-						<ActionButtons>
-							<Icon onClick={()=>handleEditAddress(address)} ><EditIcon/></Icon>
-							<Icon onClick={()=>handleDeleteAddress(address.id)} ><DeleteIcon/></Icon>
-						</ActionButtons>
-					</AddressContainer>
-				)
-			})}
-			<AddressContainer onClick={handleAddAddress}  style={{border:'2px solid green',cursor:'pointer'}} >
-						<div style={{display:'flex',alignItems:'center', justifyContent:'center',fontWeight:'bolder'}}>
-							+ Add new address
-						</div>
-					</AddressContainer>
+				{userAddress.map(address => {
+					return (
+						<AddressContainer key={address.id} >
+							<FlexColumn>
+								<Type>{address.addressType}</Type>
+								<Address>
+									{`${address.houseNo}, ${address.area} ${address.city}`}
+									<br />
+									{`pincode: ${address.pincode}`}
+									<br />
+									{`${address.receiverPhoneNumber}`}
+								</Address>
+							</FlexColumn>
+							<ActionButtons>
+								<Icon onClick={() => handleEditAddress(address)} ><EditIcon /></Icon>
+								<Icon onClick={() => handleDeleteAddress(address.id)} ><DeleteIcon /></Icon>
+							</ActionButtons>
+						</AddressContainer>
+					)
+				})}
+				<AddressContainer onClick={handleAddAddress} style={{ border: '2px solid green', cursor: 'pointer' }} >
+					<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bolder' }}>
+						+ Add new address
+					</div>
+				</AddressContainer>
 			</Addresses>
 			<Modal
 				open={addressModal}

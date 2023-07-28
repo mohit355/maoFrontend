@@ -73,10 +73,10 @@ const CartContainer = ({ selectedFoodItem }) => {
 			{Object.keys(selectedFoodItem).length ? (
 				<>
 					<Title>Cart</Title>
-					<Description>
+					{/* <Description>
 						compiled client and server successfully in 151 ms (456 modules) compiled
 						client and server successfully in 151 ms (456 modules)
-					</Description>
+					</Description> */}
 					<Line />
 					{renderCart}
 					<FlexRow style={{ marginTop: '15%' }}>

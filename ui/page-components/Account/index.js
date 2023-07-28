@@ -62,6 +62,8 @@ const Account = () => {
 							}
 						/>
 						}
+						{userDetails.isAdmin !== '1' &&
+
 						<Tab
 							label={
 								<FlexRow>
@@ -72,6 +74,7 @@ const Account = () => {
 								</FlexRow>
 							}
 						/>
+						}
 						<Tab
 							label={
 								<FlexRow>

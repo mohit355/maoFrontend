@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Select from 'react-select';
 import Snackbar from '@mui/material/Snackbar';
 import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
+import CheckIcon from '@material-ui/icons/VerifiedUserSharp';
 import { Alert } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
@@ -24,7 +25,7 @@ import { FlexColumn, FlexRow } from '../../common/styles';
 import Address from './Address';
 import FoodDetails from './FoodDetails';
 import { useRequest } from '../../helpers/request-helper';
-import { outlets } from '../../common/SelectOutlets';
+import { outlets, checkoutOutlets } from '../../common/SelectOutlets';
 import { SessionContext } from '../_app';
 
 const Checkout = () => {
@@ -36,7 +37,7 @@ const Checkout = () => {
 	const [addressModal, setAddressModal] = useState(false);
 	const [selectedFoodItem, setSelectedFoodItem] = useState({});
 	const [selectedAddress, setSelectedAddress] = useState(null);
-	const [selectedOutlet, setSelectedOutlet] = useState(null);
+	const [selectedOutlet, setSelectedOutlet] = useState({ value: '', label: 'Select Outlets' });
 	const [showSelectedAddress, setShowSelectedAddress] = useState(false);
 	const [discountAppliedDetails, setDiscountAppliedDetails] = useState(0);
 	const [foodTotal, setFoodTotal] = useState(0);
@@ -98,7 +99,7 @@ const Checkout = () => {
 
 	useEffect(() => {
 		let totalPrice = 0;
-		(Object.values(selectedFoodItem|| {})|| []).forEach((values) => {
+		(Object.values(selectedFoodItem || {}) || []).forEach((values) => {
 			if (values?.half >= 1) {
 				totalPrice += values?.halfPrice * values?.half;
 			}
@@ -128,6 +129,7 @@ const Checkout = () => {
 	};
 
 	const placeOrder = () => {
+		console.log("selectedOutlet ", selectedOutlet);
 		if (!selectedAddress) {
 			setShowNotification({
 				type: 'error',
@@ -137,11 +139,11 @@ const Checkout = () => {
 			return;
 		}
 
-		if (!selectedOutlet) {
+		if (!selectedOutlet.value) {
 			setShowNotification({
 				type: 'error',
 				open: true,
-				msg: 'Please select the mao outlet',
+				msg: 'Please select any one Mao Outlet',
 			});
 			return;
 		}
@@ -152,8 +154,8 @@ const Checkout = () => {
 			modeOfPayment: 'Cash on Delivery',
 			outletName: selectedOutlet.value,
 			discountId: discountAppliedDetails?.discounts?.id || null,
-			totalPayableAmount:foodTotal,
-			totalDiscountedAmount:discountAppliedDetails.totalDiscountAmount
+			totalPayableAmount: foodTotal,
+			totalDiscountedAmount: discountAppliedDetails.totalDiscountAmount
 		};
 		placeOrderApi({
 			data: payload,
@@ -162,14 +164,14 @@ const Checkout = () => {
 			},
 		})
 			.then((result) => {
-				console.log('result ', result);
 				setShowNotification({
 					type: 'success',
 					open: true,
 					msg: 'Order placed successfully',
 				});
+				localStorage.removeItem("checkoutItem");
 			})
-			.catch((error) => {});
+			.catch((error) => { });
 	};
 
 	const handleModalClose = () => {
@@ -207,7 +209,7 @@ const Checkout = () => {
 	return (
 		<Container>
 			<Title>Checkout</Title>
-			{(Object.keys(selectedFoodItem || {})|| []).length > 0 && (
+			{(Object.keys(selectedFoodItem || {}) || []).length > 0 && (
 				<FlexColumn>
 					<FlexRow>
 						<AddressContainer>
@@ -230,10 +232,17 @@ const Checkout = () => {
 											border: '1px dotted gray',
 										}}
 									>
-										<Text style={{ marginTop: '0px' }}>Select Outlet</Text>
-										<FlexRow>
-											<Select onChange={setSelectedOutlet} options={outlets} />
-										</FlexRow>
+										{selectedOutlet.value === '' ?
+											<SubTitle style={{ marginBottom: '40px' }}>Select an Outlet  </SubTitle> :
+											<>
+												<SubTitle style={{ marginBottom: '40px' }}>Outlet Selected <CheckIcon style={{ color: 'green' }} /> </SubTitle>
+											</>
+
+										}
+
+										<Select
+											value={selectedOutlet}
+											onChange={setSelectedOutlet} options={checkoutOutlets} />
 									</FlexColumn>
 									<FlexColumn
 										style={{

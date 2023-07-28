@@ -11,22 +11,29 @@ import { Container, Flex } from './styles';
 import { FlexRow } from '../../common/styles';
 import Input from '../../common/Input';
 import { foodCategoryType } from '../../common/selectFoodCategory/index';
+import { outlets } from '../../common/SelectOutlets';
 
 
 const Menu = () => {
 	const [selectedFoodItem, setSelectedFoodItem] = useState({});
 	const [allFood, setAllFood] = useState([]);
 	const foodTypeOption = [
-		{ value: '', label: 'All' },
+		{ value: '', label: 'Veg + Non-veg' },
 		{ value: 'veg', label: 'Veg' },
 		{ value: 'non-veg', label: 'Non-veg' },
 	];
 	const [searchValue, setSearchValue] = useState('');
 	const [selectedFoodCategory, setSelectedFoodCategory] = useState({
 		value: '',
-		label: 'All',
+		label: 'All Food Category',
 	});
-	const [selectedFoodType, setSelectedFoodType] = useState({ value: '', label: 'All' });
+	const [selectedOutletName, setSelectedOutletName] = useState({
+		value: '',
+		label: 'All Outlets',
+	});
+
+	const [selectedFoodType, setSelectedFoodType] = useState({ value: '', label: 'Veg + Non-veg' });
+	
 	const [{ loading: foodLoading }, getFood] = useRequest(
 		{
 			url: '/product/all',
@@ -37,11 +44,9 @@ const Menu = () => {
 
 	const listAllFoods = () => {
 		getFood({
-			url: `/product/all?productType=${
-				(selectedFoodType && selectedFoodType.value) || ''
-			}&name=${searchValue}&category=${
-				(selectedFoodCategory && selectedFoodCategory.value) || ''
-			}`,
+			url: `/product/all?productType=${(selectedFoodType && selectedFoodType.value) || ''
+				}&name=${searchValue}&category=${(selectedFoodCategory && selectedFoodCategory.value) || ''
+				}&outletName=${selectedOutletName && selectedOutletName.value}`,
 			headers: {
 				'x-access-token': localStorage.getItem('afjalMao-x-access-token'),
 			},
@@ -56,22 +61,23 @@ const Menu = () => {
 	};
 
 	useEffect(() => {
-		const selectedFoods=localStorage.getItem("checkoutItem");
-		if(selectedFoods){
+		const selectedFoods = localStorage.getItem("checkoutItem");
+		if (selectedFoods) {
 			setSelectedFoodItem(JSON.parse(selectedFoods));
 		}
 		listAllFoods();
-	}, [searchValue, selectedFoodCategory, selectedFoodType]);
+	}, [searchValue, selectedFoodCategory, selectedFoodType, selectedOutletName]);
 
 	return (
 		<Container>
-			<Flex style={{flexDirection:'column'}}>
+			<Flex style={{ flexDirection: 'column' }}>
 				<FlexRow
 					style={{
 						flexDirection: isMobile ? 'column' : 'row',
 						margin: '20px 8px 20px 8px',
-						justifyContent:'space-between',
-						width:'70%'
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						width: '70%'
 					}}
 				>
 					<Input
@@ -91,20 +97,26 @@ const Menu = () => {
 							alignItems: 'center',
 						}}
 					>
-						<label className="header-label">Food Category</label>
+						<Select
+							onChange={setSelectedOutletName}
+							value={selectedOutletName}
+							options={outlets}
+							className="selectBox"
+						/>
+						{/* <label className="header-label">Food Category</label> */}
 						<Select
 							options={foodCategoryType}
 							isSearchable
 							value={selectedFoodCategory}
 							onChange={setSelectedFoodCategory}
-							className="header-select"
+							className="selectBox"
 						/>
-						<label className="header-label">Food Type</label>
+						{/* <label className="header-label">Food Type</label> */}
 						<Select
 							options={foodTypeOption}
 							value={selectedFoodType}
 							onChange={setSelectedFoodType}
-							className="header-select"
+							className="selectBox"
 						/>
 					</FlexRow>
 				</FlexRow>
