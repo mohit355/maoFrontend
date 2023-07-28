@@ -5,6 +5,7 @@ import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
 import CheckIcon from '@material-ui/icons/VerifiedUserSharp';
 import { Alert } from '@mui/material';
 import { useRouter } from 'next/router';
+import EmptyCart from '../Menu/CartContainer/EmptyCart';
 import {
 	Container,
 	Title,
@@ -20,6 +21,7 @@ import {
 	FinalCheckout,
 	ConfirmOrderButton,
 	Text,
+	EmptyContainer
 } from './styles';
 import { FlexColumn, FlexRow } from '../../common/styles';
 import Address from './Address';
@@ -27,6 +29,7 @@ import FoodDetails from './FoodDetails';
 import { useRequest } from '../../helpers/request-helper';
 import { outlets, checkoutOutlets } from '../../common/SelectOutlets';
 import { SessionContext } from '../_app';
+import Link from 'next/link';
 
 const Checkout = () => {
 	const [showNotification, setShowNotification] = useState({
@@ -366,7 +369,14 @@ const Checkout = () => {
 				</FlexColumn>
 			)}
 
-			{Object.keys(selectedFoodItem || {}).length == 0 && <h2>No Food Item selected</h2>}
+			{Object.keys(selectedFoodItem || {}).length == 0 && <EmptyContainer>
+				<EmptyCart height="40%" width="40%" />
+				<a style={{ marginTop: "30px" }}>
+					<Link href={`/menu`}>
+						Go back to Menu
+					</Link>
+				</a>
+			</EmptyContainer>}
 
 			<Snackbar
 				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -383,7 +393,7 @@ const Checkout = () => {
 					{showNotification.msg}
 				</Alert>
 			</Snackbar>
-		</Container>
+		</Container >
 	);
 };
 

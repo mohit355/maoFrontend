@@ -4,7 +4,6 @@ import Header from './CardHeader';
 import CardItem from './Carditem';
 import LoadingState from './LoadingState';
 import { Container } from './styles';
-import FlexRow from '../styles';
 import Empty from '../Empty';
 
 const CardList = ({
@@ -12,18 +11,15 @@ const CardList = ({
 	data = [],
 	loading = false,
 	showCode = false,
-	setGlobalFilters = () => {},
-	// showContent = { heading: 'No Results found' },
+	setGlobalFilters = () => { },
 	sort = {},
-	setSort = () => {},
+	setSort = () => { },
 	statsLoading,
 	pageLimit,
 	showPagination = true,
-	handleDeleteProduct = () => {},
-	handleDeleteDiscount = () => {},
+	handleDeleteProduct = () => { },
+	handleDeleteDiscount = () => { },
 }) => {
-	console.log('data', data);
-	// const { list, page = 0, total_count = 0 } = data || {};
 	const list = data;
 	const handleRender = () => {
 		if (loading) {
@@ -50,18 +46,7 @@ const CardList = ({
 				<Header fields={fields} showCode={showCode} sort={sort} setSort={setSort} />
 			)}
 			{data.length === 0 ? (
-				// <div
-				// 	style={{
-				// 		display: 'flex',
-				// 		flexDirection: 'column',
-				// 		alignItems: 'center',
-				// 		justifyContent: 'center',
-				// 	}}
-				// >
-				// 	<Empty style={{ height: '60vh', width: '60vw' }} />
-				// 	<h3>No Food Product Added</h3>
-				// </div>
-				<Empty />
+				<Empty message="Oops!... No Result Found" />
 			) : (
 				<div className="card-list-data">{handleRender()}</div>
 			)}

@@ -44,7 +44,7 @@ const NavigationItems = ({
 		localStorage.removeItem('afjalMao-x-access-token');
 		localStorage.removeItem('afjalMaoTokenExpiry');
 		setUserDetails({});
-		router.push('/');
+		router.push('/auth');
 		handlePopClose();
 	};
 

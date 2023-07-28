@@ -22,8 +22,8 @@ export const Description = styled.p`
 
 export const EmptyImage = styled.div`
 	svg {
-		width: 40%;
-		height: 40%;
+		width: 30%;
+		height: 30%;
 		path {
 			fill: #bdc0c1;
 		}

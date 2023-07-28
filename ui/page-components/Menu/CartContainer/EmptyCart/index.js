@@ -1,11 +1,11 @@
 import { Title, EmptyImage } from './styles';
 import Cooker from '../../../../assets/cooker.svg';
 
-const EmptyCart = () => {
+const EmptyCart = ({ title, height, width }) => {
 	return (
 		<>
-			<Title>Cart Empty</Title>
-			<EmptyImage>
+			{title && <Title>{title}</Title>}
+			<EmptyImage style={{ height: `${height}`, width: `${width}` }}>
 				<Cooker />
 			</EmptyImage>
 		</>

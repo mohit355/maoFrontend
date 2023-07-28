@@ -19,7 +19,7 @@ const DiscountsPage = () => {
 			.then((result) => {
 				setDiscountList(result.data.data);
 			})
-			.catch((err) => {});
+			.catch((err) => { });
 	};
 
 	useEffect(() => {
@@ -41,7 +41,7 @@ const DiscountsPage = () => {
 					</OfferContainer>
 				))}
 			</FlexColumn>
-			<Info># Applicable offer/discount will be applied on Checkout</Info>
+			<Info># Applicable offer/discount will get applied on Checkout page</Info>
 		</ModalContainer>
 	);
 };

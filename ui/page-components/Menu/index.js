@@ -7,11 +7,12 @@ import Header from './Header';
 import CardContainer from './CardContainer';
 import CartContainer from './CartContainer';
 import { useRequest } from '../../helpers/request-helper';
-import { Container, Flex } from './styles';
+import { Container, Flex, EmptyContainer } from './styles';
 import { FlexRow } from '../../common/styles';
 import Input from '../../common/Input';
 import { foodCategoryType } from '../../common/selectFoodCategory/index';
 import { outlets } from '../../common/SelectOutlets';
+import EmptyCart from './CartContainer/EmptyCart';
 
 
 const Menu = () => {
@@ -33,7 +34,7 @@ const Menu = () => {
 	});
 
 	const [selectedFoodType, setSelectedFoodType] = useState({ value: '', label: 'Veg + Non-veg' });
-	
+
 	const [{ loading: foodLoading }, getFood] = useRequest(
 		{
 			url: '/product/all',
@@ -62,8 +63,13 @@ const Menu = () => {
 
 	useEffect(() => {
 		const selectedFoods = localStorage.getItem("checkoutItem");
-		if (selectedFoods) {
+		console.log(selectedFoods, Object.keys(allFood).length, "jelle");
+		if (selectedFoods && Object.keys(allFood).length > 0) {
 			setSelectedFoodItem(JSON.parse(selectedFoods));
+		}
+		else {
+			localStorage.removeItem("checkoutItem");
+			setSelectedFoodItem({});
 		}
 		listAllFoods();
 	}, [searchValue, selectedFoodCategory, selectedFoodType, selectedOutletName]);
@@ -77,7 +83,7 @@ const Menu = () => {
 						margin: '20px 8px 20px 8px',
 						justifyContent: 'space-between',
 						alignItems: 'center',
-						width: '70%'
+						width: Object.keys(allFood).length > 0 ? "70%" : '100%',
 					}}
 				>
 					<Input
@@ -103,7 +109,6 @@ const Menu = () => {
 							options={outlets}
 							className="selectBox"
 						/>
-						{/* <label className="header-label">Food Category</label> */}
 						<Select
 							options={foodCategoryType}
 							isSearchable
@@ -120,12 +125,22 @@ const Menu = () => {
 						/>
 					</FlexRow>
 				</FlexRow>
-				<CardContainer
-					selectedFoodItem={selectedFoodItem}
-					setSelectedFoodItem={setSelectedFoodItem}
-					allFood={allFood}
-				/>
-				<CartContainer selectedFoodItem={selectedFoodItem} />
+				{Object.keys(allFood).length > 0 &&
+					<>
+						<CardContainer
+							selectedFoodItem={selectedFoodItem}
+							setSelectedFoodItem={setSelectedFoodItem}
+							allFood={allFood}
+						/>
+						<CartContainer selectedFoodItem={selectedFoodItem} />
+					</>
+				}
+				{Object.keys(allFood).length <= 0 &&
+					<EmptyContainer>
+						<EmptyCart height="35%" width="35%" />
+						<h1>No Food Menu, Check back later</h1>
+					</EmptyContainer>
+				}
 			</Flex>
 		</Container>
 	);

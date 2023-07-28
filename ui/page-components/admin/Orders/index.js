@@ -9,6 +9,7 @@ import Input from '../../../common/Input';
 import { Container } from './styles';
 import { FlexRow } from '../../../common/styles';
 import { outlets } from '../../../common/SelectOutlets';
+import Empty from '../../../common/Empty';
 
 const Orders = () => {
 	const [orders, setOrders] = useState([]);
@@ -113,6 +114,7 @@ const Orders = () => {
 					/>
 				))}
 			</div>
+			{orders.length <= 0 && <Empty message="Oops.. No Order Found" />}
 		</Container>
 	);
 };

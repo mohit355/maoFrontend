@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+export const EmptyContainer = styled.div`
+	display: flex;
+	justify-content:center;
+	flex-direction:column;
+	align-items: center;
+	@media (max-width: 768px) {
+		bottom: 0;
+		height: 25%;
+		overflow: auto;
+	}
+`;
+
 export const Container = styled.div`
 	margin: 120px;
 `;

@@ -19,7 +19,6 @@ export const Description = styled.p`
 export const EmptyImage = styled.div`
 	color: red;
 	text-align: center;
-	margin-top: 20%;
 	svg {
 		width: 80%;
 		height: 80%;

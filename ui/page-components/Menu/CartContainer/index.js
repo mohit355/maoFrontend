@@ -26,7 +26,7 @@ const CartContainer = ({ selectedFoodItem }) => {
 						</FlexColumn>
 						<FlexColumn style={{ width: '10%' }}>X {values?.half}</FlexColumn>
 						<FlexColumn style={{ width: '25%', textAlign: 'right' }}>
-							₹ {values?.halfPrice*values?.half}
+							₹ {values?.halfPrice * values?.half}
 						</FlexColumn>
 					</FlexRow>
 				)}
@@ -44,7 +44,7 @@ const CartContainer = ({ selectedFoodItem }) => {
 						</FlexColumn>
 						<FlexColumn style={{ width: '10%' }}>X {values?.full}</FlexColumn>
 						<FlexColumn style={{ width: '25%', textAlign: 'right' }}>
-							₹ {values?.fullPrice*values?.full}
+							₹ {values?.fullPrice * values?.full}
 						</FlexColumn>
 					</FlexRow>
 				)}
@@ -94,7 +94,7 @@ const CartContainer = ({ selectedFoodItem }) => {
 					</FlexRow>
 				</>
 			) : (
-				<EmptyCart />
+				<EmptyCart title="Cart" />
 			)}
 		</Container>
 	);
