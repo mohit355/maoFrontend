@@ -15,10 +15,6 @@ const Toolbar = ({
 	return (
 		<header className="Toolbar">
 			<DrowerToggler clicked={drowerToggleClicked} />
-			{/* <Title
-				alt="logo"
-				src="https://cogoport-testing.sgp1.digitaloceanspaces.com/0fcca0eebaa0d849c796c00aef38d049/logo1%20%281%29.png"
-			/> */}
 			<Logo
 				alt="logo"
 				src="https://cogoport-testing.sgp1.digitaloceanspaces.com/0fcca0eebaa0d849c796c00aef38d049/logo1%20%281%29.png"

@@ -7,7 +7,7 @@ import { outlets } from '../../../../common/SelectOutlets';
 
 const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 	const [productDetails, setProductDetails] = useState({
-		productOutletName:'',
+		outletName:'',
 		productName: '',
 		productImage: '',
 		productHalfPrice: null,
@@ -82,7 +82,7 @@ const ProductForm = ({ onSubmit, isEdit, loading, product }) => {
 					required
 					id="productOutletName"
 					name="productOutletName"
-					value={productDetails.productOutletName}
+					value={productDetails.outletName}
 					onChange={handleProductDetailsChange}
 				>
 					{outlets.map(outlet => <option value={outlet.value}>{outlet.label}</option>)}

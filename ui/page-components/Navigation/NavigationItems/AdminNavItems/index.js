@@ -5,8 +5,11 @@ const AdminNavItems = () => {
 
     return (
         <>
+            <NavigationItem link="/menu" exact>
+                Menu
+            </NavigationItem>
             <NavigationItem link="/admin/dashboard" exact>
-                Dashboards
+                Dashboard
             </NavigationItem>
             <NavigationItem link="/admin/orders" exact>
                 Orders

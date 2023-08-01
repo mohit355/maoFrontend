@@ -1,4 +1,5 @@
-import Home from '../ui/page-components/Home';
+// import Home from '../ui/page-components/Home';
+import Menu from '../ui/page-components/Menu';
 import React, { useContext, useEffect } from 'react'
 import { SessionContext } from '../ui/page-components/_app';
 import { useRouter } from 'next/router';
@@ -14,12 +15,14 @@ const index = () => {
         }
       }
     }
+    else{
+          router.push("/menu")
+    }
   }, [userDetails])
   return (
-    <div>{userDetails.isAdmin==='0' && <Home></Home>}</div>
+    <div>{userDetails.isAdmin==='0' && <Menu></Menu>}</div>
   )
 }
 
 export default index
 
-// export default Home;
