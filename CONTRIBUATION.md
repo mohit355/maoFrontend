@@ -27,3 +27,62 @@ Clone it to your local machine:
 ```bash
 git clone https://github.com/<your-username>/smar.git
 cd smar
+
+
+
+6️⃣ Open a Pull Request
+Go to your fork on GitHub
+
+Click Compare & pull request
+
+Clearly describe what you changed and why
+
+Add screenshots or examples if relevant
+
+🧠 Contribution Ideas
+Not sure where to start? Try one of these:
+
+🐞 Fix typos, UI bugs, or alignment issues
+
+🎨 Improve responsive design or add dark mode
+
+⚙️ Add new features (search filters, animations, dashboards)
+
+📚 Update documentation or write setup guides
+
+🧾 Refactor code for readability
+
+🧰 Add comments or helper functions
+
+🧾 Code Style Guidelines
+Please follow these conventions to keep the codebase clean and consistent:
+
+Type	Guideline
+Indentation	2 spaces
+Naming	camelCase for JS, kebab-case for CSS classes
+Comments	Keep short and clear
+Commits	Use descriptive messages
+File Structure	Keep logic, styles, and assets modular
+
+Example commit:
+
+bash
+Copy code
+git commit -m "Fixed responsive issue on restaurant card"
+🧩 Pull Request Rules
+✅ A valid PR should:
+
+Have a clear and descriptive title
+
+Be related to an existing issue or enhancement
+
+Include screenshots if it affects UI
+
+Contain only relevant changes (avoid large unrelated edits)
+
+❌ PRs that are:
+
+Spammy, plagiarized, or irrelevant
+
+Generated without actual contribution
+will be marked as invalid or spam.
