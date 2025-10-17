@@ -27,7 +27,34 @@ Clone it to your local machine:
 ```bash
 git clone https://github.com/<your-username>/smar.git
 cd smar
+3️⃣ Create a New Branch
 
+Always make changes in a separate branch:
+
+git checkout -b feature/add-search-bar
+
+4️⃣ Make Your Changes
+
+Add your feature, bug fix, or improvement
+
+Follow the existing code style and folder structure
+
+Test your changes before committing
+
+5️⃣ Commit and Push
+git add .
+git commit -m "Added search bar feature"
+git push origin feature/add-search-bar
+
+6️⃣ Open a Pull Request
+
+Go to your fork on GitHub
+
+Click Compare & pull request
+
+Clearly describe what you changed and why
+
+Add screenshots or examples if relevant
 
 
 6️⃣ Open a Pull Request
