@@ -33,3 +33,34 @@ It provides a smooth user experience for browsing restaurants, exploring menus, 
 
 ## 📁 Folder Structure
 
+
+
+💡 Contribution Guide
+
+Contributions are welcome!
+Follow these steps to contribute:
+
+Fork the repository
+
+Create a new branch:
+
+git checkout -b feature/add-search-filter
+
+
+Commit your changes:
+
+git commit -m "Added search filter for restaurants"
+
+
+Push to your branch:
+
+git push origin feature/add-search-filter
+
+
+Open a Pull Request and describe your changes
+
+🪪 License
+
+This project is licensed under the MIT License.
+See the LICENSE
+ file for details.
